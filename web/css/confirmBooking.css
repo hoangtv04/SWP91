@@ -1,0 +1,168 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-size: 20px;
+}
+
+.header {
+    background-color: #f4f4f4;
+    color: #333;
+    text-align: center;
+    padding: 20px 0;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #333;
+    padding: 10px 0;
+    width: 100%;
+    transition: top 0.3s;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 20px;
+    margin: 0 10px;
+    font-size: 18px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+nav a:hover {
+    background-color: #555;
+}
+
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.container {
+    width: 100%;
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    border-radius: 10px;
+    position: relative;
+}
+
+h2 {
+    color: #333;
+    font-size: 28px;
+    text-align: center;
+}
+
+p {
+    color: #333;
+    font-size: 20px;
+}
+
+strong {
+    color: #333;
+}
+
+.movie-info, .seats-summary {
+    width: 100%;
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+
+.seats-summary ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.seats-summary li {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.qr-code {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    text-align: center;
+}
+
+.qr-code img {
+    width: 150px;
+    height: 150px;
+}
+
+.confirm-booking-button-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.confirm-booking-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.confirm-booking-button:hover {
+    background-color: #0056b3;
+}
+
+.contact-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.contact-info, .business-contact {
+    flex: 1;
+    padding: 20px;
+    text-align: left;
+}
+
+.footer {
+    background-color: #ddd;
+    color: #333;
+    text-align: center;
+    padding: 20px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer h2, .footer h3 {
+    font-size: 16px; /* Adjusted font size for headings */
+}
+
+.footer p {
+    margin: 5px 0;
+    font-size: 12px; /* Adjusted font size for paragraphs */
+}
