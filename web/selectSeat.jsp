@@ -98,6 +98,14 @@
     </div>
 </footer>
 <script>
+    window.addEventListener('scroll', function () {
+        var nav = document.getElementById('main-nav');
+        if (window.scrollY > 0) {
+            nav.classList.add('sticky');
+        } else {
+            nav.classList.remove('sticky');
+        }
+    });
     document.addEventListener('DOMContentLoaded', function () {
         const checkboxes = document.querySelectorAll('.seat input[type="checkbox"]');
         checkboxes.forEach(checkbox => {
@@ -110,7 +118,7 @@
             });
         });
 
-        document.querySelector('.confirm-booking-button').addEventListener('click', function(event) {
+        document.querySelector('.confirm-booking-button').addEventListener('click', function (event) {
             event.preventDefault();
 
             const form = document.createElement('form');
@@ -153,7 +161,7 @@
             screenName.value = '<%= screenName %>';
             form.appendChild(screenName);
 
-            document.querySelectorAll('.seat input:checked').forEach(function(seat) {
+            document.querySelectorAll('.seat input:checked').forEach(function (seat) {
                 const seatId = document.createElement('input');
                 seatId.type = 'hidden';
                 seatId.name = 'seatIds';
