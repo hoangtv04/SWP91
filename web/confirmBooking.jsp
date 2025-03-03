@@ -28,6 +28,16 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/confirmBooking.css">
         <title>Confirm Booking</title>
+        <script>
+            window.addEventListener('scroll', function () {
+                var nav = document.getElementById('main-nav');
+                if (window.scrollY > 0) {
+                    nav.classList.add('sticky');
+                } else {
+                    nav.classList.remove('sticky');
+                }
+            });
+        </script>
     </head>
     <body>
         <header class="header">
@@ -36,52 +46,50 @@
 
         <nav id="main-nav">
             <a href="index.jsp">Home</a>
-            <a href="movies.jsp">Movies</a>
+            <a href="movie">Movies</a>
             <a href="contact.jsp">Contact</a>
         </nav>
 
         <div class="container">
-            <div class="content">
-                <div class="qr-code">
-                    <h3>Scan to Pay</h3>
-                    <img src="<%= qrCodeUrl %>" alt="QR Code for Payment">
-                </div>
-                
-                <h2>Movie: <%= movieName %></h2>
-                <p><strong>Cinema:</strong> <%= cinemaName %></p>
-                <p><strong>Screen:</strong> <%= screenName %></p>
-                <p><strong>Seats:</strong>
-                    <%
-                        if (selectedSeats != null) {
-                            for (Seat seat : selectedSeats) {
-                    %>
-                    <p><%= seat.getSeatNumber() %> : <%= seat.getSeatType() %> : $<%= seat.getPrice() %></p>
-                    <%
-                            }
-                        }
-                    %>
-                
-                <p><strong>Total Price:</strong> $<%= totalPrice %></p>
-                
-                <div class="confirm-booking-button-container">
-                    <form action="successBooking" method="post">
-                        <input type="hidden" name="movieName" value="<%= movieName %>">
-                        <input type="hidden" name="cinemaName" value="<%= cinemaName %>">
-                        <input type="hidden" name="screenName" value="<%= screenName %>">
-                        <%
-                            if (selectedSeats != null) {
-                                for (Seat seat : selectedSeats) {
-                        %>
-                        <input type="hidden" name="seatIds" value="<%= seat.getSeatID() %>">
-                        <%
-                                }
-                            }
-                        %>
-                        <button type="submit" class="confirm-booking-button">Finalize Booking</button>
-                    </form>
-                </div>
+
+            <div class="title-movie"> 
+                <h2><%= movieName %></h2>
             </div>
+
+            <div class="qr-code">
+                <h3>Scan to Pay</h3>
+                <img src="<%= qrCodeUrl %>" alt="QR Code for Payment">
+            </div>
+
+            <p><strong>Cinema:</strong> <%= cinemaName %></p>
+            <p><strong>Screen:</strong> <%= screenName %></p>
+            <p><strong>Seats:</strong>
+                <%
+                    if (selectedSeats != null) {
+                        for (Seat seat : selectedSeats) {
+                %>
+            <p><%= seat.getSeatNumber() %> : <%= seat.getSeatType() %> : $<%= seat.getPrice() %></p>
+            <%
+                    }
+                }
+            %>
+            <br>
+            <p><strong>Total Price:</strong> $<%= totalPrice %></p>
+
+            <div class="confirm-booking-button-container">
+
+                <button type="submit" class="confirm-booking-button" onclick="confirmBooking(event)">Done</button>
+            </div>
+
         </div>
+
+        <script>
+            function confirmBooking(event) {
+                event.preventDefault(); // Ngăn chặn hành động mặc định của form
+                alert("Booking Success");
+                window.location.href = "http://localhost:9999/SWP391_SP25/movie"; // Redirect to the movie selection page
+            }
+        </script>
 
         <footer class="footer">
             <div class="contact-container">

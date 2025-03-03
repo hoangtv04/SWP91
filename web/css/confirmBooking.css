@@ -72,6 +72,11 @@ nav a:hover {
     position: relative;
 }
 
+.title-movie {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
 h2 {
     color: #333;
     font-size: 24px;
@@ -79,7 +84,7 @@ h2 {
 }
 
 p {
-    font-size: 18px;
+    font-size: 24px;
     margin-bottom: 10px;
 }
 
@@ -109,7 +114,7 @@ strong {
 
 .qr-code {
     text-align: center;
-    margin-bottom: 20px;
+    margin-top: 30px;
     position: absolute;
     top: 20px;
     right: 20px;
@@ -125,7 +130,7 @@ strong {
     margin-top: 20px;
 }
 
-.confirm-booking-button {
+.confirm-booking-button { 
     padding: 10px 20px;
     font-size: 16px;
     color: #fff;
