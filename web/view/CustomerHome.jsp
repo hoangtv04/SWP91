@@ -34,6 +34,7 @@
                 padding: 10px;
                 background-color: #fff;
                 transition: transform 0.3s ease; /* Transition for the entire movie item */
+                position: relative; /* Add relative positioning */
             }
             .movie-item:hover {
                 transform: scale(1.05); /* Scale the entire movie item on hover */
@@ -115,11 +116,29 @@
                 border-top: 1px solid #fafafa;
                 margin-top: 20px;
                 font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-                font-size: 20px; /* Increase font size */
+                font-size: 16px; /* Decrease font size */
                 color: #f9f9f9;
             }
             .footer p {
                 margin: 0;
+            }
+            .see-more-overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                color: #fff;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+                border-radius: 5px;
+            }
+            .movie-item:hover .see-more-overlay {
+                opacity: 1;
             }
         </style>
     </head>
@@ -202,6 +221,9 @@
                 <div class="col-md-4 movie-item">
                     <div class="card h-100 d-flex flex-column">
                         <img src="images poster/phim<%= index %>.jpg" class="card-img-top" alt="<%= movies.get(i).getTitle() %>">
+                        <div class="see-more-overlay">
+                            <a href="movieDetails?movieId=<%= movies.get(i).getMovieID() %>" class="btn btn-primary">See More</a>
+                        </div>
                         <div class="card-body d-flex flex-column">
                             <h2 class="card-title text-center"><%= movies.get(i).getTitle() %></h2>
                             <p class="card-text text-center"><strong>Release Date:</strong> <%= movies.get(i).getReleaseDate() %></p>
@@ -227,9 +249,46 @@
         </div>
 
         <!-- Footer Section -->
-        <div class="footer">
-            <p>Demo Footer Information: This is a demo website for showing movies. All content is for demonstration purposes only.</p>
-        </div>
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <!-- Contact Information -->
+                    <div class="col-md-4">
+                        <h2>Contact Us</h2>
+                        <p>
+                            XYZ Technologies<br>
+                            123 Nguyen Trai Street, District 3, Ho Chi Minh City<br>
+                            Hotline: 1800 123 456 / 0901 234 567<br>
+                            Email: contact@xyztechnologies.vn
+                        </p>
+                    </div>
+                    <!-- Business Inquiries -->
+                    <div class="col-md-4">
+                        <h2>Business Inquiries</h2>
+                        <p>
+                            Hotline: 1800 987 654<br>
+                            Email: partnership@xyzgroup.vn
+                        </p>
+                    </div>
+                    <!-- Newsletter Subscription -->
+                    <div class="col-md-4">
+                        <h2>Subscribe to our Newsletter</h2>
+                        <form action="subscribeNewsletter" method="post">
+                            <div class="form-group">
+                                <label for="email">Email address:</label>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Subscribe</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <p>&copy; 2025 XYZ Technologies. All rights reserved.</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
 
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
