@@ -28,15 +28,6 @@ public class RegisterServletController extends HttpServlet {
         String phone = request.getParameter("phone");
         String address = request.getParameter("address");
 
-        if (!phone.matches("\\d{10,15}")) {
-            request.setAttribute("registerErrorMessage", "Invalid phone number. Please enter a valid phone number.");
-            request.setAttribute("username", username);
-            request.setAttribute("email", email);
-            request.setAttribute("address", address);
-            request.getRequestDispatcher("Login.jsp").forward(request, response);
-            return;
-        }
-
         // Insert data into the database
         try {
             DBContext dbContext = new DBContext();
