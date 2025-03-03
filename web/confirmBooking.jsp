@@ -28,6 +28,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/confirmBooking.css">
         <title>Confirm Booking</title>
+        
     </head>
     <body>
         <header class="header">
@@ -64,25 +65,18 @@
                 <p><strong>Total Price:</strong> $<%= totalPrice %></p>
                 
                 <div class="confirm-booking-button-container">
-                    <form action="successBooking" method="post">
-                        <input type="hidden" name="movieName" value="<%= movieName %>">
-                        <input type="hidden" name="cinemaName" value="<%= cinemaName %>">
-                        <input type="hidden" name="screenName" value="<%= screenName %>">
-                        <%
-                            if (selectedSeats != null) {
-                                for (Seat seat : selectedSeats) {
-                        %>
-                        <input type="hidden" name="seatIds" value="<%= seat.getSeatID() %>">
-                        <%
-                                }
-                            }
-                        %>
-                        <button type="submit" class="confirm-booking-button">Finalize Booking</button>
-                    </form>
+                    <button type="submit" class="confirm-booking-button">Done</button>
+
                 </div>
             </div>
         </div>
-
+        <script>
+            document.querySelector('.confirm-booking-button').addEventListener('click', function(event) {
+                event.preventDefault();
+                alert('Booking Success');
+                window.location.href = 'movie';
+            });
+        </script>
         <footer class="footer">
             <div class="contact-container">
                 <div class="contact-info">
