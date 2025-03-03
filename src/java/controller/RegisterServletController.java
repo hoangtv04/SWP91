@@ -51,7 +51,8 @@ public class RegisterServletController extends HttpServlet {
             stmt.executeUpdate();
             conn.close();
 
-            request.setAttribute("successMessage", "Registration successful!");
+            request.setAttribute("successMessage", "Registration successful! Please log in.");
+            request.setAttribute("showLoginForm", true);
             request.getRequestDispatcher("Login.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
