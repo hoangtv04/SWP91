@@ -19,7 +19,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class RegisterServletController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, Exception {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
         String username = request.getParameter("username");
@@ -37,7 +37,8 @@ public class RegisterServletController extends HttpServlet {
             return;
         }
 
-       
+        // Insert data into the database
+        try {
             DBContext dbContext = new DBContext();
             Connection conn = dbContext.getConnection();
             String sql = "INSERT INTO Customer (CustomerName, Password, Email, Phone, Address) VALUES (?, ?, ?, ?, ?)";
@@ -51,24 +52,28 @@ public class RegisterServletController extends HttpServlet {
             conn.close();
 
             request.setAttribute("successMessage", "Registration successful!");
+            request.getRequestDispatcher("Login.jsp").forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.setAttribute("registerErrorMessage", "An error occurred. Please try again.");
             request.setAttribute("username", username);
             request.setAttribute("email", email);
             request.setAttribute("phone", phone);
             request.setAttribute("address", address);
-            request.setAttribute("showRegisterForm", true);
             request.getRequestDispatcher("Login.jsp").forward(request, response);
+        }
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        processRequest(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        processRequest(request, response);
     }
 
     @Override
