@@ -83,16 +83,4 @@ public class SeatDAO extends DBContext {
         }
         return seats;
     }
-
-    public void updateSeatStatus(int seatId, String status) {
-        String sql = "UPDATE Seat SET status = ? WHERE seatID = ?";
-        try (Connection conn = getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, status);
-            ps.setInt(2, seatId);
-            ps.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }
