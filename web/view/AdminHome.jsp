@@ -1,86 +1,114 @@
 <%-- 
-    Document   : AdminHome
-    Created on : Mar 1, 2025, 11:23:49 PM
+    Document   : AdminDashboard
+    Created on : Feb 11, 2025, 1:38:24 AM
     Author     : tovie
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="model.Admin"%>
+<%
+    Admin admin = (Admin) request.getAttribute("admin");
+%>
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Admin Dashboard</title>
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-            }
-            .container {
-                width: 80%;
-                margin: 0 auto;
-            }
-            .header, .footer {
-                background-color: #f1f1f1;
-                padding: 20px;
-                text-align: center;
-            }
-            .nav {
-                margin: 20px 0;
-                text-align: center;
-            }
-            .nav a {
-                margin: 0 15px;
-                text-decoration: none;
-                color: #333;
-            }
-            .nav a:hover {
-                text-decoration: underline;
-            }
-            .content {
-                margin: 20px 0;
-            }
-            .section {
-                margin-bottom: 40px;
-            }
-            .section h2 {
-                background-color: #f2f2f2;
-                padding: 10px;
-                border: 1px solid #ddd;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <div class="header">
-                <h1>Admin Dashboard</h1>
-                <p>Welcome, Admin!</p>
-            </div>
-            <div class="nav">
-                <a href="#movies">Manage Movies</a>
-                <a href="#showtimes">Manage Showtimes</a>
-                <a href="#bookings">Manage Bookings</a>
-                <a href="#customers">Manage Customers</a>
-            </div>
-            <div class="content">
-                <div class="section" id="movies">
-                    <h2>Manage Movies</h2>
-                    <p>Here you can add, edit, and delete movies.</p>
-                </div>
-                <div class="section" id="showtimes">
-                    <h2>Manage Showtimes</h2>
-                    <p>Here you can add, edit, and delete showtimes.</p>
-                </div>
-                <div class="section" id="bookings">
-                    <h2>Manage Bookings</h2>
-                    <p>Here you can view and manage bookings.</p>
-                </div>
-                <div class="section" id="customers">
-                    <h2>Manage Customers</h2>
-                    <p>Here you can view and manage customer information.</p>
-                </div>
-            </div>
-            <div class="footer">
-                <p>&copy; 2025 Movie Ticket Booking System</p>
-            </div>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background-color: #2980b9;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+            position: relative;
+        }
+        .logout-btn {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .logout-btn:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        .navbar {
+            overflow: hidden;
+            background-color: #333;
+            display: flex;
+            justify-content: center;
+        }
+        .navbar a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+        .navbar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        .container {
+            padding: 20px;
+        }
+        .welcome {
+            margin-bottom: 20px;
+        }
+        .admin-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .admin-actions a {
+            flex: 1 1 calc(33.333% - 20px);
+            background-color: #2980b9;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .admin-actions a:hover {
+            background-color: #1f618d;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Admin Dashboard</h1>
+        <a href="<%= request.getContextPath() %>/logout" class="logout-btn">Logout</a>
+    </div>
+    <div class="navbar">
+        <a href="adminDashboard.jsp">Home</a>
+        <a href="user">Manage Users</a>
+        <a href="manageMovies.jsp">Manage Movies</a>
+        <a href="Showtime">Manage Showtimes</a>
+        <a href="manageBookings.jsp">Manage Bookings</a>
+        <a href="manageReviews.jsp">Manage Reviews</a>
+        <a href="manageVouchers.jsp">Manage Vouchers</a>
+    </div>
+    <div class="container">
+        <div class="admin-actions">
+            <a href="user">Manage Users</a>
+            <a href="manageMovies.jsp">Manage Movies</a>
+            <a href="Showtime">Manage Showtimes</a>
+            <a href="manageBookings.jsp">Manage Bookings</a>
+            <a href="manageReviews.jsp">Manage Reviews</a>
+            <a href="manageVouchers.jsp">Manage Vouchers</a>
         </div>
-    </body>
+    </div>
+</body>
 </html>
