@@ -15,15 +15,15 @@ public class DBContext {
     private final String dbName = "MovieTicketBooking";
     private final String portNumber = "1433";
     private final String instance = ""; 
-    private final String userID = "hoangtv";
-    private final String password = "vh692004";
+    private final String userID = "sa";
+    private final String password = "123123";
 
     public Connection getConnection() throws Exception {
         String url;
         if (instance == null || instance.trim().isEmpty()) {
-            url = "jdbc:sqlserver://" + serverName + ":" + portNumber + ";databaseName=" + dbName + ";encrypt=true;trustServerCertificate=true";
+            url = "jdbc:sqlserver://NTQ-COMPUTER\\QUY:1433;databaseName=MovieTicketBooking;TrustServerCertificate=true;";
         } else {
-            url = "jdbc:sqlserver://" + serverName + ":" + portNumber + "\\" + instance + ";databaseName=" + dbName + ";encrypt=true;trustServerCertificate=true";
+            url = "jdbc:sqlserver://NTQ-COMPUTER\\QUY:1433;databaseName=MovieTicketBooking;TrustServerCertificate=true;";
         }
 
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");

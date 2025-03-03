@@ -60,6 +60,15 @@ public class Showtime {
         this.adminID = adminID;
     }
 
+    public Showtime(int showtimeID, Movie movieID, Screen screenID, Date startTime, Date endTime, Admin adminID) {
+        this.showtimeID = showtimeID;
+        this.movieID = movieID;
+        this.screenID = screenID;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.adminID = adminID;
+    }
+
     
 
     
