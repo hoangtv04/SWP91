@@ -157,7 +157,7 @@ public class MovieDAO extends DBContext {
     }
     
     public boolean updateMovie(Movie movie) {
-        String sql = "UPDATE Movie SET title = ?, genre = ?, duration = ?, releaseDate = ? WHERE movieID = ?";
+        String sql = "UPDATE Movie SET title = ?, genre = ?, duration = ?, releaseDate = ?, description = ? WHERE movieID = ?";
         try (Connection conn = this.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, movie.getTitle());

@@ -260,7 +260,7 @@
                     <input type="date" name="releaseDate" required>
 
                     <label for="description">Description:</label>
-                    <textarea name="description" required></textarea>
+                    <input type="text" name="description" required>
 
                     <button type="submit">Add Movie</button>
                     <button type="button" class="close-btn" onclick="closeAddMoviePopup()">Close</button>
@@ -286,8 +286,8 @@
                     <label for="updateReleaseDate">Release Date:</label>
                     <input type="date" id="updateReleaseDate" name="releaseDate" required>
 
-                    <label for="updateDescription">Description:</label>
-                    <textarea id="updateDescription" name="description" required></textarea>
+                     <label for="updateDescription">Description:</label>
+                    <input type="text" id="updateDescription" name="description" required>
 
                     <div class="button-group">
                         <button type="submit">Update Movie</button>
