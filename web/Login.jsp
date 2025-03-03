@@ -209,8 +209,8 @@
                 session.removeAttribute("loginErrorMessage");
             %>
         <% } %>
-        <% String successMessage = (String) request.getAttribute("successMessage"); if (successMessage != null) { %>
-            <p class="success-message"><%= successMessage %></p>
+        <% String loginSuccessMessage = (String) request.getAttribute("successMessage"); if (loginSuccessMessage != null) { %>
+            <p class="success-message"><%= loginSuccessMessage %></p>
         <% } %>
     </div>
     <div class="register-container">
@@ -234,9 +234,6 @@
 
             <input type="submit" value="Register">
         </form>
-        <% String successMessage = (String) request.getAttribute("successMessage"); if (successMessage != null) { %>
-            <p class="success-message"><%= successMessage %></p>
-        <% } %>
         <% String registerErrorMessage = (String) request.getAttribute("registerErrorMessage"); if (registerErrorMessage != null) { %>
             <p class="error-message"><%= registerErrorMessage %></p>
         <% } %>
