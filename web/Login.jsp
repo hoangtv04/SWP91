@@ -1,5 +1,3 @@
-<%-- Document : Login Created on : Mar 1, 2025, 11:11:46 PM Author : tovie --%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -171,12 +169,16 @@
         window.onload = function () {
             var errorMessage = '<%= session.getAttribute("loginErrorMessage") %>';
             var successMessage = '<%= request.getAttribute("successMessage") %>';
+            var resetSuccessMessage = '<%= session.getAttribute("resetSuccessMessage") %>';
             var showLoginForm = '<%= request.getAttribute("showLoginForm") %>';
             if (errorMessage) {
                 showForm('login');
                 session.removeAttribute("loginErrorMessage");
             } else if (successMessage) {
                 showForm('login');
+            } else if (resetSuccessMessage) {
+                showForm('login');
+                session.removeAttribute("resetSuccessMessage");
             } else if (showLoginForm) {
                 showForm('login');
             }
@@ -211,6 +213,9 @@
         <% } %>
         <% String successMessage = (String) request.getAttribute("successMessage"); if (successMessage != null) { %>
             <p class="success-message"><%= successMessage %></p>
+        <% } %>
+        <% String resetSuccessMessage = (String) session.getAttribute("resetSuccessMessage"); if (resetSuccessMessage != null) { %>
+            <p class="success-message"><%= resetSuccessMessage %></p>
         <% } %>
     </div>
     <div class="register-container">

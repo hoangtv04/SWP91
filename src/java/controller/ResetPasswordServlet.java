@@ -16,28 +16,28 @@ public class ResetPasswordServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String token = request.getParameter("token");
+        String email = request.getParameter("email");
         String newPassword = request.getParameter("newPassword");
 
         try {
             DBContext dbContext = new DBContext();
             Connection conn = dbContext.getConnection();
-            String sql = "SELECT * FROM Customer WHERE reset_token = ?";
+            String sql = "SELECT * FROM Customer WHERE Email = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, token);
+            stmt.setString(1, email);
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                sql = "UPDATE Customer SET Password = ?, reset_token = NULL WHERE reset_token = ?";
+                sql = "UPDATE Customer SET Password = ? WHERE Email = ?";
                 stmt = conn.prepareStatement(sql);
                 stmt.setString(1, newPassword);
-                stmt.setString(2, token);
+                stmt.setString(2, email);
                 stmt.executeUpdate();
 
                 request.setAttribute("message", "Password reset successful! Please log in.");
                 request.setAttribute("messageType", "success-message");
             } else {
-                request.setAttribute("message", "Invalid or expired token.");
+                request.setAttribute("message", "Invalid email.");
                 request.setAttribute("messageType", "error-message");
             }
 

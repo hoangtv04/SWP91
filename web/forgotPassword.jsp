@@ -56,14 +56,6 @@
         .forgot-password-container input[type="submit"]:hover {
             background: #0056b3;
         }
-        .error-message {
-            color: red;
-            text-align: center;
-        }
-        .success-message {
-            color: green;
-            text-align: center;
-        }
     </style>
 </head>
 <body>
@@ -74,9 +66,6 @@
             <input type="email" id="email" name="email" required>
             <input type="submit" value="Send Reset">
         </form>
-        <% String message = (String) request.getAttribute("message"); if (message != null) { %>
-            <p class="<%= request.getAttribute("messageType") %>"><%= message %></p>
-        <% } %>
     </div>
 </body>
 </html>

@@ -28,17 +28,8 @@ public class SendResetLinkServlet extends HttpServlet {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                String token = UUID.randomUUID().toString();
-
-                // Save the token in the database
-                sql = "UPDATE Customer SET reset_token = ? WHERE Email = ?";
-                stmt = conn.prepareStatement(sql);
-                stmt.setString(1, token);
-                stmt.setString(2, email);
-                stmt.executeUpdate();
-
-                // Redirect to reset password form with token
-                response.sendRedirect("resetPassword.jsp?token=" + token);
+                // Redirect to reset password form with email
+                response.sendRedirect("resetPassword.jsp?email=" + email);
             } else {
                 request.setAttribute("message", "Email not found.");
                 request.setAttribute("messageType", "error-message");
