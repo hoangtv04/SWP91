@@ -138,13 +138,14 @@ public class MovieDAO extends DBContext {
     }
 
     public boolean addMovie(Movie movie) {
-        String sql = "INSERT INTO Movie (title, genre, duration, releaseDate) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO Movie (title, genre, duration, releaseDate, description) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = this.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, movie.getTitle());
             ps.setString(2, movie.getGenre());
             ps.setInt(3, movie.getDuration());
             ps.setDate(4, new java.sql.Date(movie.getReleaseDate().getTime()));
+            ps.setString(5, movie.getDescription());
             int rowsAffected = ps.executeUpdate();
             return rowsAffected > 0;
         } catch (SQLException ex) {
@@ -163,7 +164,8 @@ public class MovieDAO extends DBContext {
             ps.setString(2, movie.getGenre());
             ps.setInt(3, movie.getDuration());
             ps.setDate(4, new java.sql.Date(movie.getReleaseDate().getTime()));
-            ps.setInt(5, movie.getMovieID());
+            ps.setString(5, movie.getDescription());
+            ps.setInt(6, movie.getMovieID());
             int rowsAffected = ps.executeUpdate();
             return rowsAffected > 0;
         } catch (SQLException ex) {
