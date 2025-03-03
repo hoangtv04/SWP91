@@ -1,22 +1,29 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package dal;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 
+/**
+ *
+ * @author tovie
+ */
 public class DBContext {
-    private final String serverName = "HIUE\\MSSQLSERVER01";
+    private final String serverName = "localhost\\SQLEXPRESS";
     private final String dbName = "MovieTicketBooking";
     private final String portNumber = "1433";
     private final String instance = ""; 
     private final String userID = "sa";
-    private final String password = "123";
+    private final String password = "123123";
 
     public Connection getConnection() throws Exception {
         String url;
         if (instance == null || instance.trim().isEmpty()) {
-            url = "jdbc:sqlserver://" + serverName + ":" + portNumber + ";databaseName=" + dbName + ";encrypt=true;trustServerCertificate=true";
+            url = "jdbc:sqlserver://NTQ-COMPUTER\\QUY:1433;databaseName=MovieTicketBooking;TrustServerCertificate=true;";
         } else {
-            url = "jdbc:sqlserver://" + serverName + ":" + portNumber + "\\" + instance + ";databaseName=" + dbName + ";encrypt=true;trustServerCertificate=true";
+            url = "jdbc:sqlserver://NTQ-COMPUTER\\QUY:1433;databaseName=MovieTicketBooking;TrustServerCertificate=true;";
         }
 
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
