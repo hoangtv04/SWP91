@@ -34,6 +34,7 @@
                 padding: 10px;
                 background-color: #fff;
                 transition: transform 0.3s ease; /* Transition for the entire movie item */
+                position: relative; /* Add relative positioning */
             }
             .movie-item:hover {
                 transform: scale(1.05); /* Scale the entire movie item on hover */
@@ -121,6 +122,24 @@
             .footer p {
                 margin: 0;
             }
+            .see-more-overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                color: #fff;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+                border-radius: 5px;
+            }
+            .movie-item:hover .see-more-overlay {
+                opacity: 1;
+            }
         </style>
     </head>
     <body>
@@ -202,10 +221,11 @@
                 <div class="col-md-4 movie-item">
                     <div class="card h-100 d-flex flex-column">
                         <img src="images poster/phim<%= index %>.jpg" class="card-img-top" alt="<%= movies.get(i).getTitle() %>">
+                        <div class="see-more-overlay">
+                            <a href="movieDetails?movieId=<%= movies.get(i).getMovieID() %>" class="btn btn-primary">See More</a>
+                        </div>
                         <div class="card-body d-flex flex-column">
-                            <h2 class="card-title text-center">
-                                <a href="movieDetails?movieId=<%= movies.get(i).getMovieID() %>"><%= movies.get(i).getTitle() %></a>
-                            </h2>
+                            <h2 class="card-title text-center"><%= movies.get(i).getTitle() %></h2>
                             <p class="card-text text-center"><strong>Release Date:</strong> <%= movies.get(i).getReleaseDate() %></p>
                         </div>
                     </div>
