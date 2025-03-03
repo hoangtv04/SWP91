@@ -171,10 +171,11 @@
         window.onload = function () {
             var errorMessage = '<%= session.getAttribute("loginErrorMessage") %>';
             var successMessage = '<%= request.getAttribute("successMessage") %>';
+            var showRegisterForm = '<%= request.getAttribute("showRegisterForm") %>';
             if (errorMessage) {
                 showForm('login');
                 session.removeAttribute("loginErrorMessage");
-            } else if (successMessage) {
+            } else if (successMessage || showRegisterForm) {
                 showForm('register');
             }
         }
@@ -230,6 +231,9 @@
         </form>
         <% String successMessage = (String) request.getAttribute("successMessage"); if (successMessage != null) { %>
             <p class="success-message"><%= successMessage %></p>
+        <% } %>
+        <% String registerErrorMessage = (String) request.getAttribute("registerErrorMessage"); if (registerErrorMessage != null) { %>
+            <p class="error-message"><%= registerErrorMessage %></p>
         <% } %>
     </div>
 </body>

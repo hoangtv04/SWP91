@@ -116,7 +116,7 @@
                 border-top: 1px solid #fafafa;
                 margin-top: 20px;
                 font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-                font-size: 20px; /* Increase font size */
+                font-size: 16px; /* Decrease font size */
                 color: #f9f9f9;
             }
             .footer p {
@@ -249,9 +249,46 @@
         </div>
 
         <!-- Footer Section -->
-        <div class="footer">
-            <p>Demo Footer Information: This is a demo website for showing movies. All content is for demonstration purposes only.</p>
-        </div>
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <!-- Contact Information -->
+                    <div class="col-md-4">
+                        <h2>Contact Us</h2>
+                        <p>
+                            XYZ Technologies<br>
+                            123 Nguyen Trai Street, District 3, Ho Chi Minh City<br>
+                            Hotline: 1800 123 456 / 0901 234 567<br>
+                            Email: contact@xyztechnologies.vn
+                        </p>
+                    </div>
+                    <!-- Business Inquiries -->
+                    <div class="col-md-4">
+                        <h2>Business Inquiries</h2>
+                        <p>
+                            Hotline: 1800 987 654<br>
+                            Email: partnership@xyzgroup.vn
+                        </p>
+                    </div>
+                    <!-- Newsletter Subscription -->
+                    <div class="col-md-4">
+                        <h2>Subscribe to our Newsletter</h2>
+                        <form action="subscribeNewsletter" method="post">
+                            <div class="form-group">
+                                <label for="email">Email address:</label>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Subscribe</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <p>&copy; 2025 XYZ Technologies. All rights reserved.</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
 
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
