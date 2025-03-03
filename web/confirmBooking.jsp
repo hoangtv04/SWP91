@@ -47,29 +47,24 @@
                     <img src="<%= qrCodeUrl %>" alt="QR Code for Payment">
                 </div>
                 
-                    <h2>Movie: <%= movieName %></h2>
-                    <p><strong>Cinema:</strong> <%= cinemaName %></p>
-                    <p><strong>Screen:</strong> <%= screenName %></p>
-                
-
-                
-                    <h3>Selected Seats:</h3>
-                    <ul>
-                        <%
-                            if (selectedSeats != null) {
-                                for (Seat seat : selectedSeats) {
-                        %>
-                        <li><%= seat.getSeatNumber() %> - <%= seat.getSeatType() %> - $<%= seat.getPrice() %></li>
-                        <%
-                                }
+                <h2>Movie: <%= movieName %></h2>
+                <p><strong>Cinema:</strong> <%= cinemaName %></p>
+                <p><strong>Screen:</strong> <%= screenName %></p>
+                <p><strong>Seats:</strong>
+                    <%
+                        if (selectedSeats != null) {
+                            for (Seat seat : selectedSeats) {
+                    %>
+                    <p><%= seat.getSeatNumber() %> : <%= seat.getSeatType() %> : $<%= seat.getPrice() %></p>
+                    <%
                             }
-                        %>
-                    </ul>
-                    <p><strong>Total Price:</strong> $<%= totalPrice %></p>
+                        }
+                    %>
                 
-
+                <p><strong>Total Price:</strong> $<%= totalPrice %></p>
+                
                 <div class="confirm-booking-button-container">
-                    <form action="finalizeBooking" method="post">
+                    <form action="successBooking" method="post">
                         <input type="hidden" name="movieName" value="<%= movieName %>">
                         <input type="hidden" name="cinemaName" value="<%= cinemaName %>">
                         <input type="hidden" name="screenName" value="<%= screenName %>">

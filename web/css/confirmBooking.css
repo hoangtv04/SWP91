@@ -1,16 +1,22 @@
+/* Reset some basic styles */
+body, h1, h2, h3, p, ul, li, form {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    font-size: 20px;
+    font-size: 16px;
+    color: #333;
 }
 
 .header {
-    background-color: #f4f4f4;
+  
     color: #333;
     text-align: center;
     padding: 20px 0;
@@ -68,13 +74,13 @@ nav a:hover {
 
 h2 {
     color: #333;
-    font-size: 28px;
-    text-align: center;
+    font-size: 24px;
+    margin-bottom: 10px;
 }
 
 p {
-    color: #333;
-    font-size: 20px;
+    font-size: 18px;
+    margin-bottom: 10px;
 }
 
 strong {
@@ -93,19 +99,20 @@ strong {
 .seats-summary ul {
     list-style-type: none;
     padding: 0;
+    margin-bottom: 20px;
 }
 
 .seats-summary li {
-    margin-bottom: 10px;
     padding: 10px;
     border-bottom: 1px solid #ddd;
 }
 
 .qr-code {
+    text-align: center;
+    margin-bottom: 20px;
     position: absolute;
     top: 20px;
     right: 20px;
-    text-align: center;
 }
 
 .qr-code img {
@@ -114,15 +121,15 @@ strong {
 }
 
 .confirm-booking-button-container {
-    margin-top: 20px;
     text-align: center;
+    margin-top: 20px;
 }
 
 .confirm-booking-button {
     padding: 10px 20px;
     font-size: 16px;
     color: #fff;
-    background-color: #007BFF;
+    background-color: coral;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -130,7 +137,7 @@ strong {
 }
 
 .confirm-booking-button:hover {
-    background-color: #0056b3;
+    background-color: #e04e2a;
 }
 
 .contact-container {
@@ -156,6 +163,7 @@ strong {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: auto;
 }
 
 .footer h2, .footer h3 {
