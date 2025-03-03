@@ -53,7 +53,7 @@
                 
 
                 
-                    <h3>Selected Seats:</h3>
+                    <h4>Selected Seats:</h4>
                     <ul>
                         <%
                             if (selectedSeats != null) {
