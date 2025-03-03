@@ -203,7 +203,9 @@
                     <div class="card h-100 d-flex flex-column">
                         <img src="images poster/phim<%= index %>.jpg" class="card-img-top" alt="<%= movies.get(i).getTitle() %>">
                         <div class="card-body d-flex flex-column">
-                            <h2 class="card-title text-center"><%= movies.get(i).getTitle() %></h2>
+                            <h2 class="card-title text-center">
+                                <a href="movieDetails?movieId=<%= movies.get(i).getMovieID() %>"><%= movies.get(i).getTitle() %></a>
+                            </h2>
                             <p class="card-text text-center"><strong>Release Date:</strong> <%= movies.get(i).getReleaseDate() %></p>
                         </div>
                     </div>
