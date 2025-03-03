@@ -200,7 +200,7 @@
             <input type="password" id="password" name="password" required>
             <input type="submit" value="Login">
         </form>
-        <a href="#" class="forgot-password">Forgot Password?</a>
+        <a href="forgotPassword.jsp" class="forgot-password">Forgot Password?</a>
         <% String loginErrorMessage = (String) session.getAttribute("loginErrorMessage"); if (loginErrorMessage != null) { %>
             <p class="error-message">
                 <%= loginErrorMessage %>
