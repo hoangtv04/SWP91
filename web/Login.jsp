@@ -234,8 +234,8 @@
 
             <input type="submit" value="Register">
         </form>
-        <% String successMessage = (String) request.getAttribute("successMessage"); if (successMessage != null) { %>
-            <p class="success-message"><%= successMessage %></p>
+        <% String registerSuccessMessage = (String) request.getAttribute("successMessage"); if (registerSuccessMessage != null) { %>
+            <p class="success-message"><%= registerSuccessMessage %></p>
         <% } %>
         <% String registerErrorMessage = (String) request.getAttribute("registerErrorMessage"); if (registerErrorMessage != null) { %>
             <p class="error-message"><%= registerErrorMessage %></p>
