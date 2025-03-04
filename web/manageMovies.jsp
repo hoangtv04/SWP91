@@ -86,14 +86,14 @@
                 width: 200px;
                 margin: 20px auto;
                 padding: 10px;
-                background-color: #2980b9;
+                background-color: #e74c3c;
                 color: white;
                 text-align: center;
                 text-decoration: none;
                 border-radius: 5px;
             }
             .add-btn:hover {
-                background-color: #1c5a85;
+                background-color: #c0392b;
             }
             .popup {
                 display: none;
@@ -164,7 +164,30 @@
             .popup .button-group button.close-btn:hover {
                 background-color: #c0392b;
             }
-
+            .search-container {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                margin-bottom: 20px;
+            }
+            .search-container input[type="text"] {
+                width: 300px;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                margin-bottom: 10px;
+            }
+            .add-btn {
+                background-color: #e74c3c;
+                color: white;
+                padding: 5px 10px;
+                text-align: center;
+                text-decoration: none;
+                border-radius: 5px;
+            }
+            .add-btn:hover {
+                background-color: #c0392b;
+            }
         </style>
     </head>
     <body>
@@ -183,17 +206,19 @@
             </div>
 
             <div class="container">
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Tìm kiếm..." onkeyup="filterMovies()">
+                    <button class="add-btn" onclick="openAddMoviePopup()">Thêm</button>
+                </div>
                 <div class="table-container">
                     <h2 class="text-center">Danh sách phim</h2>
-                    <button class="add-btn" onclick="openAddMoviePopup()">Thêm phim</button>
-
-                    <table>
+                    <table id="moviesTable">
                         <thead>
                             <tr>
                                 <th>ID</th>
                                 <th>Tên</th>
                                 <th>Thể loại</th>
-                                <th>Thời lượng</th>
+                                <th>Thời lượng (phút)</th>
                                 <th>Ngày khởi chiếu</th>
                                 <th>Mô tả</th>
                                 <th>Actions</th>
@@ -208,9 +233,15 @@
                                 <td><%= movie.getMovieID() %></td>
                                 <td><%= movie.getTitle() %></td>
                                 <td><%= movie.getGenre() %></td>
-                                <td><%= movie.getDuration() %> minutes</td>
+                                <td><%= movie.getDuration() %></td>
                                 <td><%= movie.getReleaseDate() %></td>
-                                <td><%= movie.getDescription() %></td>
+                                <td>
+                                    <span class="short-desc"><%= movie.getDescription().substring(0, Math.min(50, movie.getDescription().length())) %></span>
+                                    <% if (movie.getDescription().length() > 50) { %>
+                                        <span class="more-desc" style="display:none;"><%= movie.getDescription().substring(50) %></span>
+                                        <a href="javascript:void(0);" class="see-more" onclick="toggleDescription(this)">...xem thêm</a>
+                                    <% } %>
+                                </td>
                                 <td>
                                     
                                     <!-- Nút Update -->
@@ -260,7 +291,7 @@
                     <input type="date" name="releaseDate" required>
 
                     <label for="description">Description:</label>
-                    <input type="text" name="description" required>
+                    <textarea name="description" required></textarea>
 
                     <button type="submit">Add Movie</button>
                     <button type="button" class="close-btn" onclick="closeAddMoviePopup()">Close</button>
@@ -286,8 +317,8 @@
                     <label for="updateReleaseDate">Release Date:</label>
                     <input type="date" id="updateReleaseDate" name="releaseDate" required>
 
-                     <label for="updateDescription">Description:</label>
-                    <input type="text" id="updateDescription" name="description" required>
+                    <label for="updateDescription">Description:</label>
+                    <textarea id="updateDescription" name="description" required></textarea>
 
                     <div class="button-group">
                         <button type="submit">Update Movie</button>
@@ -303,8 +334,6 @@
                 function closeAddMoviePopup() {
                     document.getElementById("addMoviePopup").style.display = "none";
                 }
-            </script>
-            <script>
                 function openUpdateMoviePopup(id, title, genre, duration, releaseDate, description) {
                     document.getElementById("updateMovieID").value = id;
                     document.getElementById("updateTitle").value = title;
@@ -317,6 +346,36 @@
 
                 function closeUpdateMoviePopup() {
                     document.getElementById("updateMoviePopup").style.display = "none";
+                }
+
+                function toggleDescription(element) {
+                    var shortDesc = element.previousElementSibling.previousElementSibling;
+                    var moreDesc = element.previousElementSibling;
+                    if (moreDesc.style.display === "none") {
+                        moreDesc.style.display = "inline";
+                        element.textContent = " ẩn bớt";
+                    } else {
+                        moreDesc.style.display = "none";
+                        element.textContent = "...xem thêm";
+                    }
+                }
+                function filterMovies() {
+                    var input, filter, table, tr, td, i, txtValue;
+                    input = document.getElementById("searchInput");
+                    filter = input.value.toLowerCase();
+                    table = document.getElementById("moviesTable");
+                    tr = table.getElementsByTagName("tr");
+                    for (i = 1; i < tr.length; i++) {
+                        td = tr[i].getElementsByTagName("td")[1];
+                        if (td) {
+                            txtValue = td.textContent || td.innerText;
+                            if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                                tr[i].style.display = "";
+                            } else {
+                                tr[i].style.display = "none";
+                            }
+                        }
+                    }
                 }
             </script>
     </body>
