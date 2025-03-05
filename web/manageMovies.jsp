@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="java.util.List, java.util.Map" %>
+<%@ page import="java.util.List, java.util.Map, java.text.SimpleDateFormat" %>
 <%@ page import="model.Movie" %>
 
 <!DOCTYPE html>
@@ -188,6 +188,27 @@
             .add-btn:hover {
                 background-color: #c0392b;
             }
+            .pagination {
+                display: flex;
+                justify-content: flex-end;
+                margin-top: 20px;
+            }
+            .pagination a {
+                color: black;
+                padding: 8px 16px;
+                text-decoration: none;
+                border: 1px solid #ddd;
+                margin: 0 4px;
+            }
+            .pagination a.active {
+                background-color: #2980b9;
+                color: white;
+                border: 1px solid #2980b9;
+                font-weight: bold;
+            }
+            .pagination a:hover:not(.active) {
+                background-color: #ddd;
+            }
         </style>
     </head>
     <body>
@@ -224,9 +245,10 @@
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="movieTableBody">
                             <% List<Movie> movies = (List<Movie>) request.getAttribute("movies");
                                Map<Integer, String> movieMap = (Map<Integer, String>) request.getAttribute("movieMap");
+                               SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
                                if (movies != null && !movies.isEmpty()) {
                                    for (Movie movie : movies) { %>
                             <tr>
@@ -234,7 +256,7 @@
                                 <td><%= movie.getTitle() %></td>
                                 <td><%= movie.getGenre() %></td>
                                 <td><%= movie.getDuration() %></td>
-                                <td><%= movie.getReleaseDate() %></td>
+                                <td><%= sdf.format(movie.getReleaseDate()) %></td>
                                 <td>
                                     <span class="short-desc"><%= movie.getDescription().substring(0, Math.min(50, movie.getDescription().length())) %></span>
                                     <% if (movie.getDescription().length() > 50) { %>
@@ -244,21 +266,21 @@
                                 </td>
                                 <td>
                                     
-                                    <!-- Nút Update -->
+                                    <!-- Nút Sửa -->
                                     <button type="button" class="update-btn" onclick="openUpdateMoviePopup(
                                                     '<%= movie.getMovieID() %>',
                                                     '<%= movie.getTitle() %>',
                                                     '<%= movie.getGenre() %>',
                                                     '<%= movie.getDuration() %>',
-                                                    '<%= movie.getReleaseDate() %>',
+                                                    '<%= sdf.format(movie.getReleaseDate()) %>',
                                                     '<%= movie.getDescription() %>'
-                                                    )">Update</button>
+                                                    )">Sửa</button>
 
-                                    <!-- Nút Delete -->
+                                    <!-- Nút Xóa -->
                                     <form action="Movie" method="post" style="display:inline;">
                                         <input type="hidden" name="action" value="delete">
                                         <input type="hidden" name="movieID" value="<%= movie.getMovieID() %>">
-                                        <button type="submit" class="delete-btn">Delete</button>
+                                        <button type="submit" class="delete-btn">Xóa</button>
                                     </form>
                                 </td>
                             </tr>
@@ -269,6 +291,7 @@
                             <% } %>
                         </tbody>
                     </table>
+                    <div class="pagination" id="pagination"></div>
                 </div>
             </div>
 
@@ -377,6 +400,90 @@
                         }
                     }
                 }
+
+                // Pagination
+                const rowsPerPage = 10;
+                const rows = document.querySelectorAll('#movieTableBody tr');
+                const rowsCount = rows.length;
+                const pageCount = Math.ceil(rowsCount / rowsPerPage);
+                const pagination = document.getElementById('pagination');
+                let currentPage = 1;
+
+                function displayPage(page) {
+                    const start = (page - 1) * rowsPerPage;
+                    const end = start + rowsPerPage;
+                    rows.forEach((row, index) => {
+                        row.style.display = (index >= start && index < end) ? '' : 'none';
+                    });
+                }
+
+                function setupPagination() {
+                    const prevLink = document.createElement('a');
+                    prevLink.textContent = '«';
+                    prevLink.href = 'javascript:void(0);';
+                    prevLink.onclick = () => {
+                        if (currentPage > 1) {
+                            currentPage--;
+                            displayPage(currentPage);
+                            updatePagination();
+                        }
+                    };
+                    pagination.appendChild(prevLink);
+
+                    for (let i = 1; i <= pageCount; i++) {
+                        const pageLink = document.createElement('a');
+                        pageLink.textContent = i;
+                        pageLink.href = 'javascript:void(0);';
+                        pageLink.onclick = () => {
+                            currentPage = i;
+                            displayPage(i);
+                            updatePagination();
+                        };
+                        pagination.appendChild(pageLink);
+                    }
+
+                    const nextLink = document.createElement('a');
+                    nextLink.textContent = '»';
+                    nextLink.href = 'javascript:void(0);';
+                    nextLink.onclick = () => {
+                        if (currentPage < pageCount) {
+                            currentPage++;
+                            displayPage(currentPage);
+                            updatePagination();
+                        }
+                    };
+                    pagination.appendChild(nextLink);
+
+                    updatePagination();
+                }
+
+                function updatePagination() {
+                    const links = pagination.querySelectorAll('a');
+                    links.forEach(link => link.style.display = 'none');
+                    links[0].style.display = '';
+                    links[links.length - 1].style.display = '';
+
+                    if (currentPage > 1) {
+                        links[currentPage - 1].style.display = '';
+                    }
+                    links[currentPage].style.display = '';
+                    if (currentPage < pageCount) {
+                        links[currentPage + 1].style.display = '';
+                    }
+
+                    if (currentPage < pageCount - 1) {
+                        links[links.length - 2].style.display = '';
+                        links[links.length - 2].textContent = '...';
+                    } else {
+                        links[links.length - 2].textContent = pageCount;
+                    }
+
+                    links.forEach(link => link.classList.remove('active'));
+                    links[currentPage].classList.add('active');
+                }
+
+                displayPage(1);
+                setupPagination();
             </script>
     </body>
 </html>
