@@ -34,8 +34,9 @@ public class ManageMovieController extends HttpServlet {
             int duration = Integer.parseInt(request.getParameter("duration"));
             java.sql.Date releaseDate = java.sql.Date.valueOf(request.getParameter("releaseDate"));
             String description = request.getParameter("description");
+            String status = request.getParameter("status");
             
-            Movie movie = new Movie(0, title, genre, duration, releaseDate, description);
+            Movie movie = new Movie(0, title, genre, duration, releaseDate, description, status);
             movieDAO.addMovie(movie);
         } else if ("update".equals(action)) {
             int movieID = Integer.parseInt(request.getParameter("movieID"));
@@ -44,8 +45,9 @@ public class ManageMovieController extends HttpServlet {
             int duration = Integer.parseInt(request.getParameter("duration"));
             java.sql.Date releaseDate = java.sql.Date.valueOf(request.getParameter("releaseDate"));
             String description = request.getParameter("description");
+            String status = request.getParameter("status");
             
-            Movie movie = new Movie(movieID, title, genre, duration, releaseDate, description);
+            Movie movie = new Movie(movieID, title, genre, duration, releaseDate, description, status);
             movieDAO.updateMovie(movie);
         } else if ("delete".equals(action)) {
             int movieID = Integer.parseInt(request.getParameter("movieID"));

@@ -209,6 +209,20 @@
             .pagination a:hover:not(.active) {
                 background-color: #ddd;
             }
+            .status-dang-chieu {
+                color: green;
+                font-weight: bold;
+            }
+            .status-ngung-chieu {
+                color: red;
+                font-weight: bold;
+            }
+            .popup select.status-dang-chieu {
+                color: green;
+            }
+            .popup select.status-ngung-chieu {
+                color: red;
+            }
         </style>
     </head>
     <body>
@@ -242,6 +256,7 @@
                                 <th>Thời lượng (phút)</th>
                                 <th>Ngày khởi chiếu</th>
                                 <th>Mô tả</th>
+                                <th>Status</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -264,6 +279,7 @@
                                         <a href="javascript:void(0);" class="see-more" onclick="toggleDescription(this)">...xem thêm</a>
                                     <% } %>
                                 </td>
+                                <td class="<%= movie.getStatus().equals("Đang chiếu") ? "status-dang-chieu" : "status-ngung-chieu" %>"><%= movie.getStatus() %></td>
                                 <td>
                                     
                                     <!-- Nút Sửa -->
@@ -273,7 +289,8 @@
                                                     '<%= movie.getGenre() %>',
                                                     '<%= movie.getDuration() %>',
                                                     '<%= sdf.format(movie.getReleaseDate()) %>',
-                                                    '<%= movie.getDescription() %>'
+                                                    '<%= movie.getDescription() %>',
+                                                    '<%= movie.getStatus() %>'
                                                     )">Sửa</button>
 
                                     <!-- Nút Xóa -->
@@ -316,6 +333,12 @@
                     <label for="description">Description:</label>
                     <textarea name="description" required></textarea>
 
+                    <label for="status">Status:</label>
+                    <select name="status" required>
+                        <option value="Đang chiếu">Đang chiếu</option>
+                        <option value="Ngừng chiếu">Ngừng chiếu</option>
+                    </select>
+
                     <button type="submit">Add Movie</button>
                     <button type="button" class="close-btn" onclick="closeAddMoviePopup()">Close</button>
                 </form>
@@ -343,7 +366,13 @@
                     <label for="updateDescription">Description:</label>
                     <textarea id="updateDescription" name="description" required></textarea>
 
-                    <div class="button-group">
+                    <label for="updateStatus">Status:</label>
+                    <select id="updateStatus" name="status" required>
+                        <option value="Đang chiếu">Đang chiếu</option>
+                        <option value="Ngừng chiếu">Ngừng chiếu</option>
+                    </select>
+
+                    <div class="button-group"></div>
                         <button type="submit">Update Movie</button>
                         <button type="button" class="close-btn" onclick="closeUpdateMoviePopup()">Close</button>
                     </div>
@@ -357,13 +386,17 @@
                 function closeAddMoviePopup() {
                     document.getElementById("addMoviePopup").style.display = "none";
                 }
-                function openUpdateMoviePopup(id, title, genre, duration, releaseDate, description) {
+                function openUpdateMoviePopup(id, title, genre, duration, releaseDate, description, status) {
                     document.getElementById("updateMovieID").value = id;
                     document.getElementById("updateTitle").value = title;
                     document.getElementById("updateGenre").value = genre;
                     document.getElementById("updateDuration").value = duration;
                     document.getElementById("updateReleaseDate").value = releaseDate;
                     document.getElementById("updateDescription").value = description;
+                    var statusElement = document.getElementById("updateStatus");
+                    statusElement.value = status;
+                    // Remove the color classes
+                    statusElement.classList.remove("status-dang-chieu", "status-ngung-chieu");
                     document.getElementById("updateMoviePopup").style.display = "block";
                 }
 
@@ -382,6 +415,8 @@
                         element.textContent = "...xem thêm";
                     }
                 }
+                
+                //tìm kiếm phim
                 function filterMovies() {
                     var input, filter, table, tr, td, i, txtValue;
                     input = document.getElementById("searchInput");
