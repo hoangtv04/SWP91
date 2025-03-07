@@ -17,6 +17,7 @@ public class Movie {
     private int duration;
     private Date releaseDate;
     private String description;
+    private String status;
     
 
    
@@ -24,13 +25,14 @@ public class Movie {
     }
 
     
-    public Movie(int movieId, String title, String genre, int duration, Date releaseDate, String description) {
+    public Movie(int movieId, String title, String genre, int duration, Date releaseDate, String description, String status) {
         this.movieId = movieId;
         this.title = title;
         this.genre = genre;
         this.duration = duration;
         this.releaseDate = releaseDate;
         this.description = description;
+        this.status = status;
         
     }
 
@@ -83,9 +85,17 @@ public class Movie {
         this.description = description;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
-        return "Movie{" + "movieId=" + movieId + ", title=" + title + ", genre=" + genre + ", duration=" + duration + ", releaseDate=" + releaseDate + ", description=" + description + '}';
+        return "Movie{" + "movieId=" + movieId + ", title=" + title + ", genre=" + genre + ", duration=" + duration + ", releaseDate=" + releaseDate + ", description=" + description + ", status=" + status + '}';
     }
 
    
