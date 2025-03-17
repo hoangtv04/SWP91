@@ -163,7 +163,7 @@
                         <a class="nav-link" href="#">Contact</a>
                     </li>
                 </ul>
-                <form class="form-inline my-2 my-lg-0">
+                <form class="form-inline my-2 my-lg-0" action="Login.jsp" method="post">
                     <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Logout</button>
                 </form>
             </div>

@@ -89,12 +89,12 @@
 <body>
     <div class="header">
         <h1>Admin Dashboard</h1>
-        <a href="logout" class="logout-btn">đăng xuất</a>
+        <a href="logout" class="logout-btn">logout</a>
     </div>
     <div class="navbar">
         <a href="adminDashboard.jsp">Home</a>
         <a href="user">Manage Users</a>
-        <a href="manageMovies.jsp">Manage Movies</a>
+        <a href="Movies">Manage Movies</a>
         <a href="Showtime">Manage Showtimes</a>
         <a href="manageBookings.jsp">Manage Bookings</a>
         <a href="manageReviews.jsp">Manage Reviews</a>
@@ -103,7 +103,7 @@
     <div class="container">
         <div class="admin-actions">
             <a href="user">Manage Users</a>
-            <a href="manageMovies.jsp">Manage Movies</a>
+            <a href="Movies">Manage Movies</a>
             <a href="Showtime">Manage Showtimes</a>
             <a href="manageBookings.jsp">Manage Bookings</a>
             <a href="manageReviews.jsp">Manage Reviews</a>

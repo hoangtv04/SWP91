@@ -54,7 +54,7 @@ public class ManageMovieController extends HttpServlet {
             movieDAO.deleteMovie(movieID);
         }
 
-        response.sendRedirect(request.getContextPath() + "/Movie");
+        response.sendRedirect(request.getContextPath() + "/Movies");
     }
 
     @Override

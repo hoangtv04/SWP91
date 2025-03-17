@@ -294,7 +294,7 @@
                                                     )">Sửa</button>
 
                                     <!-- Nút Xóa -->
-                                    <form action="Movie" method="post" style="display:inline;">
+                                    <form action="Movies" method="post" style="display:inline;">
                                         <input type="hidden" name="action" value="delete">
                                         <input type="hidden" name="movieID" value="<%= movie.getMovieID() %>">
                                         <button type="submit" class="delete-btn">Xóa</button>
@@ -315,7 +315,7 @@
             <!-- Popup Thêm Phim -->
             <div id="addMoviePopup" class="popup">
                 <h3>Thêm Phim</h3>
-                <form action="Movie" method="post">
+                <form action="Movies" method="post">
                     <input type="hidden" name="action" value="add">
 
                     <label for="title">Title:</label>
@@ -347,7 +347,7 @@
             <!-- Popup Cập Nhật Phim -->
             <div id="updateMoviePopup" class="popup">
                 <h3>Cập Nhật Phim</h3>
-                <form action="Movie" method="post">
+                <form action="Movies" method="post">
                     <input type="hidden" name="action" value="update">
                     <input type="hidden" id="updateMovieID" name="movieID">
 
