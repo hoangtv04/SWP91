@@ -85,6 +85,38 @@
                     });
                 });
             </script>
+            <script>
+                document.getElementById("submit-comment").addEventListener("click", function () {
+                    const form = document.getElementById("comment-form");
+                    const formData = new FormData(form);
+
+                    fetch("addComment", {
+                        method: "POST",
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Thêm comment mới vào danh sách
+                            const reviewList = document.getElementById("review-list");
+                            const newReview = document.createElement("li");
+                            newReview.classList.add("review-item");
+                            newReview.innerHTML = `
+                                <p><strong>Customer:</strong> ${data.customerName}</p>
+                                <p><strong>Rating:</strong> ${data.rating} / 5</p>
+                                <p><strong>Comment:</strong> ${data.comment}</p>
+                            `;
+                            reviewList.appendChild(newReview);
+
+                            // Xóa nội dung trong form
+                            form.reset();
+                        } else {
+                            alert("Failed to add comment. Please try again.");
+                        }
+                    })
+                    .catch(error => console.error("Error:", error));
+                });
+            </script>
         </head>
 
         <body>
@@ -120,7 +152,7 @@
                     </div>
                     <div class="add-comment">
                         <h2>Add Your Comment</h2>
-                        <form action="addComment" method="post">
+                        <form id="comment-form" action="addComment" method="post">
                             <input type="hidden" name="movieId" value="${movie.movieID}">
                             <label for="rating">Rating:</label>
                             <div class="rating-container">
@@ -139,16 +171,18 @@
                             </div>
                             <label for="comment">Comment:</label>
                             <textarea name="comment" id="comment" rows="4" cols="50"></textarea>
-                            <button type="submit">Submit</button>
+                            <button type="button" id="submit-comment">Submit</button>
                         </form>
                     </div>
                     <div class="movie-reviews">
-                        <ul>
+                        <h2>Reviews</h2>
+                        <ul id="review-list">
+                            <!-- Hiển thị danh sách các review -->
                             <c:forEach var="review" items="${reviews}">
-                                <li data-review-id="${review.reviewID}">
+                                <li data-review-id="${review.reviewID}" class="review-item">
                                     <p><strong>Customer:</strong> ${customerNames[review.customerID]}</p>
-                                    <p><strong>Rating:</strong> <span class="rating-text">${review.rating}</span></p>
-                                    <p><span class="comment-text">${review.comment}</span></p>
+                                    <p><strong>Rating:</strong> ${review.rating} / 5</p>
+                                    <p><strong>Comment:</strong> ${review.comment}</p>
                                     <button class="edit-button" data-review-id="${review.reviewID}">Edit</button>
                                     <button class="delete-button" data-review-id="${review.reviewID}">Delete</button>
                                 </li>

@@ -197,5 +197,19 @@ public class MovieDAO extends DBContext {
         }
     }
     
+    public String getCustomerNameById(int customerId) {
+        String sql = "SELECT Name FROM Customer WHERE CustomerID = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, customerId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getString("Name");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     
 }

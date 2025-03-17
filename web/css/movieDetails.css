@@ -157,19 +157,11 @@ strong {
 }
 
 .add-comment {
-    width: 40%; /* Ensure both divs have the same width */
+    width: 60%;
     margin: 20px auto;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 10px;
-    background-color: #f9f9f9;
-}
-.movie-reviews {
-    width: 40%; /* Ensure both divs have the same width */
-    margin: 20px auto;
-    padding: 20px;
-    border: 0px solid #ccc;
-    
     background-color: #f9f9f9;
 }
 
@@ -189,19 +181,19 @@ strong {
 }
 
 .add-comment textarea {
-    margin-bottom: 20px;
+    width: 100%;
+    height: 80px;
+    margin-bottom: 10px;
     padding: 10px;
-    font-size: 16px;
+    border: 1px solid #ddd;
     border-radius: 5px;
-    border: 1px solid #ccc;
+    resize: none;
 }
 
 .add-comment button {
-    align-self: flex-start;
     padding: 10px 20px;
-    font-size: 16px;
-    color: #fff;
-    background-color: #007BFF;
+    background-color: #007bff;
+    color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -209,6 +201,15 @@ strong {
 
 .add-comment button:hover {
     background-color: #0056b3;
+}
+
+.movie-reviews {
+    width: 60%;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
 }
 
 .movie-reviews h2 {
@@ -308,4 +309,4 @@ strong {
 
 .select-showtime-button:hover {
     background-color: #e04e2a;
-}   
+}
