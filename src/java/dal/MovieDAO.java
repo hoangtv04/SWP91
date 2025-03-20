@@ -20,9 +20,7 @@ public class MovieDAO extends DBContext {
     public List<Movie> getAllMovies() {
         List<Movie> movies = new ArrayList<>();
         String sql = "SELECT * FROM Movie";
-        try (Connection conn = getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 Movie movie = new Movie();
                 movie.setMovieID(rs.getInt("MovieID"));
@@ -42,8 +40,7 @@ public class MovieDAO extends DBContext {
     public Movie getMovieById(int movieID) {
         Movie movie = null;
         String sql = "SELECT * FROM Movie WHERE movieID = ?";
-        try (Connection conn = getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, movieID);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
@@ -64,13 +61,12 @@ public class MovieDAO extends DBContext {
 
     public List<Showtime> getShowtimesByMovieId(int movieID) {
         List<Showtime> showtimes = new ArrayList<>();
-        String sql = "SELECT s.*, sc.*, c.*, a.* FROM Showtime s " +
-                     "JOIN Screen sc ON s.ScreenID = sc.ScreenID " +
-                     "JOIN Cinema c ON sc.CinemaID = c.CinemaID " +
-                     "JOIN Admin a ON s.AdminID = a.AdminID " +
-                     "WHERE s.MovieID = ?";
-        try (Connection conn = getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        String sql = "SELECT s.*, sc.*, c.*, a.* FROM Showtime s "
+                + "JOIN Screen sc ON s.ScreenID = sc.ScreenID "
+                + "JOIN Cinema c ON sc.CinemaID = c.CinemaID "
+                + "JOIN Admin a ON s.AdminID = a.AdminID "
+                + "WHERE s.MovieID = ?";
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, movieID);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -112,8 +108,7 @@ public class MovieDAO extends DBContext {
     public List<Review> getReviewsByMovieId(int movieID, Map<Integer, String> customerNames) {
         List<Review> reviews = new ArrayList<>();
         String sql = "SELECT r.*, c.CustomerName FROM Review r JOIN Customer c ON r.CustomerID = c.CustomerID WHERE r.MovieID = ?";
-        try (Connection conn = getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, movieID);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -134,10 +129,45 @@ public class MovieDAO extends DBContext {
         return reviews;
     }
 
+    public Review getReviewById(int reviewID) {
+        String sql = "SELECT * FROM Review WHERE ReviewID = ?";
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, reviewID);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Review review = new Review();
+                    review.setReviewID(rs.getInt("ReviewID"));
+                    review.setCustomerID(rs.getInt("CustomerID"));
+                    review.setMovieID(rs.getInt("MovieID"));
+                    review.setRating(rs.getInt("Rating"));
+                    review.setComment(rs.getString("Comment"));
+                    review.setReviewDate(rs.getDate("ReviewDate"));
+                    return review;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public String getCustomerNameById(int customerId) {
+        String sql = "SELECT Name FROM Customer WHERE CustomerID = ?";
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, customerId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getString("Name");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public void addReview(Review review) {
         String sql = "INSERT INTO Review (CustomerID, MovieID, Rating, Comment, ReviewDate) VALUES (?, ?, ?, ?, ?)";
-        try (Connection conn = getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, review.getCustomerID());
             ps.setInt(2, review.getMovieID());
             ps.setInt(3, review.getRating());
@@ -149,67 +179,4 @@ public class MovieDAO extends DBContext {
         }
     }
 
-    public void deleteReview(int reviewID) {
-        String sql = "DELETE FROM Review WHERE ReviewID = ?";
-        try (Connection conn = getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, reviewID);
-            ps.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public Review getReviewById(int reviewID) {
-        Review review = null;
-        String sql = "SELECT * FROM Review WHERE ReviewID = ?";
-        try (Connection conn = getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, reviewID);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    review = new Review();
-                    review.setReviewID(rs.getInt("ReviewID"));
-                    review.setCustomerID(rs.getInt("CustomerID"));
-                    review.setMovieID(rs.getInt("MovieID"));
-                    review.setRating(rs.getInt("Rating"));
-                    review.setComment(rs.getString("Comment"));
-                    review.setReviewDate(rs.getDate("ReviewDate"));
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return review;
-    }
-
-    public void updateReview(Review review) {
-        String sql = "UPDATE Review SET Rating = ?, Comment = ?, ReviewDate = ? WHERE ReviewID = ?";
-        try (Connection conn = getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, review.getRating());
-            ps.setString(2, review.getComment());
-            ps.setDate(3, new java.sql.Date(review.getReviewDate().getTime()));
-            ps.setInt(4, review.getReviewID());
-            ps.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
-    public String getCustomerNameById(int customerId) {
-        String sql = "SELECT Name FROM Customer WHERE CustomerID = ?";
-        try (Connection conn = getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, customerId);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return rs.getString("Name");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-    
 }
