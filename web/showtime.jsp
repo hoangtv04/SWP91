@@ -2,7 +2,14 @@
 <%@ page import="java.util.List, java.util.Map, java.util.HashSet, java.util.Set, model.Showtime" %>
 <%@ page import="model.Movie, model.Screen, model.Admin" %>
 <%@ page import="java.time.LocalDateTime, java.time.LocalDate" %>
-
+<%@page import="model.Admin"%>
+<%
+    Admin admin = (Admin) session.getAttribute("admin");
+    if (admin == null) {
+        response.sendRedirect("Login.jsp");
+        return;
+    }
+%>
 <!DOCTYPE html>
 <html lang="vi">
     <head>
@@ -164,12 +171,16 @@
             .popup .button-group button.close-btn:hover {
                 background-color: #c0392b;
             }
-
+            .header p {
+                text-align: left;
+                margin-left: 20px;
+            }
         </style>
     </head>
     <body>
         <div class="header">
             <h1>Admin Dashboard - Manage Showtimes</h1>
+            <p>Xin chào, <%= admin.getName() %>!</p>
             <a href="logout" class="logout-btn">Đăng xuất</a>
         </div>
 
@@ -291,8 +302,7 @@
                 <label for="endTime">Thời Gian Kết Thúc:</label>
                 <input type="datetime-local" name="endTime" required>
 
-                <label for="adminID">Admin ID:</label>
-                <input type="text" name="adminID" placeholder="Nhập Admin ID" required>
+                <input type="hidden" name="adminID" value="<%= admin.getAdminId() %>">
 
                 <div class="button-group">
                     <button type="submit">Thêm Suất Chiếu</button>

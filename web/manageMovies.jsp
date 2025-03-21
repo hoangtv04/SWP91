@@ -1,7 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.List, java.util.Map, java.text.SimpleDateFormat" %>
 <%@ page import="model.Movie" %>
-
+<%@page import="model.Admin"%>
+<%
+    Admin admin = (Admin) session.getAttribute("admin");
+    if (admin == null) {
+        response.sendRedirect("Login.jsp");
+        return;
+    }
+%>
 <!DOCTYPE html>
 <html lang="vi">
     <head>
@@ -164,70 +171,20 @@
             .popup .button-group button.close-btn:hover {
                 background-color: #c0392b;
             }
-            .search-container {
-                display: flex;
-                flex-direction: column;
-                align-items: flex-start;
-                margin-bottom: 20px;
+            .header p {
+                text-align: left;
+                margin-left: 20px;
             }
-            .search-container input[type="text"] {
-                width: 300px;
-                padding: 10px;
-                border: 1px solid #ccc;
-                border-radius: 5px;
-                margin-bottom: 10px;
-            }
-            .add-btn {
-                background-color: #e74c3c;
-                color: white;
-                padding: 5px 10px;
-                text-align: center;
-                text-decoration: none;
-                border-radius: 5px;
-            }
-            .add-btn:hover {
-                background-color: #c0392b;
-            }
-            .pagination {
-                display: flex;
-                justify-content: flex-end;
-                margin-top: 20px;
-            }
-            .pagination a {
-                color: black;
-                padding: 8px 16px;
-                text-decoration: none;
-                border: 1px solid #ddd;
-                margin: 0 4px;
-            }
-            .pagination a.active {
-                background-color: #2980b9;
-                color: white;
-                border: 1px solid #2980b9;
-                font-weight: bold;
-            }
-            .pagination a:hover:not(.active) {
-                background-color: #ddd;
-            }
-            .status-dang-chieu {
-                color: green;
-                font-weight: bold;
-            }
-            .status-ngung-chieu {
-                color: red;
-                font-weight: bold;
-            }
-            .popup select.status-dang-chieu {
-                color: green;
-            }
-            .popup select.status-ngung-chieu {
-                color: red;
+            .header p {
+                text-align: left;
+                margin-left: 20px;
             }
         </style>
     </head>
     <body>
         <div class="header">
             <h1>Admin Dashboard - Manage Movies</h1>
+            <p>Xin chào, <%= admin.getName() %>!</p>
             <a href="logout" class="logout-btn">Đăng xuất</a>
         </div>
         <div class="navbar">
