@@ -15,8 +15,8 @@ public class DBContext {
     private final String dbName = "MovieTicketBooking";
     private final String portNumber = "1433";
     private final String instance = ""; 
-    private final String userID = "hoangtv";
-    private final String password = "vh692004";
+    private final String userID = "sa";
+    private final String password = "123123";
     public Connection getConnection() throws Exception {
         String url;
         if (instance == null || instance.trim().isEmpty()) {

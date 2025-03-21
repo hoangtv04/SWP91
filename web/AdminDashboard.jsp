@@ -7,7 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="model.Admin"%>
 <%
-    Admin admin = (Admin) request.getAttribute("admin");
+    Admin admin = (Admin) session.getAttribute("admin");
 %>
 <!DOCTYPE html>
 <html lang="vi">
@@ -84,15 +84,21 @@
         .admin-actions a:hover {
             background-color: #1f618d;
         }
+.header p {
+    text-align: left;
+    margin-left: 20px;
+}
+
     </style>
 </head>
 <body>
     <div class="header">
         <h1>Admin Dashboard</h1>
+        <p>Xin chào, <%= admin.getName() %>!</p>
         <a href="logout" class="logout-btn">đăng xuất</a>
     </div>
     <div class="navbar">
-        <a href="adminDashboard.jsp">Home</a>
+        <a href="AdminDashboard">Home</a>
         <a href="user">Manage Users</a>
         <a href="manageMovies.jsp">Manage Movies</a>
         <a href="Showtime">Manage Showtimes</a>

@@ -20,10 +20,9 @@ public class ViewUserController extends HttpServlet {
             throws ServletException, IOException {
         try {
             response.setContentType("text/html;charset=UTF-8");
-            
+
             CustomerDAO dao = new CustomerDAO();
             List<Customer> customers = dao.getAllCustomers();
-            
             request.setAttribute("customers", customers);
             request.getRequestDispatcher("viewUsers.jsp").forward(request, response);
         } catch (Exception ex) {
@@ -44,28 +43,53 @@ public class ViewUserController extends HttpServlet {
                 String password = request.getParameter("password");
                 String email = request.getParameter("email");
                 String address = request.getParameter("address");
-                
+
                 Customer customer = new Customer(showtimeID, phone, name, password, email, address);
                 CustomerDAO dao = new CustomerDAO();
                 dao.updateCustomer(customer);
             } catch (Exception ex) {
                 Logger.getLogger(ViewUserController.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } else if ("add".equals(action)) {  try {
-            // Xử lý thêm người dùng
-            String phone = request.getParameter("phone");
-            String name = request.getParameter("name");
-            String password = request.getParameter("password");
-            String email = request.getParameter("email");
-            String address = request.getParameter("address");
+        } else if ("add".equals(action)) {
+            try {
+                String phone = request.getParameter("phone");
+                String name = request.getParameter("name");
+                String password = request.getParameter("password");
+                String email = request.getParameter("email");
+                String address = request.getParameter("address");
 
-            Customer newCustomer = new Customer(0, phone, name, password, email, address);
-            CustomerDAO dao = new CustomerDAO();
-            dao.addCustomer(newCustomer);
+                CustomerDAO dao = new CustomerDAO();
+
+                if (dao.isPhoneExists(phone)) {
+                    request.setAttribute("error", "Số điện thoại đã tồn tại.");
+                } else if (dao.isEmailExists(email)) {
+                    request.setAttribute("error", "Email đã tồn tại.");
+                } else {
+                    dao.addCustomer(new Customer(0, phone, name, password, email, address));
+                    response.sendRedirect(request.getContextPath() + "/user");
+                    return;
+                }
+
+                // Nếu có lỗi, lưu lại dữ liệu nhập trước đó
+                request.setAttribute("phone", phone);
+                request.setAttribute("name", name);
+                request.setAttribute("password", password);
+                request.setAttribute("email", email);
+                request.setAttribute("address", address);
+                request.setAttribute("openPopup", "add");
+
+                // Cập nhật lại danh sách người dùng
+                List<Customer> customers = dao.getAllCustomers();
+                request.setAttribute("customers", customers);
+
+                // Chuyển hướng lại trang
+                request.getRequestDispatcher("viewUsers.jsp").forward(request, response);
+                return;
+
             } catch (Exception ex) {
                 Logger.getLogger(ViewUserController.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }else if ("delete".equals(action)) {
+        } else if ("delete".equals(action)) {
             try {
                 int customerID = Integer.parseInt(request.getParameter("customerID"));
                 CustomerDAO dao = new CustomerDAO();

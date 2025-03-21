@@ -51,6 +51,7 @@
                 background-color: #ddd;
                 color: black;
             }
+
             .container {
                 padding: 20px;
             }
@@ -95,13 +96,13 @@
         </div>
 
         <div class="navbar">
-            <a href="AdminDashboard.jsp">Home</a>
+            <a href="AdminDashboard">Home</a>
             <a href="user">Manage Users</a>
             <a href="Movies">Manage Movies</a>
             <a href="Showtime">Manage Showtimes</a>
             <a href="manageBookings.jsp">Manage Bookings</a>
             <a href="reviews">Manage Reviews</a>
-            <a href="manageVouchers.jsp">Manage Vouchers</a>
+            <a href="voucher">Manage Vouchers</a>
         </div>
 
         <div class="container">

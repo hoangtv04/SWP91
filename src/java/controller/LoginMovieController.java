@@ -91,7 +91,7 @@ public class LoginMovieController extends HttpServlet {
         } else if (admin != null && admin.getPassword().equals(password)) {
             HttpSession session = request.getSession();
             session.setAttribute("admin", admin);
-            response.sendRedirect("view/AdminHome.jsp");
+            response.sendRedirect("AdminDashboard");
         } else {
             HttpSession session = request.getSession();
             session.setAttribute("loginErrorMessage", "Username or password incorrect");
