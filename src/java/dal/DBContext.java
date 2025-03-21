@@ -17,6 +17,7 @@ public class DBContext {
     private final String instance = ""; 
     private final String userID = "sa";
     private final String password = "123123";
+
     public Connection getConnection() throws Exception {
         String url;
         if (instance == null || instance.trim().isEmpty()) {

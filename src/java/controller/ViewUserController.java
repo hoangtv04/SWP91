@@ -23,6 +23,7 @@ public class ViewUserController extends HttpServlet {
 
             CustomerDAO dao = new CustomerDAO();
             List<Customer> customers = dao.getAllCustomers();
+
             request.setAttribute("customers", customers);
             request.getRequestDispatcher("viewUsers.jsp").forward(request, response);
         } catch (Exception ex) {
@@ -90,6 +91,7 @@ public class ViewUserController extends HttpServlet {
                 Logger.getLogger(ViewUserController.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else if ("delete".equals(action)) {
+
             try {
                 int customerID = Integer.parseInt(request.getParameter("customerID"));
                 CustomerDAO dao = new CustomerDAO();

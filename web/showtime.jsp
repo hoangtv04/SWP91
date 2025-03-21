@@ -180,6 +180,7 @@
             <a href="manageBookings.jsp">Manage Bookings</a>
             <a href="reviews">Manage Reviews</a>
             <a href="voucher">Manage Vouchers</a>
+=
         </div>
 
         <div class="container">
