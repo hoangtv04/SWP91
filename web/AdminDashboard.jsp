@@ -8,6 +8,10 @@
 <%@page import="model.Admin"%>
 <%
     Admin admin = (Admin) session.getAttribute("admin");
+    if (admin == null) {
+        response.sendRedirect("Login.jsp");
+        return;
+    }
 %>
 <!DOCTYPE html>
 <html lang="vi">
