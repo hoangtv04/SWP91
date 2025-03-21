@@ -34,6 +34,7 @@ public class MovieDAO extends DBContext {
                 movie.setDuration(rs.getInt("Duration"));
                 movie.setReleaseDate(rs.getDate("ReleaseDate"));
                 movie.setDescription(rs.getString("Description"));
+                movie.setStatus(rs.getString("Status"));
                 movies.add(movie);
             }
         } catch (Exception e) {
@@ -57,6 +58,7 @@ public class MovieDAO extends DBContext {
                     movie.setDuration(rs.getInt("duration"));
                     movie.setReleaseDate(rs.getDate("releaseDate"));
                     movie.setDescription(rs.getString("description"));
+                    movie.setStatus(rs.getString("status"));
                 }
             }
         } catch (Exception e) {
@@ -138,7 +140,7 @@ public class MovieDAO extends DBContext {
     }
 
     public boolean addMovie(Movie movie) {
-        String sql = "INSERT INTO Movie (title, genre, duration, releaseDate, description) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Movie (title, genre, duration, releaseDate, description, status) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conn = this.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, movie.getTitle());
@@ -146,6 +148,7 @@ public class MovieDAO extends DBContext {
             ps.setInt(3, movie.getDuration());
             ps.setDate(4, new java.sql.Date(movie.getReleaseDate().getTime()));
             ps.setString(5, movie.getDescription());
+            ps.setString(6, movie.getStatus());
             int rowsAffected = ps.executeUpdate();
             return rowsAffected > 0;
         } catch (SQLException ex) {
@@ -157,7 +160,7 @@ public class MovieDAO extends DBContext {
     }
     
     public boolean updateMovie(Movie movie) {
-        String sql = "UPDATE Movie SET title = ?, genre = ?, duration = ?, releaseDate = ?, description = ? WHERE movieID = ?";
+        String sql = "UPDATE Movie SET title = ?, genre = ?, duration = ?, releaseDate = ?, description = ?, status = ? WHERE movieID = ?";
         try (Connection conn = this.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, movie.getTitle());
@@ -165,7 +168,8 @@ public class MovieDAO extends DBContext {
             ps.setInt(3, movie.getDuration());
             ps.setDate(4, new java.sql.Date(movie.getReleaseDate().getTime()));
             ps.setString(5, movie.getDescription());
-            ps.setInt(6, movie.getMovieID());
+            ps.setString(6, movie.getStatus());
+            ps.setInt(7, movie.getMovieID());
             int rowsAffected = ps.executeUpdate();
             return rowsAffected > 0;
         } catch (SQLException ex) {
