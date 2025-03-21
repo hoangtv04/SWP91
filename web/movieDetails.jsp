@@ -75,10 +75,92 @@
                         </div>
                         <label for="comment">Comment:</label>
                         <textarea name="comment" id="comment" rows="4" cols="50" required></textarea>
-                        <button type="submit">Submit</button>
+                        <button type="submit">Post</button>
                     </form>
                 </div>
                 
+                <div class="movie-reviews">
+              
+                    <c:if test="${not empty reviews}">
+                        <ul id="review-list">
+                            <c:forEach var="review" items="${reviews}">
+                                <li class="review-item">
+                                    <p class="custumer-name">${customerNames[review.customerID]} </p>
+                                    <p><strong>Rating:</strong> ${review.rating} / 5</p>
+                                    <p> ${review.comment}</p>
+                                    <p><strong>Date:</strong> ${review.reviewDate}</p>
+                                    
+                                    <!-- Nút Edit -->
+                                    <button class="edit-button" onclick="toggleEditForm('${review.reviewID}')">Edit</button>
+                                    
+                                    <!-- Form chỉnh sửa -->
+                                    <form class="edit-form" action="editComment" method="post" id="edit-form-${review.reviewID}">
+                                        <input type="hidden" name="reviewId" value="${review.reviewID}">
+                                        <label for="rating">Rating:</label>
+                                        <input type="number" name="rating" value="${review.rating}" min="1" max="5" required>
+                                        <label for="comment">Comment:</label>
+                                        <textarea name="comment" rows="4" required>${review.comment}</textarea>
+                                        <button type="submit">Save</button>
+                                        <button type="button" class="cancel-edit" onclick="toggleEditForm('${review.reviewID}')">Cancel</button>
+                                    </form>
+                                    
+                                    <!-- Nút Delete -->
+                                    <form action="deleteComment" method="post">
+                                        <input type="hidden" name="reviewId" value="${review.reviewID}">
+                                        <input type="hidden" name="movieId" value="${movie.movieID}">
+                                        <button type="submit" class="delete-button">Delete</button>
+                                    </form>
+                                </li>
+                            </c:forEach>
+                        </ul>
+                    </c:if>
+                    <c:if test="${empty reviews}">
+                        <p>No reviews yet. Be the first to leave a comment!</p>
+                    </c:if>
+                </div>
+
+                <script>
+                    function toggleEditForm(reviewId) {
+                        // Lấy form chỉnh sửa dựa trên ID
+                        const form = document.getElementById(`edit-form-${reviewId}`);
+                        if (form) {
+                            // Kiểm tra trạng thái hiển thị và chuyển đổi
+                            form.style.display = form.style.display === 'block' ? 'none' : 'block';
+                        } else {
+                            console.error(`Không tìm thấy form chỉnh sửa với ID: edit-form-${reviewId}`);
+                        }
+                    }
+                </script>
+<script>
+    
+    function deleteComment(reviewId, movieId) {
+        if (confirm("Are you sure you want to delete this comment?")) {
+            // Gửi yêu cầu xóa comment qua fetch API
+            fetch('deleteComment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `reviewId=${reviewId}`
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Xóa comment khỏi giao diện
+                    const reviewItem = document.getElementById(`review-item-${reviewId}`);
+                    if (reviewItem) {
+                        reviewItem.remove();
+                    }
+                } else {
+                    alert("Failed to delete the comment. Please try again.");
+                }
+            })
+            .catch(error => {
+                console.error("Error deleting comment:", error);
+                alert("An error occurred. Please try again.");
+            });
+        }
+    }
+</script>
             </c:if>
             <c:if test="${empty movie}">
                 <p>Movie not found.</p>
