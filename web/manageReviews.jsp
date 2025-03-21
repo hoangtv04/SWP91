@@ -1,5 +1,13 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.List, model.Review, model.Movie" %>
+<%@page import="model.Admin"%>
+<%
+    Admin admin = (Admin) session.getAttribute("admin");
+    if (admin == null) {
+        response.sendRedirect("Login.jsp");
+        return;
+    }
+%>
 <!DOCTYPE html>
 <html lang="vi">
     <head>
@@ -80,6 +88,10 @@
             tr:hover {
                 background-color: #f1f1f1;
             }
+            .header p {
+                text-align: left;
+                margin-left: 20px;
+            }
         </style>
         <script>
             function confirmDelete(reviewID) {
@@ -92,6 +104,7 @@
     <body>
         <div class="header">
             <h1>Admin Dashboard - Manage Reviews</h1>
+            <p>Xin chào, <%= admin.getName() %>!</p>
             <a href="logout" class="logout-btn">Đăng xuất</a>
         </div>
 

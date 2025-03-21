@@ -1,5 +1,13 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.List, model.Voucher" %>
+<%@page import="model.Admin"%>
+<%
+    Admin admin = (Admin) session.getAttribute("admin");
+    if (admin == null) {
+        response.sendRedirect("Login.jsp");
+        return;
+    }
+%>
 <!DOCTYPE html>
 <html lang="vi">
     <head>
@@ -91,6 +99,10 @@
                 border-radius: 10px;
                 border: 3px solid #2980b9;
             }
+            .header p {
+                text-align: left;
+                margin-left: 20px;
+            }
         </style>
         <script>
             function openAddPopup() {
@@ -116,6 +128,7 @@
 
         <div class="header">
             <h1>Manage Vouchers</h1>
+            <p>Xin chào, <%= admin.getName() %>!</p>
             <a href="logout" class="logout-btn">Đăng xuất</a>
 
         </div>
@@ -178,7 +191,7 @@
                 <input type="text" name="code" placeholder="Code" required>
                 <input type="number" name="discount" placeholder="Discount Amount" required>
                 <input type="date" name="expiry" required>
-                <input type="number" name="admin" placeholder="Admin ID">
+                <input type="hidden" name="admin" value="<%= admin.getAdminId() %>">
                 <button type="submit">Add</button>
                 <button type="button" onclick="closeAddPopup()">Close</button>
             </form>
@@ -191,7 +204,7 @@
                 <input type="text" id="code" name="code" placeholder="Code" required>
                 <input type="number" id="discount" name="discount" placeholder="Discount Amount" required>
                 <input type="date" id="expiry" name="expiry" required>
-                <input type="number" id="admin" name="admin" placeholder="Admin ID">
+                <input type="hidden" id="admin" name="admin" value="<%= admin.getAdminId() %>">
                 <button type="submit">Save</button>
                 <button type="button" onclick="closeEditPopup()">Close</button>
             </form>

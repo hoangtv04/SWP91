@@ -1,5 +1,13 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.List, model.Customer" %>
+<%@page import="model.Admin"%>
+<%
+    Admin admin = (Admin) session.getAttribute("admin");
+    if (admin == null) {
+        response.sendRedirect("Login.jsp");
+        return;
+    }
+%>
 <!DOCTYPE html>
 <html lang="vi">
     <head>
@@ -103,6 +111,10 @@
                 padding: 5px 10px;
                 border: none;
             }
+            .header p {
+                text-align: left;
+                margin-left: 20px;
+            }
         </style>
         <script>
             function openPopup(id, phone, name, password, email, address) {
@@ -137,6 +149,7 @@
     <body>
         <div class="header">
             <h1>Admin Dashboard - Manage Users</h1>
+            <p>Xin chào, <%= admin.getName() %>!</p>
             <a href="logout" class="logout-btn">Đăng xuất</a>
         </div>
 
