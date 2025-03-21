@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="java.util.List, java.util.Map, model.Showtime" %>
+<%@ page import="java.util.List, java.util.Map, java.util.HashSet, java.util.Set, model.Showtime" %>
 <%@ page import="model.Movie, model.Screen, model.Admin" %>
+<%@ page import="java.time.LocalDateTime, java.time.LocalDate" %>
 
 <!DOCTYPE html>
 <html lang="vi">
@@ -173,19 +174,36 @@
         </div>
 
         <div class="navbar">
-            <a href="AdminDashboard.jsp">Home</a>
+            <a href="AdminDashboard">Home</a>
             <a href="user">Manage Users</a>
             <a href="Movies">Manage Movies</a>
             <a href="Showtime">Manage Showtimes</a>
             <a href="manageBookings.jsp">Manage Bookings</a>
             <a href="reviews">Manage Reviews</a>
-            <a href="manageVouchers.jsp">Manage Vouchers</a>
+            <a href="voucher">Manage Vouchers</a>
         </div>
 
         <div class="container">
             <div class="table-container">
                 <h2 class="text-center">Danh sách suất chiếu</h2>
                 <button class="add-btn" onclick="openAddShowtimePopup()">Thêm suất chiếu</button>
+
+                <!-- Date Filter Buttons -->
+                <div class="date-buttons">
+                    <% 
+                        Set<String> availableDates = new HashSet<>();
+                        List<Showtime> showtimes = (List<Showtime>) request.getAttribute("showtimes");
+                        if (showtimes != null) {
+                            for (Showtime showtime : showtimes) {
+                                LocalDateTime startTime = showtime.getStartTime().toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDateTime();
+                                availableDates.add(startTime.toLocalDate().toString());
+                            }
+                        }
+                        for (String date : availableDates) {
+                    %>
+                    <button onclick="filterByDate('<%= date %>')"><%= date %></button>
+                    <% } %>
+                </div>
 
                 <table>
                     <thead>
@@ -199,13 +217,13 @@
                             <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="showtimeTableBody">
                         <% 
-                            List<Showtime> showtimes = (List<Showtime>) request.getAttribute("showtimes");
                             if (showtimes != null && !showtimes.isEmpty()) {
                                 for (Showtime showtime : showtimes) { 
+                                    LocalDateTime startTime = showtime.getStartTime().toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDateTime();
                         %>
-                        <tr>
+                        <tr data-date="<%= startTime.toLocalDate().toString() %>">
                             <td><%= showtime.getShowtimeID() %></td>
                             <td><%= showtime.getMovieID().getTitle() %></td>
                             <td><%= showtime.getScreenID().getScreenName() %></td>
@@ -325,8 +343,7 @@
             function closePopup(popupId) {
                 document.getElementById(popupId).style.display = "none";
             }
-        </script>
-        <script>
+
             function openUpdateShowtimePopup(id, movieID, screenID, startTime, endTime, adminID) {
                 document.getElementById("updateShowtimeID").value = id;
                 document.getElementById("updateMovieID").value = movieID;
@@ -339,6 +356,17 @@
 
             function closeUpdateShowtimePopup() {
                 document.getElementById("updateShowtimePopup").style.display = "none";
+            }
+
+            function filterByDate(date) {
+                var rows = document.querySelectorAll('#showtimeTableBody tr');
+                rows.forEach(row => {
+                    if (row.getAttribute('data-date') === date) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
             }
         </script>
     </body>
