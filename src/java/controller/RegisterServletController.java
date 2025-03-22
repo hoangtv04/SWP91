@@ -44,7 +44,7 @@ public class RegisterServletController extends HttpServlet {
 
             request.setAttribute("successMessage", "Registration successful! Please log in.");
             request.setAttribute("showLoginForm", true);
-            request.getRequestDispatcher("Login.jsp").forward(request, response);
+            request.getRequestDispatcher("Register.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("registerErrorMessage", "An error occurred. Please try again.");
@@ -52,7 +52,7 @@ public class RegisterServletController extends HttpServlet {
             request.setAttribute("email", email);
             request.setAttribute("phone", phone);
             request.setAttribute("address", address);
-            request.getRequestDispatcher("Login.jsp").forward(request, response);
+            request.getRequestDispatcher("Register.jsp").forward(request, response);
         }
     }
 
