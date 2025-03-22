@@ -64,7 +64,7 @@ public class MovieServletController extends HttpServlet {
         List<Movie> movie = dao.getAllMovies();
         
         request.setAttribute("movies", movie);
-        request.getRequestDispatcher("view/CustomerHome.jsp").forward(request, response);
+        request.getRequestDispatcher("CustomerHome.jsp").forward(request, response);
     }
 
     /**
