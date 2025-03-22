@@ -1,18 +1,14 @@
 package controller;
 
 import dal.DBContext;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import jakarta.servlet.ServletException;
+import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.*;
+import java.io.IOException;
+import java.sql.*;
 
-@WebServlet(name = "RegisterServletController", urlPatterns = {"/RegisterServlet"})
+@WebServlet(name = "RegisterServletController", urlPatterns = {"/register"})
 public class RegisterServletController extends HttpServlet {
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -23,8 +19,20 @@ public class RegisterServletController extends HttpServlet {
         String address = request.getParameter("address");
 
         try (Connection conn = new DBContext().getConnection()) {
-            String sql = "INSERT INTO Customer (Phone, CustomerName, Password, Email, Address) VALUES (?, ?, ?, ?, ?)";
-            PreparedStatement ps = conn.prepareStatement(sql);
+            String checkSql = "SELECT COUNT(*) FROM Customer WHERE Phone = ? OR Email = ?";
+            PreparedStatement checkPs = conn.prepareStatement(checkSql);
+            checkPs.setString(1, phone);
+            checkPs.setString(2, email);
+            ResultSet rs = checkPs.executeQuery();
+
+            if (rs.next() && rs.getInt(1) > 0) {
+                request.setAttribute("errorMessage", "Phone number or email already exists.");
+                request.getRequestDispatcher("Register.jsp").forward(request, response);
+                return;
+            }
+
+            String insertSql = "INSERT INTO Customer (Phone, CustomerName, Password, Email, Address) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement ps = conn.prepareStatement(insertSql);
             ps.setString(1, phone);
             ps.setString(2, username);
             ps.setString(3, password);
@@ -33,8 +41,7 @@ public class RegisterServletController extends HttpServlet {
 
             int rowsInserted = ps.executeUpdate();
             if (rowsInserted > 0) {
-                request.setAttribute("successMessage", "Registration successful! Please log in.");
-                request.getRequestDispatcher("Login.jsp").forward(request, response);
+                response.sendRedirect("Register.jsp");
             } else {
                 request.setAttribute("errorMessage", "Registration failed. Please try again.");
                 request.getRequestDispatcher("Register.jsp").forward(request, response);
@@ -46,4 +53,3 @@ public class RegisterServletController extends HttpServlet {
         }
     }
 }
-

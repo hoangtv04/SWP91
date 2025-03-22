@@ -6,8 +6,11 @@
     <title>Reset Password</title>
     <style>
         body {
+            margin: 0;
+            padding: 0;
             font-family: Arial, sans-serif;
-            background: #f2f2f2;
+            background: url('images background/quaybanve.jpg') no-repeat center center fixed;
+            background-size: cover;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -73,14 +76,37 @@
             text-align: center;
         }
     </style>
+    <script>
+        function validatePasswords(event) {
+            const newPassword = document.getElementById('new-password').value;
+            const confirmNewPassword = document.getElementById('confirm-new-password').value;
+            const errorMessage = document.getElementById('error-message');
+
+            if (newPassword !== confirmNewPassword) {
+                event.preventDefault();
+                errorMessage.textContent = 'Passwords do not match. Please try again.';
+                return false;
+            }
+
+            errorMessage.textContent = '';
+            return true;
+        }
+    </script>
 </head>
 <body>
     <div class="reset-password-container">
         <h1>Reset Password</h1>
-        <form action="resetPassword" method="post">
+        <form action="resetPassword" method="post" onsubmit="return validatePasswords(event)">
             <input type="hidden" name="email" value="<%= request.getParameter("email") %>">
+            
             <label for="new-password">New Password:</label>
             <input type="password" id="new-password" name="newPassword" required>
+            
+            <label for="confirm-new-password">Confirm New Password:</label>
+            <input type="password" id="confirm-new-password" name="confirmNewPassword" required>
+            
+            <div id="error-message" class="error-message"></div>
+            
             <input type="submit" value="Reset Password">
         </form>
         <% String message = (String) request.getAttribute("message"); if (message != null) { %>
