@@ -180,16 +180,16 @@ public class MovieDAO extends DBContext {
     }
 
     public void updateReview(Review review) {
-    String sql = "UPDATE Review SET Rating = ?, Comment = ? WHERE ReviewID = ?";
-    try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-        ps.setInt(1, review.getRating());
-        ps.setString(2, review.getComment());
-        ps.setInt(3, review.getReviewID());
-        ps.executeUpdate();
-    } catch (Exception e) {
-        e.printStackTrace();
+        String sql = "UPDATE Review SET Rating = ?, Comment = ? WHERE ReviewID = ?";
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, review.getRating());
+            ps.setString(2, review.getComment());
+            ps.setInt(3, review.getReviewID());
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-}
 
    public void deleteReview(int reviewId) {
     String sql = "DELETE FROM Review WHERE ReviewID = ?";

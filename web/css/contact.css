@@ -1,0 +1,151 @@
+/* Body styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4; /* Màu nền giống movieDetails */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-size: 20px;
+    color: #333;
+}
+
+/* Header styling */
+.header {
+    background-color: #f4f4f4; /* Màu nền giống movieDetails */
+    color: #333;
+    text-align: center;
+    padding: 20px 0;
+    width: 100%;
+    margin: 0 auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+/* Navigation bar styling */
+nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #333; /* Màu nền giống movieDetails */
+    padding: 10px 0;
+    width: 100%;
+    transition: top 0.3s;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 20px;
+    margin: 0 10px;
+    font-size: 18px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+nav a:hover {
+    background-color: #555; /* Hiệu ứng hover */
+}
+
+nav a.active {
+    background-color: #444; /* Màu cho liên kết đang hoạt động */
+}
+
+/* Container styling */
+.container {
+    width: 100%;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 40px 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    border-radius: 10px;
+}
+
+/* Contact details styling */
+.contact-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 60%;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: antiquewhite; /* Màu nền giống movieDetails */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.contact-details h1 {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 5px;
+    text-align: center;
+    width: 100%;
+}
+
+.contact-info, .business-contact {
+    margin: 20px 0;
+    text-align: left;
+    font-size: 16px;
+    line-height: 1.8;
+    color: #555;
+}
+
+.contact-info p, .business-contact p {
+    margin: 10px 0;
+}
+
+.contact-info strong, .business-contact strong {
+    color: #333; /* Màu chữ giống movieDetails */
+}
+
+/* Footer styling */
+.footer {
+    background-color: #f4f4f4; /* Màu nền giống movieDetails */
+    color: #333;
+    text-align: center;
+    padding: 20px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.footer p {
+    margin: 5px 0;
+    font-size: 12px;
+}
+
+.footer h2, .footer h3 {
+    font-size: 16px;
+}
+
+/* Nút Back */
+.back-button {
+    display: inline-block;
+    
+    padding: 10px 20px;
+    background-color: coral; /* Màu xanh chủ đạo */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.back-button:hover {
+    background-color: rgb(248, 78, 16); /* Màu xanh đậm hơn khi hover */
+}
