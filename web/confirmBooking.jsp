@@ -28,7 +28,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/confirmBooking.css">
         <title>Confirm Booking</title>
-        <script>
+<script>
             window.addEventListener('scroll', function () {
                 var nav = document.getElementById('main-nav');
                 if (window.scrollY > 0) {
@@ -51,6 +51,34 @@
         </nav>
 
         <div class="container">
+<div class="content">
+                <div class="qr-code">
+                    <h3>Scan to Pay</h3>
+                    <img src="<%= qrCodeUrl %>" alt="QR Code for Payment">
+                </div>
+                
+                <h2>Movie: <%= movieName %></h2>
+                <p><strong>Cinema:</strong> <%= cinemaName %></p>
+                <p><strong>Screen:</strong> <%= screenName %></p>
+                <p><strong>Showtime:</strong> <%= request.getAttribute("startTime") %> - <%= request.getAttribute("endTime") %></p>
+                <p><strong>Seats:</strong>
+                    <%
+                        if (selectedSeats != null) {
+                            for (Seat seat : selectedSeats) {
+                    %>
+                    <p><%= seat.getSeatNumber() %> : <%= seat.getSeatType() %> : $<%= seat.getPrice() %></p>
+                    <%
+                            }
+                        }
+                    %>
+                
+                <p><strong>Total Price:</strong> $<%= totalPrice %></p>
+                
+                <div class="confirm-booking-button-container">
+                    <button type="submit" class="confirm-booking-button">Done</button>
+
+                </div>
+=======
 
             <div class="title-movie"> 
                 <h2><%= movieName %></h2>
@@ -82,15 +110,13 @@
             </div>
 
         </div>
-
-        <script>
-            function confirmBooking(event) {
-                event.preventDefault(); // Ngăn chặn hành động mặc định của form
-                alert("Booking Success");
-                window.location.href = "http://localhost:9999/SWP391_SP25/movie"; // Redirect to the movie selection page
-            }
+ <script>
+            document.querySelector('.confirm-booking-button').addEventListener('click', function(event) {
+                event.preventDefault();
+                alert('Booking Success');
+                window.location.href = 'movie';
+            });
         </script>
-
         <footer class="footer">
             <div class="contact-container">
                 <div class="contact-info">
