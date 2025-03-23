@@ -19,7 +19,7 @@
                 font-family: Arial, sans-serif;
                 margin: 0;
                 padding: 0;
-                background-color: #f4f4f4;
+                background-color: #8e8484;
             }
             .container {
                 margin-top: 20px;
@@ -32,7 +32,7 @@
                 border: 2px solid #fff;
                 border-radius: 5px;
                 padding: 10px;
-                background-color: #fff;
+                background-color: #8e8484;
                 transition: transform 0.3s ease;
                 position: relative;
             }
@@ -195,18 +195,10 @@
                 <span class="sr-only">Next</span>
             </a>
         </div>
-
-        <!-- Now Showing and Coming Soon Section -->
-        <div class="container mt-4 text-center">
-            <a class="btn btn-primary mx-2" href="nowShowing.jsp">Now Showing</a>
-            <a class="btn btn-secondary mx-2" href="comingSoon.jsp">Coming Soon</a>
-        </div>
-
         <div class="container">
             <%
                 List<Movie> movies = (List<Movie>) request.getAttribute("movies");
                 if (movies != null && !movies.isEmpty()) {
-                    // Sắp xếp danh sách movies theo ID
                     movies.sort((m1, m2) -> Integer.compare(m1.getMovieID(), m2.getMovieID()));
 
                     int index = 1;
@@ -252,7 +244,7 @@
             <div class="container">
                 <div class="row">
                     <!-- Contact Information -->
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <h2>Contact Us</h2>
                         <p>
                             XYZ Technologies<br>
@@ -262,7 +254,7 @@
                         </p>
                     </div>
                     <!-- Business Inquiries -->
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <h2>Business Inquiries</h2>
                         <p>
                             Hotline: 1800 987 654<br>
@@ -270,16 +262,6 @@
                         </p>
                     </div>
                     <!-- Newsletter Subscription -->
-                    <div class="col-md-4">
-                        <h2>Subscribe to our Newsletter</h2>
-                        <form action="subscribeNewsletter" method="post">
-                            <div class="form-group">
-                                <label for="email">Email address:</label>
-                                <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Subscribe</button>
-                        </form>
-                    </div>
                 </div>
                 <div class="row">
                     <div class="col-12 text-center">
