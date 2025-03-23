@@ -95,19 +95,24 @@
                 width: 5%;
             }
             .navbar-nav {
-                margin: 0 auto;
+                margin-right: 40%;
+                display: flex;
+                justify-content: center;
             }
             .nav-item {
                 padding: 0 15px;
             }
             .nav-link {
                 font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-                font-size: 16px;
-                color: #333;
-                transition: color 0.3s ease;
+                font-size: 18px;
+                color: #000;
+                font-weight: bold; /* Làm chữ đậm */
+                transition: color 0.3s ease, text-decoration 0.3s ease, transform 0.3s ease; /* Thêm hiệu ứng chuyển động */
             }
             .nav-link:hover {
                 color: #007bff;
+                text-decoration: underline;
+                transform: scale(1.1); /* Phóng to nhẹ khi trỏ chuột */
             }
             .footer {
                 background-color: #636367c6;
@@ -140,22 +145,73 @@
             .movie-item:hover .see-more-overlay {
                 opacity: 1;
             }
+            .customer-img {
+                width: 70px; /* Tăng kích thước ô tròn */
+                height: 70px; /* Tăng kích thước ô tròn */
+                border-radius: 50%;
+                object-fit: cover;
+                border: 2px solid #007bff;
+                cursor: pointer;
+            }
+
+            .dropdown-menu {
+                animation: slideDown 0.3s ease-in-out;
+            }
+
+            @keyframes slideDown {
+                from {
+                    transform: translateY(-20px);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
+            .navbar {
+                background-color: #eb4747; /* Màu đen */
+                color: #fff; /* Màu chữ */
+            }
         </style>
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg navbar-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto"> <!-- Align the navbar items to the right -->
+                <!-- Move search bar to the left -->
+                <form class="form-inline mr-auto" action="searchMovie" method="get">
+                    <input class="form-control mr-sm-2" type="search" name="query" placeholder="Search movies" aria-label="Search">
+                    <button class="btn btn-dark my-2 my-sm-0" type="submit">Search</button>
+                </form>
+                <ul class="navbar-nav ml-auto"> <!-- Căn chỉnh các mục navbar về bên phải -->
                     <li class="nav-item active">
                         <a class="nav-link" href="movie">Home <span class="sr-only">(current)</span></a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
                 </ul>
-                <form class="form-inline my-2 my-lg-0" action="Login.jsp" method="post">
-                    <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Logout</button>
-                </form>
+                <!-- Add customer dropdown -->
+                <div class="dropdown ml-3">
+                    <img src="image customer/customer.jpg" alt="Customer" class="customer-img dropdown-toggle" id="customerDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <div class="dropdown-menu dropdown-menu-right p-3" aria-labelledby="customerDropdown" style="width: 250px;">
+                        <h5 class="text-center">Account Info</h5>
+                        <p><strong>Name:</strong> John Doe</p>
+                        <p><strong>Email:</strong> johndoe@example.com</p>
+                        <hr>
+                        <h6>Ticket History</h6>
+                        <ul class="list-unstyled">
+                            <li>Movie 1 - 01/01/2025</li>
+                            <li>Movie 2 - 02/01/2025</li>
+                        </ul>
+                        <hr>
+                        <form action="Login.jsp" method="post">
+                            <button class="btn btn-danger btn-block" type="submit">Logout</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </nav>
 
