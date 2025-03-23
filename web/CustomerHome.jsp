@@ -105,14 +105,12 @@
             .nav-link {
                 font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
                 font-size: 18px;
-                color: #000;
-                font-weight: bold; /* Làm chữ đậm */
-                transition: color 0.3s ease, text-decoration 0.3s ease, transform 0.3s ease; /* Thêm hiệu ứng chuyển động */
+                color: #000; 
+                transition: color 0.3s ease, text-decoration 0.3s ease;
             }
             .nav-link:hover {
                 color: #007bff;
                 text-decoration: underline;
-                transform: scale(1.1); /* Phóng to nhẹ khi trỏ chuột */
             }
             .footer {
                 background-color: #636367c6;
@@ -169,7 +167,7 @@
                 }
             }
             .navbar {
-                background-color: #eb4747; /* Màu đen */
+                background-color: #dc1212; /* Màu đen */
                 color: #fff; /* Màu chữ */
             }
         </style>
@@ -181,7 +179,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <!-- Move search bar to the left -->
-                <form class="form-inline mr-auto" action="searchmovie" method="get">
+                <form class="form-inline mr-auto" action="searchMovie" method="get">
                     <input class="form-control mr-sm-2" type="search" name="query" placeholder="Search movies" aria-label="Search">
                     <button class="btn btn-dark my-2 my-sm-0" type="submit">Search</button>
                 </form>
@@ -193,13 +191,15 @@
                         <a class="nav-link" href="#contact">Contact</a>
                     </li>
                 </ul>
-                <!-- Add customer dropdown -->
+                <%
+                    model.Customer customer = (model.Customer) session.getAttribute("customer");
+                %>
                 <div class="dropdown ml-3">
                     <img src="image customer/customer.jpg" alt="Customer" class="customer-img dropdown-toggle" id="customerDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <div class="dropdown-menu dropdown-menu-right p-3" aria-labelledby="customerDropdown" style="width: 250px;">
                         <h5 class="text-center">Account Info</h5>
-                        <p><strong>Name:</strong> John Doe</p>
-                        <p><strong>Email:</strong> johndoe@example.com</p>
+                        <p><strong>Name:</strong> <%= customer != null ? customer.getCustomerName() : "Guest" %></p>
+                        <p><strong>Email:</strong> <%= customer != null ? customer.getEmail() : "" %></p>
                         <hr>
                         <h6>Ticket History</h6>
                         <ul class="list-unstyled">
