@@ -65,7 +65,7 @@
 <body>
     <div class="forgot-password-container">
         <h1>Forgot Password</h1>
-        <form action="sendResetLink" method="post">
+        <form action="resetPassword" method="post">
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required>
             <input type="submit" value="Send Reset">

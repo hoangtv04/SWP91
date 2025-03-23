@@ -14,7 +14,15 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet(name = "ResetPasswordServlet", urlPatterns = {"/resetPassword"})
 public class ResetPasswordServlet extends HttpServlet {
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        request.getRequestDispatcher("resetPassword.jsp").forward(request, response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String email = request.getParameter("email");
         String newPassword = request.getParameter("newPassword");
@@ -44,23 +52,10 @@ public class ResetPasswordServlet extends HttpServlet {
             conn.close();
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("message", "An error occurred. Please try again.");
             request.setAttribute("messageType", "error-message");
         }
 
         request.getRequestDispatcher("resetPassword.jsp").forward(request, response);
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
     }
 
     @Override

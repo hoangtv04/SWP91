@@ -10,6 +10,12 @@ import java.sql.*;
 @WebServlet(name = "RegisterServletController", urlPatterns = {"/register"})
 public class RegisterServletController extends HttpServlet {
     @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+          request.getRequestDispatcher("Register.jsp").forward(request, response);
+        
+    }
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String username = request.getParameter("username");

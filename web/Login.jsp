@@ -135,9 +135,9 @@
             </div>
             <% session.removeAttribute("loginErrorMessage"); %>
         <% } %>
-        <a href="forgotPassword.jsp" class="forgot-password">Forgot Password?</a>
+        <a href="forgotpassword" class="forgot-password">Forgot Password?</a>
         <div class="register-link">
-            Don't have an account? <a href="Register.jsp">Register</a>
+            Don't have an account? <a href="register">Register</a>
         </div>
     </div>
 </body>

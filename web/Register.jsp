@@ -172,7 +172,7 @@
 
             <!-- Add Back to Login button -->
             <div style="text-align: center; margin-top: 20px;">
-                <a href="Login.jsp" onclick="clearRegistrationMessage()" style="text-decoration: none; color: #007bff; font-size: 16px;">Back to Login</a>
+                <a href="login" onclick="clearRegistrationMessage()" style="text-decoration: none; color: #007bff; font-size: 16px;">Back to Login</a>
             </div>
         </div>
     </body>
