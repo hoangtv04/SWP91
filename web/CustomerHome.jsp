@@ -181,7 +181,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <!-- Move search bar to the left -->
-                <form class="form-inline mr-auto" action="searchMovie" method="get">
+                <form class="form-inline mr-auto" action="searchmovie" method="get">
                     <input class="form-control mr-sm-2" type="search" name="query" placeholder="Search movies" aria-label="Search">
                     <button class="btn btn-dark my-2 my-sm-0" type="submit">Search</button>
                 </form>
