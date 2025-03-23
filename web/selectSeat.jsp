@@ -24,8 +24,8 @@
         </header>
 
         <nav id="main-nav">
-            <a href="index.jsp">Home</a>
-            <a href="movies.jsp">Movies</a>
+           
+            <a href="movie">Home</a>
             <a href="contact.jsp">Contact</a>
         </nav>
 
@@ -69,6 +69,7 @@
             <div class="seat vip-seat"></div> VIP
         </div>
         <div class="confirm-booking-button-container">
+            <button class="back-button" onclick="window.history.back(); return false;">Back</button>
             <button type="submit" class="confirm-booking-button">Confirm Booking</button>
         </div>
     </form>
@@ -121,6 +122,11 @@
         document.querySelector('.confirm-booking-button').addEventListener('click', function (event) {
             event.preventDefault();
 
+            const selectedSeats = document.querySelectorAll('.seat input:checked');
+    if (selectedSeats.length === 0) {
+        alert('Bạn phải chọn ít nhất một ghế trước khi tiếp tục!');
+        return;
+    }
             const form = document.createElement('form');
             form.method = 'post';
             form.action = 'confirmBooking';
@@ -174,5 +180,6 @@
         });
     });
 </script>
+
 </body>
 </html>
