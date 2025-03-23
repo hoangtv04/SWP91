@@ -11,7 +11,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Forgot Password</title>
     <style>
-        body {
+         body {
+            margin: 0;
+            padding: 0;
             font-family: Arial, sans-serif;
             background: url('images background/quaybanve.jpg') no-repeat center center fixed;
             background-size: cover;

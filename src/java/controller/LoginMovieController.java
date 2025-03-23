@@ -87,7 +87,7 @@ public class LoginMovieController extends HttpServlet {
             MovieDAO movieDAO = new MovieDAO();
             List<Movie> movies = movieDAO.getAllMovies();
             request.setAttribute("movies", movies);
-            response.sendRedirect("movie");
+           response.sendRedirect("movie");
         } else if (admin != null && admin.getPassword().equals(password)) {
             HttpSession session = request.getSession();
             session.setAttribute("admin", admin);
