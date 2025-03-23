@@ -19,7 +19,7 @@
                 font-family: Arial, sans-serif;
                 margin: 0;
                 padding: 0;
-                background-color: #8e8484;
+                background-color: #8b8585;
             }
             .container {
                 margin-top: 20px;
@@ -32,7 +32,7 @@
                 border: 2px solid #fff;
                 border-radius: 5px;
                 padding: 10px;
-                background-color: #8e8484;
+              background-color: #8b8585;
                 transition: transform 0.3s ease;
                 position: relative;
             }

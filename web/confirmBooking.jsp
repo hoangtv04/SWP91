@@ -45,52 +45,39 @@
         </header>
 
         <nav id="main-nav">
-            <a href="index.jsp">Home</a>
-            <a href="movie">Movies</a>
+            <a href="movie">Home</a>
             <a href="contact.jsp">Contact</a>
         </nav>
 
         <div class="container">
+            <div class="content">
+                <div class="qr-code">
+                    <h3>Scan to Pay</h3>
+                    <img src="<%= qrCodeUrl %>" alt="QR Code for Payment">
+                </div>
 
-            <div class="title-movie"> 
-                <h2><%= movieName %></h2>
-            </div>
-
-            <div class="qr-code">
-                <h3>Scan to Pay</h3>
-                <img src="<%= qrCodeUrl %>" alt="QR Code for Payment">
-            </div>
-
-            <p><strong>Cinema:</strong> <%= cinemaName %></p>
-            <p><strong>Screen:</strong> <%= screenName %></p>
-            <p><strong>Seats:</strong>
+                <h2>Movie: <%= movieName %></h2>
+                <p><strong>Cinema:</strong> <%= cinemaName %></p>
+                <p><strong>Showtime:</strong> <%= request.getAttribute("startTime") %> - <%= request.getAttribute("endTime") %></p>
+                <p><strong>Seats:</strong>
+                    <%
+                        if (selectedSeats != null) {
+                            for (Seat seat : selectedSeats) {
+                    %>
+                <p><%= seat.getSeatNumber() %> : <%= seat.getSeatType() %> : $<%= seat.getPrice() %></p>
                 <%
-                    if (selectedSeats != null) {
-                        for (Seat seat : selectedSeats) {
-                %>
-            <p><%= seat.getSeatNumber() %> : <%= seat.getSeatType() %> : $<%= seat.getPrice() %></p>
-            <%
+                        }
                     }
-                }
-            %>
-            <br>
-            <p><strong>Total Price:</strong> $<%= totalPrice %></p>
+                %>
 
-            <div class="confirm-booking-button-container">
+                <p><strong>Total Price:</strong> $<%= totalPrice %></p>
 
-                <button type="submit" class="confirm-booking-button" onclick="confirmBooking(event)">Done</button>
+                <div class="confirm-booking-button-container">
+                    <button class="back-button" onclick="window.history.back(); return false;">Back</button>
+                    <button type="submit" class="confirm-booking-button">Done</button>
+                </div>
             </div>
-
         </div>
-
-        <script>
-            function confirmBooking(event) {
-                event.preventDefault(); // Ngăn chặn hành động mặc định của form
-                alert("Booking Success");
-                window.location.href = "http://localhost:9999/SWP391_SP25/movie"; // Redirect to the movie selection page
-            }
-        </script>
-
         <footer class="footer">
             <div class="contact-container">
                 <div class="contact-info">
@@ -114,5 +101,20 @@
                 </div>
             </div>
         </footer>
+
+        <script>
+            document.querySelector('.confirm-booking-button').addEventListener('click', function (event) {
+                event.preventDefault();
+                alert('Booking Success');
+                window.location.href = 'movie';
+            });
+        </script>
+        <script>
+            // Hàm quay lại trang trước đó
+            function goBack() {
+                window.history.back();
+            }
+        </script>
+
     </body>
 </html>

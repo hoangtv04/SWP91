@@ -118,6 +118,7 @@
                 }
             }
         </script>
+        
     </head>
     <body>
         <header class="header">
@@ -126,7 +127,6 @@
 
         <nav id="main-nav">
             <a href="movie">Home</a>
-            <a href="movie">Movies</a>
             <a href="contact.jsp">Contact</a>
         </nav>
 
@@ -137,6 +137,7 @@
                 <input type="hidden" name="movieName" value="<%= movieTitle %>">
                 <input type="hidden" name="cinemaName" id="cinemaName">
                 <input type="hidden" name="screenName" id="screenName">
+                
 
                 <label for="cinema">Cinema:</label>
                 <select id="cinema" name="cinemaId" required>
@@ -177,6 +178,7 @@
                     </table>
                 </div>
                 <div class="confirm-booking-button-container">
+                    <button class="back-button" onclick="window.history.back(); return false;">Back</button>
                     <button type="submit" class="confirm-booking-button">Select Seat</button>
                 </div>
             </form>

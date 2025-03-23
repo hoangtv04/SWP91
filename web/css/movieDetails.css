@@ -156,120 +156,81 @@ strong {
     font-size: 20px;
 }
 
+/* Phần thêm bình luận (Add Comment) */
 .add-comment {
-    width: 40%; /* Ensure both divs have the same width */
+    width: 60%;
     margin: 20px auto;
     padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
     background-color: #f9f9f9;
-}
-.movie-reviews {
-    width: 40%; /* Ensure both divs have the same width */
-    margin: 20px auto;
-    padding: 20px;
-    border: 0px solid #ccc;
-    
-    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .add-comment h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: #333;
+    text-align: center;
 }
 
 .add-comment form {
     display: flex;
     flex-direction: column;
+    gap: 15px; /* Khoảng cách giữa các phần tử */
 }
 
 .add-comment label {
-    margin-bottom: 10px;
     font-weight: bold;
+    color: #555;
+    align-self: flex-start; /* Căn label về bên phải */
 }
 
 .add-comment textarea {
-    margin-bottom: 20px;
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+    
+    max-width: 100%; /* Giới hạn chiều rộng tối đa để không bị tràn */
+    height: 40%; /* Chiều cao cố định */
+    padding: 10px; /* Khoảng cách bên trong */
+    border: 1px solid #ddd; /* Viền nhẹ */
+    border-radius: 5px; /* Bo góc */
+    resize: none; /* Vô hiệu hóa thay đổi kích thước */
+    font-size: 14px; /* Kích thước chữ */
+    color: #333; /* Màu chữ */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Hiệu ứng đổ bóng bên trong */
+}
+
+.add-comment textarea:focus {
+    border-color: #007bff; /* Đổi màu viền khi focus */
+    outline: none; /* Loại bỏ viền mặc định */
 }
 
 .add-comment button {
-    align-self: flex-start;
     padding: 10px 20px;
-    font-size: 16px;
-    color: #fff;
-    background-color: #007BFF;
+    background-color: #5867f1;
+    color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    align-self: flex-end; /* Đảm bảo nút nằm ở lề phải */
 }
 
 .add-comment button:hover {
-    background-color: #0056b3;
-}
-
-.movie-reviews h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
-}
-
-.movie-reviews ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.movie-reviews li {
-    margin-bottom: 20px;
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-}
-
-.movie-reviews li:last-child {
-    border-bottom: none;
-}
-
-.review-item {
-    background-color: #fff;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.review-item p {
-    margin: 5px 0;
-}
-
-.review-item form {
-    display: inline;
-}
-
-.review-item button {
-    margin-left: 10px;
-    padding: 5px 10px;
-    font-size: 14px;
-    color: #fff;
-    background-color: #007BFF;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.review-item button:hover {
-    background-color: #0056b3;
+    background-color: #111ecc;
 }
 
 .rating-container {
     display: flex;
+    justify-content: flex-start; 
     align-items: center;
+    width: 100%;
 }
 
 .rating {
     display: flex;
     flex-direction: row-reverse;
-    justify-content: flex-start;
+    justify-content: flex-end; /* Căn các ngôi sao về bên phải */
     align-items: center;
     margin-left: 10px;
 }
@@ -308,4 +269,235 @@ strong {
 
 .select-showtime-button:hover {
     background-color: #e04e2a;
-}   
+}
+
+/* Phần review */
+.movie-reviews {
+    width: 60%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.movie-reviews h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: #333;
+    text-align: center;
+}
+
+#review-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.review-item {
+    margin-bottom: 15px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    position: relative; /* Để định vị các nút bên trong */
+}
+
+.review-item p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+/* Định vị các nút Edit và Delete lên trên cùng bên phải */
+.review-item button.edit-button,
+.review-item button.delete-button {
+    position: absolute;
+    top: 10px;
+}
+
+.review-item button.edit-button {
+    right: 80px; /* Khoảng cách từ nút Edit đến cạnh phải */
+    background-color: #5867f1;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.review-item button.edit-button:hover {
+    background-color: #111ecc;
+}
+
+.review-item button.delete-button {
+    right: 10px; /* Khoảng cách từ nút Delete đến cạnh phải */
+    background-color: #f14c5c;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.review-item button.delete-button:hover {
+    background-color: #b30718;
+}
+
+/* Nút chỉnh sửa và xóa */
+.review-item button {
+    padding: 8px 15px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.edit-button {
+    background-color: #414bda;
+    color: white;
+}
+
+.edit-button:hover {
+    background-color: #477bdd;
+}
+
+.delete-button {
+    background-color: #f14c5c;
+    color: white;
+}
+
+.delete-button:hover {
+    background-color: #b30718;
+}
+.edit-button {
+    position: relative;
+    z-index: 100;
+    pointer-events: auto;
+}
+
+
+
+/* Form chỉnh sửa bình luận */
+.edit-form {
+    display: none; /* Form mặc định ẩn */
+    margin-top: 10px;
+       padding: 10px;
+    background-color: #f9f9f9; /* Màu nền nhạt để phân biệt */
+    border: 1px solid #ddd; /* Viền nhẹ */
+    border-radius: 5px; /* Bo góc */
+    max-width: 100%; /* Đảm bảo form không vượt quá chiều rộng container */
+    box-sizing: border-box; /* Bao gồm padding và border trong kích thước tổng */
+    font-size: 14px; /* Kích thước chữ nhỏ hơn */
+}
+
+.edit-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.edit-form input[type="number"],
+.edit-form textarea {
+    width: 100%; /* Chiều rộng đầy đủ trong form */
+    padding: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 14px;
+    box-sizing: border-box; /* Đảm bảo padding không làm tràn viền */
+}
+
+.edit-form button {
+    padding: 5px 10px;
+    margin-right: 5px;
+    background-color: #007bff; /* Màu xanh cho nút Save */
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.edit-form button.cancel-edit {
+    background-color: #dc3545; /* Màu đỏ cho nút Cancel */
+}
+
+.edit-form button:hover {
+    opacity: 0.9; /* Hiệu ứng hover */
+}
+
+.edit-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+.edit-form input[type="number"],
+.edit-form textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #333;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.edit-form input[type="number"]:focus,
+.edit-form textarea:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.edit-form button {
+    padding: 8px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.edit-form button:hover {
+    background-color: #55a5fa;
+}
+
+
+
+.movie-reviews form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+.movie-reviews form input[type="number"],
+.movie-reviews form textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #333;
+}
+.movie-reviews form button:hover {
+    background-color: #0056b3;
+}
+
+.custumer-name{
+    font-size: 20px;
+    font-weight: bold;
+    color: #0051e7;
+}
