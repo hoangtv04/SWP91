@@ -1,85 +1,61 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
-
 package controller;
 
 import dal.DBContext;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import jakarta.servlet.ServletException;
+import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.*;
+import java.io.IOException;
+import java.sql.*;
 
-@WebServlet(name="RegisterServletController", urlPatterns={"/register"})
+@WebServlet(name = "RegisterServletController", urlPatterns = {"/register"})
 public class RegisterServletController extends HttpServlet {
-   
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+          request.getRequestDispatcher("Register.jsp").forward(request, response);
         
+    }
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
         String address = request.getParameter("address");
 
-        // Validate phone number
-        if (!phone.matches("\\d{10,15}")) {
-            request.setAttribute("registerErrorMessage", "Invalid phone number. Please enter a valid phone number.");
-            request.setAttribute("username", username);
-            request.setAttribute("email", email);
-            request.setAttribute("address", address);
-            request.getRequestDispatcher("Login.jsp").forward(request, response);
-            return;
-        }
+        try (Connection conn = new DBContext().getConnection()) {
+            String checkSql = "SELECT COUNT(*) FROM Customer WHERE Phone = ? OR Email = ?";
+            PreparedStatement checkPs = conn.prepareStatement(checkSql);
+            checkPs.setString(1, phone);
+            checkPs.setString(2, email);
+            ResultSet rs = checkPs.executeQuery();
 
-        // Insert data into the database
-        try {
-            DBContext dbContext = new DBContext();
-            Connection conn = dbContext.getConnection();
-            String sql = "INSERT INTO Customer (CustomerName, Password, Email, Phone, Address) VALUES (?, ?, ?, ?, ?)";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, username);
-            stmt.setString(2, password);
-            stmt.setString(3, email);
-            stmt.setString(4, phone);
-            stmt.setString(5, address);
-            stmt.executeUpdate();
-            conn.close();
+            if (rs.next() && rs.getInt(1) > 0) {
+                request.setAttribute("errorMessage", "Phone number or email already exists.");
+                request.getRequestDispatcher("Register.jsp").forward(request, response);
+                return;
+            }
 
-            request.setAttribute("successMessage", "Registration successful!");
-            request.setAttribute("username", username);
-            request.setAttribute("email", email);
-            request.setAttribute("phone", phone);
-            request.setAttribute("address", address);
-            request.getRequestDispatcher("Login.jsp").forward(request, response);
+            String insertSql = "INSERT INTO Customer (Phone, CustomerName, Password, Email, Address) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement ps = conn.prepareStatement(insertSql);
+            ps.setString(1, phone);
+            ps.setString(2, username);
+            ps.setString(3, password);
+            ps.setString(4, email);
+            ps.setString(5, address);
+
+            int rowsInserted = ps.executeUpdate();
+            if (rowsInserted > 0) {
+                response.sendRedirect("Register.jsp");
+            } else {
+                request.setAttribute("errorMessage", "Registration failed. Please try again.");
+                request.getRequestDispatcher("Register.jsp").forward(request, response);
+            }
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("registerErrorMessage", "An error occurred. Please try again.");
-            request.getRequestDispatcher("Login.jsp").forward(request, response);
+            request.setAttribute("errorMessage", "An error occurred: " + e.getMessage());
+            request.getRequestDispatcher("Register.jsp").forward(request, response);
         }
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        processRequest(request, response);
-    } 
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    @Override
-    public String getServletInfo() {
-        return "Short description";
     }
 }

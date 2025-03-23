@@ -158,6 +158,32 @@ public class CustomerDAO extends DBContext {
         return false;
     }
 
+    public boolean isPhoneExists(String phone) throws Exception {
+        String query = "SELECT COUNT(*) FROM Customer WHERE phone = ?";
+        try (Connection connection = getConnection(); PreparedStatement stmt = connection.prepareStatement(query)) {
+
+            stmt.setString(1, phone);
+            ResultSet rs = stmt.executeQuery();
+            rs.next();
+            return rs.getInt(1) > 0;
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+    public boolean isEmailExists(String email) throws Exception {
+        String query = "SELECT COUNT(*) FROM Customer WHERE Email = ?";
+        try (Connection connection = getConnection(); PreparedStatement stmt = connection.prepareStatement(query)) {
+
+            stmt.setString(1, email);
+            ResultSet rs = stmt.executeQuery();
+            rs.next();
+            return rs.getInt(1) > 0;
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
     public static void main(String[] args) {
         CustomerDAO dao = new CustomerDAO();
         try {

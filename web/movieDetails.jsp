@@ -18,8 +18,7 @@
                 }
             });
 
-
-        </script>
+  </script>
     </head>
 
     <body>
@@ -50,6 +49,24 @@
                                 <input type="hidden" name="movieId" value="${movie.movieID}">
                                 <button type="submit" class="select-showtime-button">Select Showtime</button>
                             </form>
+                    $('.delete-button').click(function(e) {
+                        e.preventDefault();
+                        var reviewId = $(this).data('review-id');
+                        $.ajax({
+                            url: 'deleteComment',
+                            method: 'POST',
+                            data: {
+                                reviewId: reviewId
+                            },
+                            success: function(response) {
+                                if (response.success) {
+                                    $(`li[data-review-id="${reviewId}"]`).remove();
+                                }
+                            }
+                        });
+                    });
+                });
+            </script>
                         </div>
                     </div>
                 </div>

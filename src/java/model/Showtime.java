@@ -1,8 +1,10 @@
 package model;
 
+import java.security.Timestamp;
 import java.util.Date;
 
 public class Showtime {
+
     private int showtimeID;
     private Movie movieID;
     private Screen screenID;
@@ -10,7 +12,8 @@ public class Showtime {
     private Date endTime;
     private Admin adminID;
 
-    public Showtime() {}
+    public Showtime() {
+    }
 
     public int getShowtimeID() {
         return showtimeID;
@@ -60,10 +63,19 @@ public class Showtime {
         this.adminID = adminID;
     }
 
-    
+    public Showtime(int showtimeID, int movieID, int screenID, Date startTime, Date endTime, int adminID) {
+        this.showtimeID = showtimeID;
+        this.movieID = new Movie();
+        this.movieID.setMovieID(movieID);
+        this.screenID = new Screen();
+        this.screenID.setScreenID(screenID);
 
-    
-    
+        // Chuyển đổi Timestamp sang Date
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.adminID = new Admin();
+        this.adminID.setAdminId(adminID);
+    }
+
+
 }
-
-    

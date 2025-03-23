@@ -87,15 +87,15 @@ public class LoginMovieController extends HttpServlet {
             MovieDAO movieDAO = new MovieDAO();
             List<Movie> movies = movieDAO.getAllMovies();
             request.setAttribute("movies", movies);
-            request.getRequestDispatcher("view/CustomerHome.jsp").forward(request, response);
+           response.sendRedirect("movie");
         } else if (admin != null && admin.getPassword().equals(password)) {
             HttpSession session = request.getSession();
             session.setAttribute("admin", admin);
-            response.sendRedirect("view/AdminHome.jsp");
+             response.sendRedirect("AdminDashboard.jsp");
         } else {
             HttpSession session = request.getSession();
             session.setAttribute("loginErrorMessage", "Username or password incorrect");
-            response.sendRedirect("Login.jsp");
+            response.sendRedirect("login");
         }
 
     }

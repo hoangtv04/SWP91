@@ -1,0 +1,359 @@
+create database MovieTicketBooking
+go
+use MovieTicketBooking
+go
+CREATE TABLE Admin (
+    AdminID INT IDENTITY(1,1) PRIMARY KEY,
+    Name NVARCHAR(100) NOT NULL,
+    Email NVARCHAR(100) NOT NULL,
+    Password NVARCHAR(255) NOT NULL
+);
+
+CREATE TABLE Customer (
+    CustomerID INT IDENTITY(1,1) PRIMARY KEY,
+    Phone NVARCHAR(20) UNIQUE NOT NULL,
+    CustomerName NVARCHAR(100) NOT NULL,
+    Password NVARCHAR(255) NOT NULL,
+    Email NVARCHAR(100) NOT NULL,
+    Address NVARCHAR(MAX)
+);
+
+CREATE TABLE Movie (
+    MovieID INT IDENTITY(1,1) PRIMARY KEY,
+    Title NVARCHAR(255) NOT NULL,
+    Genre NVARCHAR(100) NOT NULL,
+    Duration INT NOT NULL,  -- Thời lượng phim (phút)
+    ReleaseDate DATE NOT NULL,
+    Description NVARCHAR(MAX)
+);
+
+CREATE TABLE Cinema (
+    CinemaID INT IDENTITY(1,1) PRIMARY KEY,
+    CinemaName NVARCHAR(255) NOT NULL,
+    Location NVARCHAR(MAX) NOT NULL,
+    NumberOfScreen INT NOT NULL,
+    AdminID INT NOT NULL,
+    FOREIGN KEY (AdminID) REFERENCES Admin(AdminID) ON DELETE NO ACTION   -- Không cho phép xóa Admin nếu còn rạp chiếu
+);
+
+CREATE TABLE Screen (
+    ScreenID INT IDENTITY(1,1) PRIMARY KEY,
+    CinemaID INT NOT NULL,
+    ScreenName NVARCHAR(100) NOT NULL,
+    TotalSeat INT NOT NULL,
+    FOREIGN KEY (CinemaID) REFERENCES Cinema(CinemaID) ON DELETE CASCADE
+);
+
+CREATE TABLE Seat (
+    SeatID INT IDENTITY(1,1) PRIMARY KEY,
+    ScreenID INT NOT NULL,
+    SeatNumber NVARCHAR(10) NOT NULL,
+    SeatType NVARCHAR(10) NOT NULL CHECK (SeatType IN ('VIP', 'Standard')),
+    Price DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (ScreenID) REFERENCES Screen(ScreenID) ON DELETE CASCADE
+);
+
+CREATE TABLE Showtime (
+    ShowtimeID INT IDENTITY(1,1) PRIMARY KEY,
+    MovieID INT NOT NULL,
+    ScreenID INT NOT NULL,
+    StartTime DATETIME NOT NULL,
+    EndTime DATETIME NOT NULL,
+    AdminID INT NULL,  -- Cho phép NULL
+    FOREIGN KEY (MovieID) REFERENCES Movie(MovieID) ON DELETE CASCADE,
+    FOREIGN KEY (ScreenID) REFERENCES Screen(ScreenID) ON DELETE CASCADE,
+    FOREIGN KEY (AdminID) REFERENCES Admin(AdminID) ON DELETE SET NULL  -- Chỉnh sửa
+);
+
+CREATE TABLE Booking (
+    BookingID INT IDENTITY(1,1) PRIMARY KEY,
+    CustomerID INT NOT NULL,
+    BookingDate DATETIME NOT NULL DEFAULT GETDATE(),
+    TotalPrice DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID) ON DELETE CASCADE
+);
+
+CREATE TABLE Ticket (
+    TicketID INT IDENTITY(1,1) PRIMARY KEY,
+    BookingID INT NOT NULL,
+    ShowtimeID INT NOT NULL,
+    SeatID INT NOT NULL,
+    Price DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (BookingID) REFERENCES Booking(BookingID) ON DELETE CASCADE,
+    FOREIGN KEY (ShowtimeID) REFERENCES Showtime(ShowtimeID) ON DELETE NO ACTION,
+    FOREIGN KEY (SeatID) REFERENCES Seat(SeatID) ON DELETE NO ACTION -- Khi Booking bị xóa, tất cả Ticket liên quan sẽ bị xóa. Nếu chỉ xóa suất chiếu hoặc ghế, vé vẫn tồn tại.
+);
+
+
+CREATE TABLE Review (
+    ReviewID INT IDENTITY(1,1) PRIMARY KEY,
+    CustomerID INT NOT NULL,
+    MovieID INT NOT NULL,
+    Rating INT CHECK (Rating BETWEEN 1 AND 5),
+    Comment NVARCHAR(MAX),
+    ReviewDate DATETIME NOT NULL DEFAULT GETDATE(),
+    FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID) ON DELETE CASCADE,
+    FOREIGN KEY (MovieID) REFERENCES Movie(MovieID) ON DELETE CASCADE
+);
+
+CREATE TABLE Voucher (
+    VoucherID INT IDENTITY(1,1) PRIMARY KEY,
+    Code NVARCHAR(50) UNIQUE NOT NULL,
+    DiscountAmount DECIMAL(10,2) NOT NULL,
+    ExpiryDate DATE NOT NULL,
+    AdminID INT NULL,  -- Cho phép NULL
+    FOREIGN KEY (AdminID) REFERENCES Admin(AdminID) ON DELETE SET NULL  -- Chỉnh sửa
+);
+
+CREATE TABLE Booking_Voucher (
+    BookingID INT NOT NULL,
+    VoucherID INT NOT NULL,
+    PRIMARY KEY (BookingID, VoucherID),
+    FOREIGN KEY (BookingID) REFERENCES Booking(BookingID) ON DELETE CASCADE,
+    FOREIGN KEY (VoucherID) REFERENCES Voucher(VoucherID) ON DELETE CASCADE
+);
+
+-- Insert data into Admin table
+SET IDENTITY_INSERT [dbo].[Admin] ON
+INSERT INTO [dbo].[Admin] ([AdminID], [Name], [Email], [Password])
+VALUES 
+(1, 'Quy', 'quy@gmail.com', 'admin1'),
+(2, 'Long', 'long@gmail.com', 'admin2')
+SET IDENTITY_INSERT [dbo].[Admin] OFF
+GO
+
+-- Insert data into Customer table
+SET IDENTITY_INSERT [dbo].[Customer] ON
+INSERT INTO [dbo].[Customer] ([CustomerID], [Phone], [CustomerName], [Password], [Email], [Address])
+VALUES 
+(1, '0123456789', 'Hieu', '123', 'hieu@gmail.com', 'Thanh Hoa'),
+(2, '0987654321', 'Hoang', '456', 'hoang@gmail.com', 'HN')
+SET IDENTITY_INSERT [dbo].[Customer] OFF
+GO
+
+-- Insert data into Cinema table
+SET IDENTITY_INSERT [dbo].[Cinema] ON
+INSERT INTO [dbo].[Cinema] ([CinemaID], [CinemaName], [Location], [NumberOfScreen], [AdminID])
+VALUES 
+(1, 'Alpha', 'Hanoi', 3, 1),
+(2, 'Beta', 'HCM', 5, 2)
+SET IDENTITY_INSERT [dbo].[Cinema] OFF
+GO
+
+-- Insert data into Screen table for Cinema1
+SET IDENTITY_INSERT [dbo].[Screen] ON
+INSERT INTO [dbo].[Screen] ([ScreenID], [CinemaID], [ScreenName], [TotalSeat])
+VALUES 
+(1, 1, 'Screen A1', 70),
+(2, 1, 'Screen A2', 80),
+(3, 1, 'Screen A3', 90)
+SET IDENTITY_INSERT [dbo].[Screen] OFF
+GO
+
+-- Insert data into Screen table for Cinema2
+SET IDENTITY_INSERT [dbo].[Screen] ON
+INSERT INTO [dbo].[Screen] ([ScreenID], [CinemaID], [ScreenName], [TotalSeat])
+VALUES 
+(4, 2, 'Screen B1', 100),
+(5, 2, 'Screen B2', 95),
+(6, 2, 'Screen B3', 80),
+(7, 2, 'Screen B4', 85),
+(8, 2, 'Screen B5', 75)
+SET IDENTITY_INSERT [dbo].[Screen] OFF
+GO
+
+-- Insert data into Movie table
+SET IDENTITY_INSERT [dbo].[Movie] ON
+INSERT INTO [dbo].[Movie] ([MovieID], [Title], [Genre], [Duration], [ReleaseDate], [Description])
+VALUES 
+(1, 'Rider: Giao Hàng Cho Ma', 'Kinh dị, Giật gân', 120, '2025-02-14', 'Phim kể về một tài xế giao hàng ban đêm liên tục gặp phải những sự kiện kỳ lạ và kinh hoàng khi nhận đơn hàng từ một địa chỉ bí ẩn. Càng đi sâu vào công việc, anh dần nhận ra mình không chỉ đơn thuần giao hàng mà còn bị cuốn vào một thế lực siêu nhiên đáng sợ.'),
+(2, 'Bộ Tứ Báo Thủ', 'Hài hước, Hành động', 130, '2025-01-29', 'Một nhóm bốn người bạn với những tính cách và kỹ năng khác nhau vô tình bị cuốn vào một âm mưu lớn. Dù không phải là anh hùng chuyên nghiệp,họ vẫn quyết tâm chống lại những thế lực xấu xa bằng cách hài hước và độc đáo của riêng mình.'),
+(3, 'Đèn Âm Hồn', 'Kinh dị, Tâm linh', 110, '2025-02-07', 'Một chiếc đèn cổ bị ám bởi linh hồn oán hận,   khiến những ai sử dụng nó đều gặp phải những sự kiện kinh hoàng.Một nhóm người vô tình sở hữu chiếc đèn này và bắt đầu trải qua những hiện tượng siêu nhiên đầy ám ảnh.'),
+(4, 'DARK NUNS', 'Kinh dị, Tâm linh', 140, '2025-02-20', 'Phần tiếp theo của bộ phim The Priests, tiếp tục khai thác những nghi thức trừ tà và cuộc chiến chống lại quỷ dữ. Lần này,    các linh mục phải đối đầu với một giáo phái tà ác do các nữ tu đen tối lãnh đạo, che giấu những bí mật kinh hoàng trong tu viện.'),
+(5, 'Nhà Gia Tiên', 'Kinh dị, Tâm lý', 115, '2025-02-21', 'Một gia đình trở về quê để thừa kế căn nhà tổ tiên, nhưng họ nhanh chóng nhận ra ngôi nhà chứa đựng những bí ẩn và lời nguyền đen tối. Những hiện tượng siêu nhiên bắt đầu xuất hiện, khiến họ phải đối mặt với quá khứ đáng sợ của dòng họ.')
+SET IDENTITY_INSERT [dbo].[Movie] OFF
+GO
+
+-- Insert data into Review table
+SET IDENTITY_INSERT [dbo].[Review] ON
+INSERT INTO [dbo].[Review] ([ReviewID], [CustomerID], [MovieID], [Rating], [Comment], [ReviewDate])
+VALUES 
+(1, 1, 1, 5, 'An epic action-packed adventure. Highly recommended!', GETDATE()),
+(2, 2, 1, 4, 'Exciting and thrilling, but a bit too long.', GETDATE()),
+(3, 1, 2, 4, 'A comedy that will make you laugh out loud. Very funny!', GETDATE()),
+(4, 2, 2, 3, 'Some jokes were great, others fell flat.', GETDATE()),
+(5, 1, 3, 5, 'A touching story about love and family. Very emotional.', GETDATE()),
+(6, 2, 3, 4, 'Heartfelt and moving, but a bit slow at times.', GETDATE()),
+(7, 1, 4, 4, 'A terrifying tale of a haunted street. Quite scary!', GETDATE()),
+(8, 2, 4, 3, 'Had some good scares, but predictable plot.', GETDATE()),
+(9, 1, 5, 5, 'An epic journey to Mars. Fascinating and well-made.', GETDATE()),
+(10, 2, 5, 4, 'Great visuals and story, but a bit too long.', GETDATE())
+SET IDENTITY_INSERT [dbo].[Review] OFF
+GO
+
+-- Insert data into Seat table
+DECLARE @ScreenID INT, @SeatNumber INT, @Row CHAR(1), @SeatType NVARCHAR(10), @Price DECIMAL(10, 2)
+
+DECLARE ScreenCursor CURSOR FOR
+SELECT [ScreenID] FROM [dbo].[Screen]
+
+OPEN ScreenCursor
+FETCH NEXT FROM ScreenCursor INTO @ScreenID
+
+WHILE @@FETCH_STATUS = 0
+BEGIN
+    SET @SeatNumber = 1
+    SET @Row = 'A'
+    WHILE @SeatNumber <= 100
+    BEGIN
+        IF @SeatNumber <= 40
+            SET @SeatType = 'Standard'
+        ELSE
+            SET @SeatType = 'VIP'
+
+        IF @SeatType = 'Standard'
+            SET @Price = 10.00
+        ELSE
+            SET @Price = 20.00
+
+        INSERT INTO [dbo].[Seat] ([ScreenID], [SeatNumber], [SeatType], [Price])
+        VALUES (@ScreenID, @Row + CAST((@SeatNumber % 10) AS NVARCHAR(10)), @SeatType, @Price)
+
+        SET @SeatNumber = @SeatNumber + 1
+        IF @SeatNumber % 10 = 1
+            SET @Row = CHAR(ASCII(@Row) + 1)
+    END
+
+    FETCH NEXT FROM ScreenCursor INTO @ScreenID
+END
+
+CLOSE ScreenCursor
+DEALLOCATE ScreenCursor
+GO
+-- Insert new data into Showtime table ensuring no overlapping showtimes within the same screen and cinema
+SET IDENTITY_INSERT [dbo].[Showtime] ON
+
+-- Cinema1, Screen1
+INSERT INTO [dbo].[Showtime] ([ShowtimeID], [MovieID], [ScreenID], [StartTime], [EndTime], [AdminID])
+VALUES 
+(1, 1, 1, '2025-02-17 10:00:00', '2025-02-17 12:05:00', 1),
+(2, 2, 1, '2025-02-17 12:30:00', '2025-02-17 14:05:00', 1),
+(3, 3, 1, '2025-02-17 14:30:00', '2025-02-17 16:25:00', 1),
+(4, 4, 1, '2025-02-17 17:00:00', '2025-02-17 18:45:00', 1),
+(5, 5, 1, '2025-02-17 19:00:00', '2025-02-17 21:15:00', 1),
+(6, 1, 1, '2025-02-18 10:00:00', '2025-02-18 12:05:00', 1),
+(7, 2, 1, '2025-02-18 12:30:00', '2025-02-18 14:05:00', 1),
+(8, 3, 1, '2025-02-18 14:30:00', '2025-02-18 16:25:00', 1),
+(9, 4, 1, '2025-02-18 17:00:00', '2025-02-18 18:45:00', 1),
+(10, 5, 1, '2025-02-18 19:00:00', '2025-02-18 21:15:00', 1)
+GO
+
+-- Cinema1, Screen2
+INSERT INTO [dbo].[Showtime] ([ShowtimeID], [MovieID], [ScreenID], [StartTime], [EndTime], [AdminID])
+VALUES
+-- Cinema1, Screen2
+INSERT INTO [dbo].[Showtime] ([ShowtimeID], [MovieID], [ScreenID], [StartTime], [EndTime], [AdminID])
+VALUES 
+(11, 1, 2, '2025-02-17 10:00:00', '2025-02-17 12:05:00', 1),
+(12, 2, 2, '2025-02-17 12:30:00', '2025-02-17 14:05:00', 1),
+(13, 3, 2, '2025-02-17 14:30:00', '2025-02-17 16:25:00', 1),
+(14, 4, 2, '2025-02-17 17:00:00', '2025-02-17 18:45:00', 1),
+(15, 5, 2, '2025-02-17 19:00:00', '2025-02-17 21:15:00', 1),
+(16, 1, 2, '2025-02-18 10:00:00', '2025-02-18 12:05:00', 1),
+(17, 2, 2, '2025-02-18 12:30:00', '2025-02-18 14:05:00', 1),
+(18, 3, 2, '2025-02-18 14:30:00', '2025-02-18 16:25:00', 1),
+(19, 4, 2, '2025-02-18 17:00:00', '2025-02-18 18:45:00', 1),
+(20, 5, 2, '2025-02-18 19:00:00', '2025-02-18 21:15:00', 1)
+GO
+
+-- Cinema1, Screen3
+INSERT INTO [dbo].[Showtime] ([ShowtimeID], [MovieID], [ScreenID], [StartTime], [EndTime], [AdminID])
+VALUES 
+(21, 1, 3, '2025-02-17 10:00:00', '2025-02-17 12:05:00', 1),
+(22, 2, 3, '2025-02-17 12:30:00', '2025-02-17 14:05:00', 1),
+(23, 3, 3, '2025-02-17 14:30:00', '2025-02-17 16:25:00', 1),
+(24, 4, 3, '2025-02-17 17:00:00', '2025-02-17 18:45:00', 1),
+(25, 5, 3, '2025-02-17 19:00:00', '2025-02-17 21:15:00', 1),
+(26, 1, 3, '2025-02-18 10:00:00', '2025-02-18 12:05:00', 1),
+(27, 2, 3, '2025-02-18 12:30:00', '2025-02-18 14:05:00', 1),
+(28, 3, 3, '2025-02-18 14:30:00', '2025-02-18 16:25:00', 1),
+(29, 4, 3, '2025-02-18 17:00:00', '2025-02-18 18:45:00', 1),
+(30, 5, 3, '2025-02-18 19:00:00', '2025-02-18 21:15:00', 1)
+GO
+
+-- Cinema2, Screen1
+INSERT INTO [dbo].[Showtime] ([ShowtimeID], [MovieID], [ScreenID], [StartTime], [EndTime], [AdminID])
+VALUES 
+(31, 1, 4, '2025-02-17 10:00:00', '2025-02-17 12:05:00', 2),
+(32, 2, 4, '2025-02-17 12:30:00', '2025-02-17 14:05:00', 2),
+(33, 3, 4, '2025-02-17 14:30:00', '2025-02-17 16:25:00', 2),
+(34, 4, 4, '2025-02-17 17:00:00', '2025-02-17 18:45:00', 2),
+(35, 5, 4, '2025-02-17 19:00:00', '2025-02-17 21:15:00', 2),
+(36, 1, 4, '2025-02-18 10:00:00', '2025-02-18 12:05:00', 2),
+(37, 2, 4, '2025-02-18 12:30:00', '2025-02-18 14:05:00', 2),
+(38, 3, 4, '2025-02-18 14:30:00', '2025-02-18 16:25:00', 2),
+(39, 4, 4, '2025-02-18 17:00:00', '2025-02-18 18:45:00', 2),
+(40, 5, 4, '2025-02-18 19:00:00', '2025-02-18 21:15:00', 2)
+GO
+
+-- Cinema2, Screen2
+INSERT INTO [dbo].[Showtime] ([ShowtimeID], [MovieID], [ScreenID], [StartTime], [EndTime], [AdminID])
+VALUES 
+(41, 1, 5, '2025-02-17 10:00:00', '2025-02-17 12:05:00', 2),
+(42, 2, 5, '2025-02-17 12:30:00', '2025-02-17 14:05:00', 2),
+(43, 3, 5, '2025-02-17 14:30:00', '2025-02-17 16:25:00', 2),
+(44, 4, 5, '2025-02-17 17:00:00', '2025-02-17 18:45:00', 2),
+(45, 5, 5, '2025-02-17 19:00:00', '2025-02-17 21:15:00', 2),
+(46, 1, 5, '2025-02-18 10:00:00', '2025-02-18 12:05:00', 2),
+(47, 2, 5, '2025-02-18 12:30:00', '2025-02-18 14:05:00', 2),
+(48, 3, 5, '2025-02-18 14:30:00', '2025-02-18 16:25:00', 2),
+(49, 4, 5, '2025-02-18 17:00:00', '2025-02-18 18:45:00', 2),
+(50, 5, 5, '2025-02-18 19:00:00', '2025-02-18 21:15:00', 2)
+GO
+
+-- Cinema2, Screen3
+INSERT INTO [dbo].[Showtime] ([ShowtimeID], [MovieID], [ScreenID], [StartTime], [EndTime], [AdminID])
+VALUES 
+(51, 1, 6, '2025-02-17 10:00:00', '2025-02-17 12:05:00', 2),
+(52, 2, 6, '2025-02-17 12:30:00', '2025-02-17 14:05:00', 2),
+(53, 3, 6, '2025-02-17 14:30:00', '2025-02-17 16:25:00', 2),
+(54, 4, 6, '2025-02-17 17:00:00', '2025-02-17 18:45:00', 2),
+(55, 5, 6, '2025-02-17 19:00:00', '2025-02-17 21:15:00', 2),
+(56, 1, 6, '2025-02-18 10:00:00', '2025-02-18 12:05:00', 2),
+(57, 2, 6, '2025-02-18 12:30:00', '2025-02-18 14:05:00', 2),
+(58, 3, 6, '2025-02-18 14:30:00', '2025-02-18 16:25:00', 2),
+(59, 4, 6, '2025-02-18 17:00:00', '2025-02-18 18:45:00', 2),
+(60, 5, 6, '2025-02-18 19:00:00', '2025-02-18 21:15:00', 2)
+GO
+
+-- Cinema2, Screen4
+INSERT INTO [dbo].[Showtime] ([ShowtimeID], [MovieID], [ScreenID], [StartTime], [EndTime], [AdminID])
+VALUES 
+(61, 1, 7, '2025-02-17 10:00:00', '2025-02-17 12:05:00', 2),
+(62, 2, 7, '2025-02-17 12:30:00', '2025-02-17 14:05:00', 2),
+(63, 3, 7, '2025-02-17 14:30:00', '2025-02-17 16:25:00', 2),
+(64, 4, 7, '2025-02-17 17:00:00', '2025-02-17 18:45:00', 2),
+(65, 5, 7, '2025-02-17 19:00:00', '2025-02-17 21:15:00', 2),
+(66, 1, 7, '2025-02-18 10:00:00', '2025-02-18 12:05:00', 2),
+(67, 2, 7, '2025-02-18 12:30:00', '2025-02-18 14:05:00', 2),
+(68, 3, 7, '2025-02-18 14:30:00', '2025-02-18 16:25:00', 2),
+(69, 4, 7, '2025-02-18 17:00:00', '2025-02-18 18:45:00', 2),
+(70, 5, 7, '2025-02-18 19:00:00', '2025-02-18 21:15:00', 2)
+GO
+
+-- Cinema2, Screen5
+INSERT INTO [dbo].[Showtime] ([ShowtimeID], [MovieID], [ScreenID], [StartTime], [EndTime], [AdminID])
+VALUES 
+(71, 1, 8, '2025-02-17 10:00:00', '2025-02-17 12:05:00', 2),
+(72, 2, 8, '2025-02-17 12:30:00', '2025-02-17 14:05:00', 2),
+(73, 3, 8, '2025-02-17 14:30:00', '2025-02-17 16:25:00', 2),
+(74, 4, 8, '2025-02-17 17:00:00', '2025-02-17 18:45:00', 2),
+(75, 5, 8, '2025-02-17 19:00:00', '2025-02-17 21:15:00', 2),
+(76, 1, 8, '2025-02-18 10:00:00', '2025-02-18 12:05:00', 2),
+(77, 2, 8, '2025-02-18 12:30:00', '2025-02-18 14:05:00', 2),
+(78, 3, 8, '2025-02-18 14:30:00', '2025-02-18 16:25:00', 2),
+(79, 4, 8, '2025-02-18 17:00:00', '2025-02-18 18:45:00', 2),
+(80, 5, 8, '2025-02-18 19:00:00', '2025-02-18 21:15:00', 2)
+GO
+
+SET IDENTITY_INSERT [dbo].[Showtime] OFF

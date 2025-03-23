@@ -28,7 +28,16 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/confirmBooking.css">
         <title>Confirm Booking</title>
-        
+<script>
+            window.addEventListener('scroll', function () {
+                var nav = document.getElementById('main-nav');
+                if (window.scrollY > 0) {
+                    nav.classList.add('sticky');
+                } else {
+                    nav.classList.remove('sticky');
+                }
+            });
+        </script>
     </head>
     <body>
         <header class="header">
@@ -37,12 +46,12 @@
 
         <nav id="main-nav">
             <a href="index.jsp">Home</a>
-            <a href="movies.jsp">Movies</a>
+            <a href="movie">Movies</a>
             <a href="contact.jsp">Contact</a>
         </nav>
 
         <div class="container">
-            <div class="content">
+<div class="content">
                 <div class="qr-code">
                     <h3>Scan to Pay</h3>
                     <img src="<%= qrCodeUrl %>" alt="QR Code for Payment">
@@ -69,9 +78,39 @@
                     <button type="submit" class="confirm-booking-button">Done</button>
 
                 </div>
+=======
+
+            <div class="title-movie"> 
+                <h2><%= movieName %></h2>
             </div>
+
+            <div class="qr-code">
+                <h3>Scan to Pay</h3>
+                <img src="<%= qrCodeUrl %>" alt="QR Code for Payment">
+            </div>
+
+            <p><strong>Cinema:</strong> <%= cinemaName %></p>
+            <p><strong>Screen:</strong> <%= screenName %></p>
+            <p><strong>Seats:</strong>
+                <%
+                    if (selectedSeats != null) {
+                        for (Seat seat : selectedSeats) {
+                %>
+            <p><%= seat.getSeatNumber() %> : <%= seat.getSeatType() %> : $<%= seat.getPrice() %></p>
+            <%
+                    }
+                }
+            %>
+            <br>
+            <p><strong>Total Price:</strong> $<%= totalPrice %></p>
+
+            <div class="confirm-booking-button-container">
+
+                <button type="submit" class="confirm-booking-button" onclick="confirmBooking(event)">Done</button>
+            </div>
+
         </div>
-        <script>
+ <script>
             document.querySelector('.confirm-booking-button').addEventListener('click', function(event) {
                 event.preventDefault();
                 alert('Booking Success');
