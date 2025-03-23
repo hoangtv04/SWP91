@@ -95,7 +95,7 @@ public class LoginMovieController extends HttpServlet {
         } else {
             HttpSession session = request.getSession();
             session.setAttribute("loginErrorMessage", "Username or password incorrect");
-            response.sendRedirect("Login.jsp");
+            response.sendRedirect("login");
         }
 
     }

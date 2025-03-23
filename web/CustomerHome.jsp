@@ -25,28 +25,28 @@
                 margin-top: 20px;
             }
             .row {
-                margin-bottom: 20px; /* Add margin to the bottom of each row */
+                margin-bottom: 20px;
             }
             .movie-item {
-                margin-bottom: 20px; /* Add margin to the bottom of each movie item */
-                border: 2px solid #fff; /* White border */
+                margin-bottom: 20px;
+                border: 2px solid #fff;
                 border-radius: 5px;
                 padding: 10px;
                 background-color: #fff;
-                transition: transform 0.3s ease; /* Transition for the entire movie item */
-                position: relative; /* Add relative positioning */
+                transition: transform 0.3s ease;
+                position: relative;
             }
             .movie-item:hover {
-                transform: scale(1.05); /* Scale the entire movie item on hover */
+                transform: scale(1.05);
             }
             .movie-item h2 {
                 font-size: 20px;
                 font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
                 color: #333;
-                transition: text-decoration 0.3s ease; /* Transition for the underline effect */
+                transition: text-decoration 0.3s ease;
             }
             .movie-item h2:hover {
-                text-decoration: underline; /* Underline the movie title on hover */
+                text-decoration: underline;
             }
             .movie-item p {
                 margin: 5px 0;
@@ -95,28 +95,28 @@
                 width: 5%;
             }
             .navbar-nav {
-                margin: 0 auto; /* Center the navbar items */
+                margin: 0 auto;
             }
             .nav-item {
-                padding: 0 15px; /* Add padding to the navbar items */
+                padding: 0 15px;
             }
             .nav-link {
                 font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
                 font-size: 16px;
                 color: #333;
-                transition: color 0.3s ease; /* Transition for the color change */
+                transition: color 0.3s ease;
             }
             .nav-link:hover {
-                color: #007bff; /* Change color on hover */
+                color: #007bff;
             }
             .footer {
                 background-color: #636367c6;
-                padding: 40px 0; /* Increase padding */
+                padding: 40px 0;
                 text-align: center;
                 border-top: 1px solid #fafafa;
                 margin-top: 20px;
                 font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-                font-size: 16px; /* Decrease font size */
+                font-size: 16px;
                 color: #f9f9f9;
             }
             .footer p {
@@ -143,7 +143,6 @@
         </style>
     </head>
     <body>
-        <!-- Navbar Section -->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -151,20 +150,11 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto"> <!-- Align the navbar items to the right -->
                     <li class="nav-item active">
-                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Movies</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Contact</a>
+                        <a class="nav-link" href="movie">Home <span class="sr-only">(current)</span></a>
                     </li>
                 </ul>
-              <form class="form-inline my-2 my-lg-0" action="Login.jsp" method="post">
-       <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Logout</button>
+                <form class="form-inline my-2 my-lg-0" action="Login.jsp" method="post">
+                    <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Logout</button>
                 </form>
             </div>
         </nav>
@@ -206,10 +196,19 @@
             </a>
         </div>
 
+        <!-- Now Showing and Coming Soon Section -->
+        <div class="container mt-4 text-center">
+            <a class="btn btn-primary mx-2" href="nowShowing.jsp">Now Showing</a>
+            <a class="btn btn-secondary mx-2" href="comingSoon.jsp">Coming Soon</a>
+        </div>
+
         <div class="container">
             <%
                 List<Movie> movies = (List<Movie>) request.getAttribute("movies");
                 if (movies != null && !movies.isEmpty()) {
+                    // Sắp xếp danh sách movies theo ID
+                    movies.sort((m1, m2) -> Integer.compare(m1.getMovieID(), m2.getMovieID()));
+
                     int index = 1;
                     for (int i = 0; i < movies.size(); i++) {
                         if (i % 3 == 0) {
@@ -220,7 +219,7 @@
             %>
                 <div class="col-md-4 movie-item">
                     <div class="card h-100 d-flex flex-column">
-                        <img src="images poster/phim<%= index %>.jpg" class="card-img-top" alt="<%= movies.get(i).getTitle() %>">
+                        <img src="images poster/phim<%= movies.get(i).getMovieID() %>.jpg" class="card-img-top" alt="<%= movies.get(i).getTitle() %>">
                         <div class="see-more-overlay">
                             <a href="movieDetails?movieId=<%= movies.get(i).getMovieID() %>" class="btn btn-primary">See More</a>
                         </div>
