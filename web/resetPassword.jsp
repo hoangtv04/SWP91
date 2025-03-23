@@ -15,9 +15,10 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            margin: 0;
         }
         .reset-password-container {
-            background: #fff;
+            background: rgba(255, 255, 255, 0.9); /* Add transparency */
             padding: 20px;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -32,7 +33,8 @@
             display: block;
             margin-bottom: 5px;
         }
-        .reset-password-container input[type="password"] {
+        .reset-password-container input[type="password"],
+        .reset-password-container input[type="submit"] {
             width: 100%;
             padding: 10px;
             margin-bottom: 10px;
@@ -41,14 +43,10 @@
             box-sizing: border-box;
         }
         .reset-password-container input[type="submit"] {
-            width: 100%;
-            padding: 10px;
             background: #007bff;
             color: #fff;
             border: none;
-            border-radius: 5px;
             cursor: pointer;
-            box-sizing: border-box;
         }
         .reset-password-container input[type="submit"]:hover {
             background: #0056b3;
@@ -61,7 +59,6 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            box-sizing: border-box;
             margin-top: 10px;
         }
         .reset-password-container button:hover {
@@ -77,7 +74,7 @@
         }
     </style>
     <script>
-        function validatePasswords(event) {
+function validatePasswords(event) {
             const newPassword = document.getElementById('new-password').value;
             const confirmNewPassword = document.getElementById('confirm-new-password').value;
             const errorMessage = document.getElementById('error-message');
@@ -96,17 +93,15 @@
 <body>
     <div class="reset-password-container">
         <h1>Reset Password</h1>
-        <form action="resetPassword" method="post" onsubmit="return validatePasswords(event)">
+      <form action="resetPassword" method="post" onsubmit="return validatePasswords(event)">
             <input type="hidden" name="email" value="<%= request.getParameter("email") %>">
             
             <label for="new-password">New Password:</label>
             <input type="password" id="new-password" name="newPassword" required>
-            
             <label for="confirm-new-password">Confirm New Password:</label>
             <input type="password" id="confirm-new-password" name="confirmNewPassword" required>
             
             <div id="error-message" class="error-message"></div>
-            
             <input type="submit" value="Reset Password">
         </form>
         <% String message = (String) request.getAttribute("message"); if (message != null) { %>

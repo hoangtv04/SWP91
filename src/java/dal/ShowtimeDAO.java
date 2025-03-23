@@ -7,8 +7,12 @@ import model.Screen;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Admin;
 import model.Movie;
 
@@ -82,6 +86,47 @@ public class ShowtimeDAO extends DBContext {
             e.printStackTrace();
         }
         return screens;
+    }
+
+    public List<Showtime> getAllShowtimes() {
+        List<Showtime> showtimes = new ArrayList<>();
+        String sql = "SELECT s.ShowtimeID, m.MovieID, m.Title AS MovieTitle, sc.ScreenID, sc.ScreenName, s.StartTime, s.EndTime, a.AdminID "
+                + "FROM Showtime s "
+                + "JOIN Movie m ON s.MovieID = m.MovieID "
+                + "JOIN Screen sc ON s.ScreenID = sc.ScreenID "
+                + "JOIN Admin a ON s.AdminID = a.AdminID";
+
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Showtime showtime = new Showtime();
+                showtime.setShowtimeID(rs.getInt("ShowtimeID"));
+                showtime.setStartTime(rs.getTimestamp("StartTime"));
+                showtime.setEndTime(rs.getTimestamp("EndTime"));
+
+                // Gán thông tin Movie
+                Movie movie = new Movie();
+                movie.setMovieID(rs.getInt("MovieID"));
+                movie.setTitle(rs.getString("MovieTitle"));
+                showtime.setMovieID(movie);
+
+                // Gán thông tin Screen
+                Screen screen = new Screen();
+                screen.setScreenID(rs.getInt("ScreenID"));
+                screen.setScreenName(rs.getString("ScreenName"));
+                showtime.setScreenID(screen);
+
+                // Gán thông tin Admin
+                Admin admin = new Admin();
+                admin.setAdminId(rs.getInt("AdminID"));
+                showtime.setAdminID(admin);
+
+                showtimes.add(showtime);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return showtimes;
     }
 
     public List<Showtime> getShowtimesByCinemaScreenAndMovie(int cinemaId, int screenId, int movieId) {
@@ -197,4 +242,31 @@ public class ShowtimeDAO extends DBContext {
         return showtime;
     }
 
+    public void addShowtime(Showtime showtime) {
+        String sql = "INSERT INTO Showtime (MovieID, ScreenID, StartTime, EndTime, AdminID) VALUES (?, ?, ?, ?, ?)";
+
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, showtime.getMovieID().getMovieID());
+            ps.setInt(2, showtime.getScreenID().getScreenID());
+            ps.setTimestamp(3, new Timestamp(showtime.getStartTime().getTime()));
+            ps.setTimestamp(4, new Timestamp(showtime.getEndTime().getTime()));
+            ps.setInt(5, showtime.getAdminID().getAdminId());
+
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public boolean deleteShowtime(int showtimeID) {
+        String sql = "DELETE FROM Showtime WHERE showtimeID = ?";
+
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, showtimeID);
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

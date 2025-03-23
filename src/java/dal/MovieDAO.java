@@ -10,9 +10,12 @@ import model.Seat;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Admin;
 
 public class MovieDAO extends DBContext {
@@ -31,6 +34,7 @@ public class MovieDAO extends DBContext {
                 movie.setDuration(rs.getInt("Duration"));
                 movie.setReleaseDate(rs.getDate("ReleaseDate"));
                 movie.setDescription(rs.getString("Description"));
+                movie.setStatus(rs.getString("Status"));
                 movies.add(movie);
             }
         } catch (Exception e) {
@@ -54,6 +58,7 @@ public class MovieDAO extends DBContext {
                     movie.setDuration(rs.getInt("duration"));
                     movie.setReleaseDate(rs.getDate("releaseDate"));
                     movie.setDescription(rs.getString("description"));
+                    movie.setStatus(rs.getString("status"));
                 }
             }
         } catch (Exception e) {
@@ -134,6 +139,62 @@ public class MovieDAO extends DBContext {
         return reviews;
     }
 
+    public boolean addMovie(Movie movie) {
+        String sql = "INSERT INTO Movie (title, genre, duration, releaseDate, description, status) VALUES (?, ?, ?, ?, ?, ?)";
+        try (Connection conn = this.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, movie.getTitle());
+            ps.setString(2, movie.getGenre());
+            ps.setInt(3, movie.getDuration());
+            ps.setDate(4, new java.sql.Date(movie.getReleaseDate().getTime()));
+            ps.setString(5, movie.getDescription());
+            ps.setString(6, movie.getStatus());
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException ex) {
+            Logger.getLogger(MovieDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            Logger.getLogger(MovieDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return false;
+    }
+    
+    public boolean updateMovie(Movie movie) {
+        String sql = "UPDATE Movie SET title = ?, genre = ?, duration = ?, releaseDate = ?, description = ?, status = ? WHERE movieID = ?";
+        try (Connection conn = this.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, movie.getTitle());
+            ps.setString(2, movie.getGenre());
+            ps.setInt(3, movie.getDuration());
+            ps.setDate(4, new java.sql.Date(movie.getReleaseDate().getTime()));
+            ps.setString(5, movie.getDescription());
+            ps.setString(6, movie.getStatus());
+            ps.setInt(7, movie.getMovieID());
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException ex) {
+            Logger.getLogger(MovieDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            Logger.getLogger(MovieDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return false;
+    }
+
+    public boolean deleteMovie(int movieID) {
+        String sql = "DELETE FROM Movie WHERE movieID = ?";
+        try (Connection conn = this.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, movieID);
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException ex) {
+            Logger.getLogger(MovieDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            Logger.getLogger(MovieDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return false;
+    }
+    
     public void addReview(Review review) {
         String sql = "INSERT INTO Review (CustomerID, MovieID, Rating, Comment, ReviewDate) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = getConnection();

@@ -21,9 +21,10 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            margin: 0;
         }
         .forgot-password-container {
-            background: #fff;
+            background: rgba(255, 255, 255, 0.9); /* Add transparency */
             padding: 20px;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
