@@ -48,7 +48,7 @@
                                 <input type="hidden" name="movieId" value="${movie.movieID}">
                                 <button type="submit" class="select-showtime-button">Select Showtime</button>
                             </form>
-
+                          </script>
                         </div>
                     </div>
                 </div>
