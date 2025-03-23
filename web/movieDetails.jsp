@@ -27,8 +27,7 @@
         </header>
 
         <nav id="main-nav">
-            <a href="index.jsp">Home</a>
-            <a href="movies.jsp">Movies</a>
+            <a href="movie">Home</a>
             <a href="contact.jsp">Contact</a>
         </nav>
 
@@ -49,23 +48,6 @@
                                 <input type="hidden" name="movieId" value="${movie.movieID}">
                                 <button type="submit" class="select-showtime-button">Select Showtime</button>
                             </form>
-                    $('.delete-button').click(function(e) {
-                        e.preventDefault();
-                        var reviewId = $(this).data('review-id');
-                        $.ajax({
-                            url: 'deleteComment',
-                            method: 'POST',
-                            data: {
-                                reviewId: reviewId
-                            },
-                            success: function(response) {
-                                if (response.success) {
-                                    $(`li[data-review-id="${reviewId}"]`).remove();
-                                }
-                            }
-                        });
-                    });
-                });
             </script>
                         </div>
                     </div>
