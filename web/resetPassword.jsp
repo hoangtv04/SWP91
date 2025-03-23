@@ -107,7 +107,7 @@ function validatePasswords(event) {
         <% String message = (String) request.getAttribute("message"); if (message != null) { %>
             <p class="<%= request.getAttribute("messageType") %>"><%= message %></p>
         <% } %>
-        <button onclick="window.location.href='Login.jsp'">Back to Login</button>
+        <button onclick="window.location.href='login'">Back to Login</button>
     </div>
 </body>
 </html>
