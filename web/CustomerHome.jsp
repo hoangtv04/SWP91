@@ -196,12 +196,6 @@
             </a>
         </div>
 
-        <!-- Now Showing and Coming Soon Section -->
-        <div class="container mt-4 text-center">
-            <a class="btn btn-primary mx-2" href="nowShowing.jsp">Now Showing</a>
-            <a class="btn btn-secondary mx-2" href="comingSoon.jsp">Coming Soon</a>
-        </div>
-
         <div class="container">
             <%
                 List<Movie> movies = (List<Movie>) request.getAttribute("movies");
