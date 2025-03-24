@@ -179,16 +179,19 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <!-- Move search bar to the left -->
-                <form class="form-inline mr-auto" action="searchMovie" method="get">
+                <form class="form-inline mr-auto" action="searchmovie" method="get">
                     <input class="form-control mr-sm-2" type="search" name="query" placeholder="Search movies" aria-label="Search">
                     <button class="btn btn-dark my-2 my-sm-0" type="submit">Search</button>
                 </form>
-                <ul class="navbar-nav ml-auto"> <!-- Căn chỉnh các mục navbar về bên phải -->
+                <ul class="navbar-nav ml-auto">
                     <li class="nav-item active">
                         <a class="nav-link" href="movie">Home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#contact">Contact</a>
+                        <a class="nav-link" href="contact.jsp">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="members">Members</a>
                     </li>
                 </ul>
                 <%
