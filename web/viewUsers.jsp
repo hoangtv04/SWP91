@@ -165,9 +165,12 @@
 
         <div class="container">
             <div class="table-container">
+                <input type="text" id="searchInput" placeholder="Tìm kiếm..." onkeyup="filterUser()">
+                <h2></h2>
                 <h2 class="text-center" style="display: inline-block;">Danh sách người dùng</h2>
+                
                 <button onclick="openAddPopup()" style="float: right; padding: 8px 12px; background-color: #2980b9; color: white; border: none; border-radius: 5px; cursor: pointer;">Add User</button>
-                <table>
+                <table id = "userTable">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -244,6 +247,24 @@
             }
             function closeAddPopup() {
                 document.getElementById("addPopup").style.display = "none";
+            }
+            function filterUser() {
+                var input, filter, table, tr, td, i, txtValue;
+                input = document.getElementById("searchInput");
+                filter = input.value.toLowerCase();
+                table = document.getElementById("userTable");
+                tr = table.getElementsByTagName("tr");
+                for (i = 1; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td")[1];
+                    if (td) {
+                        txtValue = td.textContent || td.innerText;
+                        if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                }
             }
         </script>
         <script>
