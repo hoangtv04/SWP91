@@ -263,9 +263,4 @@ public boolean addMovie(Movie movie) {
             e.printStackTrace();
         }
     }
-
-    
-    
-    
-    
 }
