@@ -19,7 +19,7 @@
                 font-family: Arial, sans-serif;
                 margin: 0;
                 padding: 0;
-                background-color: #8b8585;
+                background-color: #fff;
             }
             .container {
                 margin-top: 20px;
@@ -32,7 +32,7 @@
                 border: 2px solid #fff;
                 border-radius: 5px;
                 padding: 10px;
-              background-color: #8b8585;
+                background-color: #dbe4ed;
                 transition: transform 0.3s ease;
                 position: relative;
             }
@@ -70,10 +70,10 @@
                 height: 500px;
                 object-fit: cover;
                 border-radius: 5px;
-                transition: transform 0.3s ease; 
+                transition: transform 0.3s ease;
             }
             .carousel-item img {
-                height: 550px; 
+                height: 550px;
             }
             .carousel-indicators li {
                 width: 12px;
@@ -105,7 +105,7 @@
             .nav-link {
                 font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
                 font-size: 18px;
-                color: blue; 
+                color: blue;
                 transition: color 0.3s ease, text-decoration 0.3s ease, transform 0.3s ease;
             }
             .nav-link:hover {
@@ -119,20 +119,40 @@
                 font-weight: bold;
             }
             .navbar-nav .nav-link {
-                color: blue !important;
+                color: rgb(250, 250, 250) !important;
             }
             .footer {
-                background-color: #636367c6;
-                padding: 40px 0;
+                background-color: #ddd;
+                color: #333;
                 text-align: center;
-                border-top: 1px solid #fafafa;
-                margin-top: 20px;
-                font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-                font-size: 16px;
-                color: #f9f9f9;
+                padding: 20px;
+                width: 100%;
+                margin: 0 auto;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
             }
+
+            .footer h2, .footer h3 {
+                font-size: 16px;
+            }
+
             .footer p {
-                margin: 0;
+                margin: 5px 0;
+                font-size: 12px;
+            }
+
+            .contact-container {
+                display: flex;
+                justify-content: space-between;
+                width: 100%;
+                max-width: 1200px;
+            }
+
+            .contact-info, .business-contact {
+                flex: 1;
+                padding: 20px;
+                text-align: left;
             }
             .see-more-overlay {
                 position: absolute;
@@ -176,7 +196,7 @@
                 }
             }
             .navbar {
-                background-color: #dc1212; 
+                background-color: red;
                 color: #fff;
             }
         </style>
@@ -191,7 +211,7 @@
                 <form class="form-inline mr-auto" action="searchmovie" method="get">
                     <input class="form-control mr-sm-2" type="search" name="query" placeholder="Search movies" aria-label="Search">
                     <button class="btn btn-dark my-2 my-sm-0" type="submit">Search</button>
-                </form>
+                </form>             
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item active">
                         <a class="nav-link" href="movie">Home <span class="sr-only">(current)</span></a>
@@ -272,9 +292,9 @@
                         if (i % 3 == 0) {
             %>
             <div class="row">
-            <%
-                        }
-            %>
+                <%
+                            }
+                %>
                 <div class="col-md-4 movie-item">
                     <div class="card h-100 d-flex flex-column">
                         <img src="images poster/phim<%= movies.get(i).getMovieID() %>.jpg" class="card-img-top" alt="<%= movies.get(i).getTitle() %>">
@@ -287,10 +307,10 @@
                         </div>
                     </div>
                 </div>
-            <%
-                        index++;
-                        if ((i + 1) % 3 == 0 || i == movies.size() - 1) {
-            %>
+                <%
+                            index++;
+                            if ((i + 1) % 3 == 0 || i == movies.size() - 1) {
+                %>
             </div>
             <%
                         }
@@ -307,32 +327,25 @@
 
         <!-- Footer Section -->
         <footer class="footer">
-            <div class="container">
-                <div class="row">
-                    <!-- Contact Information -->
-                    <div class="col-md-6">
-                        <h2>Contact Us</h2>
-                        <p>
-                            XYZ Technologies<br>
-                            123 Nguyen Trai Street, District 3, Ho Chi Minh City<br>
-                            Hotline: 1800 123 456 / 0901 234 567<br>
-                            Email: contact@xyztechnologies.vn
-                        </p>
-                    </div>
-                    <!-- Business Inquiries -->
-                    <div class="col-md-6">
-                        <h2>Business Inquiries</h2>
-                        <p>
-                            Hotline: 1800 987 654<br>
-                            Email: partnership@xyzgroup.vn
-                        </p>
-                    </div>
-                    <!-- Newsletter Subscription -->
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h2>LIÊN HỆ</h2>
+                    <p>
+                        CÔNG TY CỔ PHẦN XYZ TECHNOLOGIES<br><br>
+                        Giấy chứng nhận ĐKKD số: 0101234567 - Đăng ký lần đầu ngày 01/01/2015 tại Sở Kế hoạch và Đầu
+                        tư Thành phố Hồ Chí Minh<br><br>
+                        Địa chỉ trụ sở: Tầng 2, số 123, đường Nguyễn Trãi, phường 5, quận 3, thành phố Hồ Chí
+                        Minh<br><br>
+                        Hotline: 1800 123 456 / 0901 234 567<br><br>
+                        Email: contact@xyztechnologies.vn
+                    </p>
                 </div>
-                <div class="row">
-                    <div class="col-12 text-center">
-                        <p>&copy; 2025 XYZ Technologies. All rights reserved.</p>
-                    </div>
+                <div class="business-contact">
+                    <h2>HỢP TÁC KINH DOANH:</h2>
+                    <p>
+                        Hotline: 1800 987 654<br><br>
+                        Email: partnership@xyzgroup.vn
+                    </p>
                 </div>
             </div>
         </footer>
