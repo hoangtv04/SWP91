@@ -213,11 +213,9 @@
                         <p><strong>Name:</strong> <%= customer != null ? customer.getCustomerName() : "Guest" %></p>
                         <p><strong>Email:</strong> <%= customer != null ? customer.getEmail() : "" %></p>
                         <hr>
-                        <h6>Ticket History</h6>
-                        <ul class="list-unstyled">
-                            <li>Movie 1 - 01/01/2025</li>
-                            <li>Movie 2 - 02/01/2025</li>
-                        </ul>
+                        <form action="ticketHistory.jsp" method="get">
+                            <button class="btn btn-primary btn-block" type="submit">Ticket History</button>
+                        </form>
                         <hr>
                         <form action="Login.jsp" method="post">
                             <button class="btn btn-danger btn-block" type="submit">Logout</button>
