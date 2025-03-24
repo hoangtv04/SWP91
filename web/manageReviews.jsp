@@ -136,6 +136,18 @@
                         <% } } %>
                     </select>
                 </form>
+                <%
+                    List<Review> reviews = (List<Review>) request.getAttribute("reviews");
+                    double averageRating = 0;
+                    if (reviews != null && !reviews.isEmpty()) {
+                        double totalRating = 0;
+                        for (Review review : reviews) {
+                            totalRating += review.getRating();
+                        }
+                        averageRating = totalRating / reviews.size();
+                    }
+                %>
+                <p>Average Rating: <%= reviews != null && !reviews.isEmpty() ? String.format("%.2f", averageRating) : "N/A" %></p>
                 <table>
                     <thead>
                         <tr>
@@ -149,8 +161,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <% List<Review> reviews = (List<Review>) request.getAttribute("reviews");
-                           if (reviews != null && !reviews.isEmpty()) {
+                        <% if (reviews != null && !reviews.isEmpty()) {
                                for (Review review : reviews) { %>
                         <tr>
                             <td><%= review.getReviewID() %></td>
