@@ -67,4 +67,22 @@ public class VoucherDAO extends DBContext {
             return rs.next() && rs.getInt(1) > 0;
         }
     }
+
+    public Voucher getVoucherByCode(String code) throws Exception {
+        String query = "SELECT * FROM Voucher WHERE Code = ?";
+        try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, code);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return new Voucher(
+                    rs.getInt("VoucherID"),
+                    rs.getString("Code"),
+                    rs.getBigDecimal("DiscountAmount"),
+                    rs.getDate("ExpiryDate"),
+                    rs.getInt("AdminID")
+                );
+            }
+        }
+        return null;
+    }
 }

@@ -105,12 +105,21 @@
             .nav-link {
                 font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
                 font-size: 18px;
-                color: #000; 
-                transition: color 0.3s ease, text-decoration 0.3s ease;
+                color: blue; 
+                transition: color 0.3s ease, text-decoration 0.3s ease, transform 0.3s ease;
             }
             .nav-link:hover {
                 color: #007bff;
                 text-decoration: underline;
+                transform: scale(1.1);
+            }
+            .nav-link[href="movie"],
+            .nav-link[href="contact.jsp"],
+            .nav-link[href="members"] {
+                font-weight: bold;
+            }
+            .navbar-nav .nav-link {
+                color: blue !important;
             }
             .footer {
                 background-color: #636367c6;
@@ -167,8 +176,8 @@
                 }
             }
             .navbar {
-                background-color: #dc1212; /* Màu đen */
-                color: #fff; /* Màu chữ */
+                background-color: #dc1212; 
+                color: #fff;
             }
         </style>
     </head>
@@ -179,16 +188,19 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <!-- Move search bar to the left -->
-                <form class="form-inline mr-auto" action="searchMovie" method="get">
+                <form class="form-inline mr-auto" action="searchmovie" method="get">
                     <input class="form-control mr-sm-2" type="search" name="query" placeholder="Search movies" aria-label="Search">
                     <button class="btn btn-dark my-2 my-sm-0" type="submit">Search</button>
                 </form>
-                <ul class="navbar-nav ml-auto"> <!-- Căn chỉnh các mục navbar về bên phải -->
+                <ul class="navbar-nav ml-auto">
                     <li class="nav-item active">
                         <a class="nav-link" href="movie">Home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#contact">Contact</a>
+                        <a class="nav-link" href="contact.jsp">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="members">Members</a>
                     </li>
                 </ul>
                 <%
@@ -201,11 +213,9 @@
                         <p><strong>Name:</strong> <%= customer != null ? customer.getCustomerName() : "Guest" %></p>
                         <p><strong>Email:</strong> <%= customer != null ? customer.getEmail() : "" %></p>
                         <hr>
-                        <h6>Ticket History</h6>
-                        <ul class="list-unstyled">
-                            <li>Movie 1 - 01/01/2025</li>
-                            <li>Movie 2 - 02/01/2025</li>
-                        </ul>
+                        <form action="ticketHistory.jsp" method="get">
+                            <button class="btn btn-primary btn-block" type="submit">Ticket History</button>
+                        </form>
                         <hr>
                         <form action="Login.jsp" method="post">
                             <button class="btn btn-danger btn-block" type="submit">Logout</button>
