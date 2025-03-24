@@ -105,12 +105,21 @@
             .nav-link {
                 font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
                 font-size: 18px;
-                color: #000; 
-                transition: color 0.3s ease, text-decoration 0.3s ease;
+                color: blue; 
+                transition: color 0.3s ease, text-decoration 0.3s ease, transform 0.3s ease;
             }
             .nav-link:hover {
                 color: #007bff;
                 text-decoration: underline;
+                transform: scale(1.1);
+            }
+            .nav-link[href="movie"],
+            .nav-link[href="contact.jsp"],
+            .nav-link[href="members"] {
+                font-weight: bold;
+            }
+            .navbar-nav .nav-link {
+                color: blue !important;
             }
             .footer {
                 background-color: #636367c6;
@@ -167,8 +176,8 @@
                 }
             }
             .navbar {
-                background-color: #dc1212; /* Màu đen */
-                color: #fff; /* Màu chữ */
+                background-color: #dc1212; 
+                color: #fff;
             }
         </style>
     </head>
