@@ -104,20 +104,31 @@
         <div class="navbar">
             <a href="AdminDashboard">Home</a>
             <a href="user">Manage Users</a>
-            <a href="manageMovies.jsp">Manage Movies</a>
+            <a href="Movies">Manage Movies</a>
             <a href="Showtime">Manage Showtimes</a>
             <a href="manageBookings.jsp">Manage Bookings</a>
-            <a href="manageReviews.jsp">Manage Reviews</a>
-            <a href="manageVouchers.jsp">Manage Vouchers</a>
+            <a href="reviews">Manage Reviews</a>
+            <a href="voucher">Manage Vouchers</a>
         </div>
         <div class="container">
+            <div class="summary">
+                <h2>Summary</h2>
+                <ul>
+                    <li>Total Users: <%= request.getAttribute("totalUsers") %></li>
+                    <li>Total Movies: <%= request.getAttribute("totalMovies") %></li>
+                    <li>Total Showtimes: <%= request.getAttribute("totalShowtimes") %></li>
+                    <li>Total Bookings: <%= request.getAttribute("totalBookings") %></li>
+                    <li>Total Reviews: <%= request.getAttribute("totalReviews") %></li>
+                    <li>Total Vouchers: <%= request.getAttribute("totalVouchers") %></li>
+                </ul>
+            </div>
             <div class="admin-actions">
                 <a href="user">Manage Users</a>
-                <a href="manageMovies.jsp">Manage Movies</a>
+                <a href="Movies">Manage Movies</a>
                 <a href="Showtime">Manage Showtimes</a>
                 <a href="manageBookings.jsp">Manage Bookings</a>
-                <a href="manageReviews.jsp">Manage Reviews</a>
-                <a href="manageVouchers.jsp">Manage Vouchers</a>
+                <a href="reviews">Manage Reviews</a>
+                <a href="voucher">Manage Vouchers</a>
             </div>
         </div>
     </body>

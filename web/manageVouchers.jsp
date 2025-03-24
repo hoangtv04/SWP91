@@ -41,6 +41,20 @@
                 background-color: #ddd;
                 color: black;
             }
+            .add-btn {
+                display: block;
+                width: 200px;
+                margin: 20px auto;
+                padding: 15px 10px; 
+                background-color: #2980b9;
+                color: white;
+                text-align: center;
+                text-decoration: none;
+                border-radius: 5px;
+            }
+            .add-btn:hover {
+                background-color: #1c5a85;
+            }
             .navbar {
                 overflow: hidden;
                 background-color: #333;
@@ -119,6 +133,24 @@
                 document.getElementById("admin").value = admin;
                 document.getElementById("editPopup").style.display = "block";
             }
+            function filterVoucher() {
+                var input, filter, table, tr, td, i, txtValue;
+                input = document.getElementById("searchInput");
+                filter = input.value.toLowerCase();
+                table = document.getElementById("voucherTable");
+                tr = table.getElementsByTagName("tr");
+                for (i = 1; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td")[1];
+                    if (td) {
+                        txtValue = td.textContent || td.innerText;
+                        if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                }
+            }
             function closeEditPopup() {
                 document.getElementById("editPopup").style.display = "none";
             }
@@ -144,8 +176,9 @@
         <div class="container">
             <div class="table-container">
                 <h2>Voucher List</h2>
-                <button onclick="openAddPopup()">Add Voucher</button>
-                <table>
+                <input type="text" id="searchInput" placeholder="Tìm kiếm..." onkeyup="filterVoucher()">
+                <button class="add-btn" onclick="openAddPopup()">Add Voucher</button>
+                <table id = "voucherTable">
                     <thead>
                         <tr>
                             <th>ID</th>

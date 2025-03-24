@@ -195,8 +195,11 @@
         </div>
 
         <div class="container">
+
             <div class="table-container">
                 <h2 class="text-center">Danh sách suất chiếu</h2>
+                <input type="text" id="searchInput" placeholder="Tìm kiếm..." onkeyup="filterShowtime()">
+
                 <button class="add-btn" onclick="openAddShowtimePopup()">Thêm suất chiếu</button>
 
                 <!-- Date Filter Buttons -->
@@ -216,7 +219,7 @@
                     <% } %>
                 </div>
 
-                <table>
+                <table id="showtimeTable">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -367,7 +370,24 @@
             function closeUpdateShowtimePopup() {
                 document.getElementById("updateShowtimePopup").style.display = "none";
             }
-
+            function filterShowtime() {
+                var input, filter, table, tr, td, i, txtValue;
+                input = document.getElementById("searchInput");
+                filter = input.value.toLowerCase();
+                table = document.getElementById("showtimeTable");
+                tr = table.getElementsByTagName("tr");
+                for (i = 1; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td")[1];
+                    if (td) {
+                        txtValue = td.textContent || td.innerText;
+                        if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                }
+            }
             function filterByDate(date) {
                 var rows = document.querySelectorAll('#showtimeTableBody tr');
                 rows.forEach(row => {
