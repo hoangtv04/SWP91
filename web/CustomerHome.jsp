@@ -19,7 +19,7 @@
                 font-family: Arial, sans-serif;
                 margin: 0;
                 padding: 0;
-                background-color: #f4f4f4;
+                background-color: #8b8585;
             }
             .container {
                 margin-top: 20px;
@@ -32,7 +32,7 @@
                 border: 2px solid #fff;
                 border-radius: 5px;
                 padding: 10px;
-                background-color: #fff;
+              background-color: #8b8585;
                 transition: transform 0.3s ease;
                 position: relative;
             }
@@ -95,19 +95,31 @@
                 width: 5%;
             }
             .navbar-nav {
-                margin: 0 auto;
+                margin-right: 40%;
+                display: flex;
+                justify-content: center;
             }
             .nav-item {
                 padding: 0 15px;
             }
             .nav-link {
                 font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-                font-size: 16px;
-                color: #333;
-                transition: color 0.3s ease;
+                font-size: 18px;
+                color: blue; 
+                transition: color 0.3s ease, text-decoration 0.3s ease, transform 0.3s ease;
             }
             .nav-link:hover {
                 color: #007bff;
+                text-decoration: underline;
+                transform: scale(1.1);
+            }
+            .nav-link[href="movie"],
+            .nav-link[href="contact.jsp"],
+            .nav-link[href="members"] {
+                font-weight: bold;
+            }
+            .navbar-nav .nav-link {
+                color: blue !important;
             }
             .footer {
                 background-color: #636367c6;
@@ -140,22 +152,76 @@
             .movie-item:hover .see-more-overlay {
                 opacity: 1;
             }
+            .customer-img {
+                width: 70px; /* Tăng kích thước ô tròn */
+                height: 70px; /* Tăng kích thước ô tròn */
+                border-radius: 50%;
+                object-fit: cover;
+                border: 2px solid #007bff;
+                cursor: pointer;
+            }
+
+            .dropdown-menu {
+                animation: slideDown 0.3s ease-in-out;
+            }
+
+            @keyframes slideDown {
+                from {
+                    transform: translateY(-20px);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
+            .navbar {
+                background-color: #dc1212; 
+                color: #fff;
+            }
         </style>
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg navbar-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto"> <!-- Align the navbar items to the right -->
+                <!-- Move search bar to the left -->
+                <form class="form-inline mr-auto" action="searchmovie" method="get">
+                    <input class="form-control mr-sm-2" type="search" name="query" placeholder="Search movies" aria-label="Search">
+                    <button class="btn btn-dark my-2 my-sm-0" type="submit">Search</button>
+                </form>
+                <ul class="navbar-nav ml-auto">
                     <li class="nav-item active">
                         <a class="nav-link" href="movie">Home <span class="sr-only">(current)</span></a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.jsp">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="members">Members</a>
+                    </li>
                 </ul>
-                <form class="form-inline my-2 my-lg-0" action="Login.jsp" method="post">
-                    <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Logout</button>
-                </form>
+                <%
+                    model.Customer customer = (model.Customer) session.getAttribute("customer");
+                %>
+                <div class="dropdown ml-3">
+                    <img src="image customer/customer.jpg" alt="Customer" class="customer-img dropdown-toggle" id="customerDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <div class="dropdown-menu dropdown-menu-right p-3" aria-labelledby="customerDropdown" style="width: 250px;">
+                        <h5 class="text-center">Account Info</h5>
+                        <p><strong>Name:</strong> <%= customer != null ? customer.getCustomerName() : "Guest" %></p>
+                        <p><strong>Email:</strong> <%= customer != null ? customer.getEmail() : "" %></p>
+                        <hr>
+                        <form action="ticketHistory.jsp" method="get">
+                            <button class="btn btn-primary btn-block" type="submit">Ticket History</button>
+                        </form>
+                        <hr>
+                        <form action="Login.jsp" method="post">
+                            <button class="btn btn-danger btn-block" type="submit">Logout</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </nav>
 
@@ -195,12 +261,10 @@
                 <span class="sr-only">Next</span>
             </a>
         </div>
-
         <div class="container">
             <%
                 List<Movie> movies = (List<Movie>) request.getAttribute("movies");
                 if (movies != null && !movies.isEmpty()) {
-                    // Sắp xếp danh sách movies theo ID
                     movies.sort((m1, m2) -> Integer.compare(m1.getMovieID(), m2.getMovieID()));
 
                     int index = 1;
@@ -246,7 +310,7 @@
             <div class="container">
                 <div class="row">
                     <!-- Contact Information -->
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <h2>Contact Us</h2>
                         <p>
                             XYZ Technologies<br>
@@ -256,7 +320,7 @@
                         </p>
                     </div>
                     <!-- Business Inquiries -->
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <h2>Business Inquiries</h2>
                         <p>
                             Hotline: 1800 987 654<br>
@@ -264,16 +328,6 @@
                         </p>
                     </div>
                     <!-- Newsletter Subscription -->
-                    <div class="col-md-4">
-                        <h2>Subscribe to our Newsletter</h2>
-                        <form action="subscribeNewsletter" method="post">
-                            <div class="form-group">
-                                <label for="email">Email address:</label>
-                                <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Subscribe</button>
-                        </form>
-                    </div>
                 </div>
                 <div class="row">
                     <div class="col-12 text-center">

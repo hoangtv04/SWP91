@@ -173,3 +173,18 @@ select {
     border-radius: 5px;
     border: 1px solid #ccc;
 }
+
+.back-button {
+    padding: 10px 20px;
+    background-color: coral;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    margin-right: auto; /* Đẩy nút sang bên trái */
+}
+
+.back-button:hover {
+    background-color: rgb(230, 71, 13);
+}

@@ -126,23 +126,44 @@ strong {
 }
 
 .confirm-booking-button-container {
-    text-align: center;
+    display: flex;
+    justify-content: flex-end;
     margin-top: 20px;
 }
 
-.confirm-booking-button { 
+.confirm-booking-button {
     padding: 10px 20px;
-    font-size: 16px;
-    color: #fff;
     background-color: coral;
+    color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    text-align: center;
 }
 
 .confirm-booking-button:hover {
     background-color: #e04e2a;
+}
+
+.footer {
+    background-color: #ddd;
+    color: #333;
+    text-align: center;
+    padding: 20px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer h2, .footer h3 {
+    font-size: 16px;
+}
+
+.footer p {
+    margin: 5px 0;
+    font-size: 12px;
 }
 
 .contact-container {
@@ -158,24 +179,17 @@ strong {
     text-align: left;
 }
 
-.footer {
-    background-color: #ddd;
-    color: #333;
+.back-button {
+    padding: 10px 20px;
+    background-color: coral;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
     text-align: center;
-    padding: 20px;
-    width: 100%;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: auto;
+    margin-right: auto; /* Đẩy nút sang bên trái */
 }
 
-.footer h2, .footer h3 {
-    font-size: 16px; /* Adjusted font size for headings */
-}
-
-.footer p {
-    margin: 5px 0;
-    font-size: 12px; /* Adjusted font size for paragraphs */
+.back-button:hover {
+    background-color: rgb(230, 71, 13);
 }

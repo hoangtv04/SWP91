@@ -53,9 +53,12 @@ public class CustomerDAO extends DBContext {
     public Customer getCustomerByPhone(String phone) throws Exception {
         String query = "SELECT * FROM Customer WHERE Phone = ?";
         try (Connection connection = getConnection(); PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setString(1, phone);
+            phone = phone.trim(); // Normalize input
+            Logger.getLogger(CustomerDAO.class.getName()).log(Level.INFO, "Executing query: {0} with phone: {1}", new Object[]{query, phone});
+            stmt.setString(1, phone); // Set the phone parameter
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
+                // Create and populate the Customer object
                 Customer customer = new Customer();
                 customer.setCustomerId(rs.getInt("CustomerID"));
                 customer.setPhone(rs.getString("Phone"));
@@ -63,12 +66,12 @@ public class CustomerDAO extends DBContext {
                 customer.setPassword(rs.getString("Password"));
                 customer.setEmail(rs.getString("Email"));
                 customer.setAddress(rs.getString("Address"));
-                return customer;
+                return customer; // Return the populated Customer object
             }
         } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, "Error fetching customer by phone", ex);
         }
-        return null;
+        return null; // Return null if no customer is found or an error occurs
     }
 
     public Customer getCustomerByEmail(String email) throws Exception {
@@ -187,9 +190,15 @@ public class CustomerDAO extends DBContext {
     public static void main(String[] args) {
         CustomerDAO dao = new CustomerDAO();
         try {
-            System.out.println(dao.getCustomerById(1));
+            String testPhone = "0987654321";
+            Customer customer = dao.getCustomerByPhone(testPhone);
+            if (customer != null) {
+                System.out.println("Customer found: " + customer.getCustomerName() + ", " + customer.getEmail());
+            } else {
+                System.out.println("No customer found with phone: " + testPhone);
+            }
         } catch (Exception ex) {
-            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, "Error testing getCustomerByPhone", ex);
         }
     }
 }
