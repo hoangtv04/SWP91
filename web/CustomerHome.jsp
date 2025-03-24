@@ -217,7 +217,7 @@
                             <button class="btn btn-primary btn-block" type="submit">Ticket History</button>
                         </form>
                         <hr>
-                        <form action="Login.jsp" method="post">
+                        <form action="logout" method="get">
                             <button class="btn btn-danger btn-block" type="submit">Logout</button>
                         </form>
                     </div>
