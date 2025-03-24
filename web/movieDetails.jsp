@@ -35,8 +35,7 @@
         </header>
 
         <nav id="main-nav">
-            <a href="index.jsp">Home</a>
-            <a href="movies.jsp">Movies</a>
+            <a href="movie">Home</a>
             <a href="contact.jsp">Contact</a>
         </nav>
 

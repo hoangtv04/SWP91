@@ -137,7 +137,6 @@
                 <input type="hidden" name="movieName" value="<%= movieTitle %>">
                 <input type="hidden" name="cinemaName" id="cinemaName">
                 <input type="hidden" name="screenName" id="screenName">
-                
 
                 <label for="cinema">Cinema:</label>
                 <select id="cinema" name="cinemaId" required>
