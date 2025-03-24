@@ -190,7 +190,31 @@ public boolean addMovie(Movie movie) {
         return false;
     }
     
+    public void addReview(Review review) {
+        String sql = "INSERT INTO Review (CustomerID, MovieID, Rating, Comment, ReviewDate) VALUES (?, ?, ?, ?, ?)";
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, review.getCustomerID());
+            ps.setInt(2, review.getMovieID());
+            ps.setInt(3, review.getRating());
+            ps.setString(4, review.getComment());
+            ps.setDate(5, new java.sql.Date(review.getReviewDate().getTime()));
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
+    public void deleteReview(int reviewID) {
+        String sql = "DELETE FROM Review WHERE ReviewID = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, reviewID);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public Review getReviewById(int reviewID) {
         String sql = "SELECT * FROM Review WHERE ReviewID = ?";
@@ -240,4 +264,8 @@ public boolean addMovie(Movie movie) {
         }
     }
 
+    
+    
+    
+    
 }
