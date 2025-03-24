@@ -17,13 +17,12 @@ public class AddCommentServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             // Lấy dữ liệu từ form
+            int customerId = Integer.parseInt(request.getParameter("CustomerID"));
             int movieId = Integer.parseInt(request.getParameter("movieId"));
             int rating = Integer.parseInt(request.getParameter("rating"));
             String comment = request.getParameter("comment");
 
-            // Sử dụng customerId mặc định (ví dụ: 1)
-            int customerId = 1;
-
+           
             // Tạo đối tượng Review
             Review review = new Review();
             review.setMovieID(movieId);
