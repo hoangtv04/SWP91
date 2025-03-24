@@ -1,5 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@page import="model.Customer"%>
+<%
+    Customer customer = (Customer) session.getAttribute("customer");
+    if (customer == null) {
+        response.sendRedirect("Login.jsp");
+        return;
+    }
+%>
 <!DOCTYPE html>
 <html>
 
@@ -18,7 +26,7 @@
                 }
             });
 
-        </script>
+  </script>
     </head>
 
     <body>
@@ -27,7 +35,8 @@
         </header>
 
         <nav id="main-nav">
-            <a href="movie">Home</a>
+            <a href="index.jsp">Home</a>
+            <a href="movies.jsp">Movies</a>
             <a href="contact.jsp">Contact</a>
         </nav>
 
@@ -48,13 +57,14 @@
                                 <input type="hidden" name="movieId" value="${movie.movieID}">
                                 <button type="submit" class="select-showtime-button">Select Showtime</button>
                             </form>
-                          </script>
+                    
                         </div>
                     </div>
                 </div>
                 <div class="add-comment">
                     <h2>Add Your Comment</h2>
                     <form id="comment-form" action="addComment" method="post">
+                        <input type="hidden" name="CustomerID" value="<%= customer.getCustomerId() %>">
                         <input type="hidden" name="movieId" value="${movie.movieID}">
                         <input type="hidden" name="customerId" value="1"> <!-- Giá trị mặc định cho customerId -->
                         <label for="rating">Rating:</label>
@@ -129,23 +139,21 @@
                                 let ratingDisplay = reviewItem.querySelector(`#rating-display-${reviewItem.id.split('-')[2]}`);
                                 let commentDisplay = reviewItem.querySelector(`#comment-display-${reviewItem.id.split('-')[2]}`);
                                 let editButton = reviewItem.querySelector(".edit-button");
-
+                
                                 if (editForm) {
                                     // Hiển thị form chỉnh sửa
                                     editForm.style.display = "block";
-
+                
                                     // Ẩn phần hiển thị rating và comment
-                                    if (ratingDisplay)
-                                        ratingDisplay.style.display = "none";
-                                    if (commentDisplay)
-                                        commentDisplay.style.display = "none";
-
+                                    if (ratingDisplay) ratingDisplay.style.display = "none";
+                                    if (commentDisplay) commentDisplay.style.display = "none";
+                
                                     // Ẩn nút "Edit"
                                     editButton.style.display = "none";
                                 }
                             });
                         });
-
+                
                         // Xử lý sự kiện khi nhấn nút "Cancel"
                         document.querySelectorAll(".cancel-edit").forEach(button => {
                             button.addEventListener("click", function (event) {
@@ -154,17 +162,15 @@
                                 let ratingDisplay = reviewItem.querySelector(`#rating-display-${reviewItem.id.split('-')[2]}`);
                                 let commentDisplay = reviewItem.querySelector(`#comment-display-${reviewItem.id.split('-')[2]}`);
                                 let editButton = reviewItem.querySelector(".edit-button");
-
+                
                                 if (editForm) {
                                     // Ẩn form chỉnh sửa
                                     editForm.style.display = "none";
-
+                
                                     // Hiển thị lại phần rating và comment
-                                    if (ratingDisplay)
-                                        ratingDisplay.style.display = "inline";
-                                    if (commentDisplay)
-                                        commentDisplay.style.display = "block";
-
+                                    if (ratingDisplay) ratingDisplay.style.display = "inline";
+                                    if (commentDisplay) commentDisplay.style.display = "block";
+                
                                     // Hiển thị lại nút "Edit"
                                     editButton.style.display = "inline-block";
                                 }
